@@ -1,3 +1,10 @@
+import os
+import re
+import json
+
+from time import strftime
+
+
 project = 'WillyG Productions Blog'
 
 def _npm_bower(command):
@@ -9,11 +16,40 @@ def clean():
 	_npm_bower('prune')
 	_npm_bower('cache clean')
 
+def new_post():
+	'''Create new blog post'''
+	time_str = strftime('%Y-%m-%d %H:%M:%S %z')
+	title = raw_input('Title: ')
+	filename = '{}-{}'.format(time_str.split()[0], re.sub('[-\s]+', '-', re.sub('[^\w\s-]', '', title).strip().lower()))
+	with open(os.path.join('app', 'posts', '{}.md'.format(filename)), 'w') as f:
+		f.write('<!--\nlayout: post\ntitle: {}\ndate: {}\ncomments: true\ncategories: {}\n-->\n'.format(title, time_str, raw_input('Categories: ')))
+
+def _parse_post_header(header):
+	ret = {}
+	for line in header.replace('<!--\n', '').strip().split('\n'):
+		k, v = [e.strip() for e in line.split(':', 1)]
+		if k in ['layout', 'title', 'date', 'comments', 'categories']:
+			ret[k] = v
+	return ret
+
+def generate_post_json():
+	'''Generate post JSON'''
+	post_info = []
+	for filename in os.listdir(os.path.join('dist', 'posts')):
+		if not filename.endswith('.html'):
+			continue
+		with open(os.path.join('dist', 'posts', filename), 'r') as f:
+			header, more = f.read().split('<!-- more -->')[0].split('-->')
+			post_info.append(dict(_parse_post_header(header), **{'more': more.strip()}))
+	with open(os.path.join('dist', 'post_data.json'), 'w') as f:
+		json.dump(post_info, f)
+
 def publish():
+	'''Publish blog'''
 	strap.run('git subtree push --prefix dist origin gh-pages')
 
 def install():
 	_npm_bower('install')
 
 def default():
-	strap.run('node_modules/.bin/gulp')
+	strap.run(['node_modules/.bin/gulp', generate_post_json])

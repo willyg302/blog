@@ -9,6 +9,8 @@
   "dependencies": {},
   "devDependencies": {
     "gulp": "~3.8.7",
-    "gulp-clean": "~0.3.1"
+    "gulp-clean": "~0.3.1",
+    "gulp-markdown": "~1.0.0",
+    "highlight.js": "~8.2.0"
   }
 }
