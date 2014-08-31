@@ -1,0 +1,14 @@
+{
+  "name": "willyg-productions-blog",
+  "version": "0.1.0",
+  "author": "William Gaul",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/willyg302/blog"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "gulp": "~3.8.7",
+    "gulp-clean": "~0.3.1"
+  }
+}
