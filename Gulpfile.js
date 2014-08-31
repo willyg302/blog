@@ -2,7 +2,11 @@ var gulp       = require('gulp');
 var clean      = require('gulp-clean');
 
 var paths = {
-	assets: ['./app/.nojekyll'],
+	assets: [
+		'./app/.nojekyll',
+		'./app/uc.svg',
+		'./app/index.html'
+	],
 	app: './app',
 	dist: './dist'
 };
