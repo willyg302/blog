@@ -1,6 +1,14 @@
 {
   "name": "willyg-productions-blog",
   "version": "0.1.0",
-  "dependencies": {},
+  "dependencies": {
+    "requirejs": "~2.1.14",
+    "imagesloaded": "~3.1.8",
+    "angular": "~1.2.23",
+    "bootstrap": "~3.2.0",
+    "angular-route": "~1.2.23",
+    "masonry": "~3.1.5",
+    "angular-masonry": "~0.9.0"
+  },
   "devDependencies": {}
 }

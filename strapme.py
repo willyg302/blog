@@ -29,7 +29,10 @@ def _parse_post_header(header):
 	for line in header.replace('<!--\n', '').strip().split('\n'):
 		k, v = [e.strip() for e in line.split(':', 1)]
 		if k in ['layout', 'title', 'date', 'comments', 'categories']:
-			ret[k] = v
+			if k == 'categories':
+				ret[k] = [e.strip() for e in v.split(',')]
+			else:
+				ret[k] = v
 	return ret
 
 def generate_post_json():
