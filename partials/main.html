@@ -1,0 +1,7 @@
+<div id="masonry" masonry item-selector=".item" column-width="72">
+    <div class="masonry-brick item tile x-4 y-2" ng-repeat="post in posts">
+        <h4 ng-bind="post.title"></h4>
+        <small ng-bind="post.date"></small>
+        <p class="desc" ng-bind-html="renderHtml(post.more)"></p>
+    </div>
+</div>
