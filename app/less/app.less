@@ -58,17 +58,38 @@ body {
 .post {
 	&:extend(.tile);
 	width: @tile4;
-	height: @tile2;
+	height: @tile4;
+	overflow: hidden;
 
-	a {
-		width: 100%;
-		height: 100%;
+	small {
+		font-style: italic;
+	}
+
+	&:after {
+		content: "";
 		position: absolute;
+		bottom: 0;
 		left: 0;
-		top: 0;
+		width: 100%;
+		height: @tile-margin * 8;
+		#gradient > .vertical(@start-color: fade(@color-tile-bg, 0%); @end-color: @color-tile-bg);
+	}
+
+	.label {
+		cursor: pointer;
 	}
 }
 
 p.desc {
 	margin-top: 8px;
+}
+
+// Fix for x-editable
+.editable-empty {
+	font-style: inherit !important;
+	color: #428bca !important;
+}
+
+#filter-tile {
+	font-size: 16px;
 }

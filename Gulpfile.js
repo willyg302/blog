@@ -42,7 +42,7 @@ gulp.task('compile-js', function() {
 		wrap: true,
 		include: paths.requireJSIncludes
 	})
-		//.pipe(uglify())
+		.pipe(uglify())
 		.pipe(gulp.dest(paths.dist));
 });
 

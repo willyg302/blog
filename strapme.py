@@ -38,14 +38,24 @@ def _parse_post_header(header):
 def generate_post_json():
 	'''Generate post JSON'''
 	post_info = []
+	post_categories = []
 	for filename in os.listdir(os.path.join('dist', 'posts')):
 		if not filename.endswith('.html'):
 			continue
 		with open(os.path.join('dist', 'posts', filename), 'r') as f:
 			header, more = f.read().split('<!-- more -->')[0].split('-->')
-			post_info.append(dict(_parse_post_header(header), **{'more': more.strip()}))
+			info = _parse_post_header(header)
+			for e in info['categories']:
+				if e and e not in post_categories:
+					post_categories.append(e)
+			post_info.append(dict(info, **{
+				'more': more.strip(),
+				'url': filename.replace('.html', '')
+			}))
 	with open(os.path.join('dist', 'post_data.json'), 'w') as f:
 		json.dump(post_info, f)
+	with open(os.path.join('dist', 'post_categories.json'), 'w') as f:
+		json.dump(post_categories, f)
 
 def publish():
 	'''Publish blog'''
