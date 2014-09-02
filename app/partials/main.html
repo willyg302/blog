@@ -13,7 +13,7 @@
 		<a href="#" editable-date="filter.end">{{ filter.end || 'tomorrow' }}</a>.
 	</div>
 	<div class="masonry-brick item post" ng-repeat="post in posts | filter:filterPosts(filter) | orderBy:-post.date">
-		<h3><a ng-href="#post/{{ post.url }}">{{ post.title }}</a></h3>
+		<h3><a ng-href="#!post/{{ post.url }}">{{ post.title }}</a></h3>
 		<small>{{ post.date | toDate | date:'EEEE, MMMM d y' }}</small>
 		<div class="categories">
 			<span ng-repeat="category in post.categories">

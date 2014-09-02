@@ -10,15 +10,21 @@ define([
 		'xeditable'
 	]);
 
-	app.config(['$routeProvider', function($routeProvider) {
+	app.config(['$routeProvider', '$locationProvider', function($routeProvider, $locationProvider) {
 		$routeProvider
 			.when('/', {
+				controller: 'MainController',
 				templateUrl: 'partials/main.html',
 				reloadOnSearch: false
+			})
+			.when('/post/:post', {
+				controller: 'PostController',
+				templateUrl: 'partials/post.html'
 			})
 			.otherwise({
 				redirectTo: '/'
 			});
+		$locationProvider.html5Mode(false).hashPrefix('!');
 	}]);
 
 	app.run(['editableOptions', 'editableThemes', function(editableOptions, editableThemes) {
@@ -104,6 +110,48 @@ define([
 				return post.title.toLowerCase().indexOf(filter.search.toLowerCase()) !== -1
 					|| post.more.toLowerCase().indexOf(filter.search.toLowerCase()) !== -1;
 			};
+		};
+	}]);
+
+	app.controller('PostController', ['$scope', '$window', '$http', '$location', '$routeParams', function($scope, $window, $http, $location, $routeParams) {
+		$scope.postSrc = "posts/" + $routeParams.post + ".html";
+		$http.get('post_data.json').then(function(ret) {
+			for (var i = 0; i < ret.data.length; i++) {
+				if ($routeParams.post === ret.data[i].url) {
+					$scope.post = ret.data[i];
+					break;
+				}
+			}
+			$scope.loadDisqus();
+		});
+
+		$scope.getCategoryClass = function(index) {
+			return "label-" + ['primary', 'warning', 'success', 'danger', 'info'][index % 5];
+		};
+
+		$scope.setCategory = function(category) {
+			$location.path('/').search({cat: category});
+		};
+
+		$scope.loadDisqus = function() {
+			$window.disqus_shortname = 'willyg302';
+			$window.disqus_identifier = $scope.post.url;
+			$window.disqus_title = $scope.post.title;
+			$window.disqus_url = "http://willyg302.github.io/blog/#!/post/" + $scope.post.url;
+			if ($window.DISQUS) {
+				$window.DISQUS.reset({
+					reload: true,
+					config: function() {
+						this.page.identifier = $window.disqus_identifier;
+						this.page.title = $window.disqus_title;
+						this.page.url = $window.disqus_url;
+					}
+				});
+			} else {
+				var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+				dsq.src = '//' + $window.disqus_shortname + '.disqus.com/embed.js';
+				(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+			}
 		};
 	}]);
 
