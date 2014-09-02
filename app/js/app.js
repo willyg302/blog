@@ -35,7 +35,9 @@ define([
 
 	app.filter('toDate', function() {
 		return function(input) {
-			return new Date(input.split(' ').slice(0, -1).join('T'));
+			d = input.split(/\D/).slice(0, -2);
+			d[1] -= 1;
+			return new Date(Date.UTC.apply(Date, d));
 		}
 	});
 
