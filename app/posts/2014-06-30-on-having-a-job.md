@@ -5,6 +5,7 @@ date: 2014-06-30 21:28:50 -0700
 comments: true
 categories: Thoughts
 -->
+
 I started programming always thinking I'd eventually have one of *those* programming jobs. You know, one where you're stuck in a little cube on some floor in some building with a big shiny metal sign outside that also occasionally makes the evening news.
 
 Big dreams for a twelve-year-old.
