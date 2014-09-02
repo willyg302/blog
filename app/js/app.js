@@ -40,23 +40,20 @@ define([
 	});
 
 	app.controller('MainController', ['$scope', '$location', '$http', '$sce', function($scope, $location, $http, $sce) {
+		$('#logo').removeClass('sticky');
+		var defaultCategory = 'Anything';
+
 		$http.get('post_data.json').then(function(ret) {
 			$scope.posts = ret.data;
 		});
 
 		$http.get('post_categories.json').then(function(ret) {
-			$scope.categories = ['Anything'].concat(ret.data);
+			$scope.categories = [defaultCategory].concat(ret.data);
 		});
-
-		$scope.categories = [
-			'Anything',
-			'Python',
-			'Thoughts'
-		];
 
 		$scope.filter = {
 			search: $location.search().q || '',
-			category: $location.search().cat || 'Anything',
+			category: $location.search().cat || defaultCategory,
 			start: $location.search().a || '',
 			end: $location.search().b || ''
 		};
@@ -66,7 +63,7 @@ define([
 			if ($scope.filter.search) {
 				params.q = $scope.filter.search;
 			}
-			if ($scope.filter.category !== 'Anything') {
+			if ($scope.filter.category !== defaultCategory) {
 				params.cat = $scope.filter.category;
 			}
 			if ($scope.filter.start) {
@@ -93,7 +90,7 @@ define([
 		$scope.filterPosts = function(filter) {
 			return function(post) {
 				// Filter by category first
-				if (filter.category !== 'Anything') {
+				if (filter.category !== defaultCategory) {
 					if (post.categories.indexOf(filter.category) == -1) {
 						return false;
 					}
@@ -114,6 +111,8 @@ define([
 	}]);
 
 	app.controller('PostController', ['$scope', '$window', '$http', '$location', '$routeParams', function($scope, $window, $http, $location, $routeParams) {
+		$('#logo').addClass('sticky');
+
 		$scope.postSrc = "posts/" + $routeParams.post + ".html";
 		$http.get('post_data.json').then(function(ret) {
 			for (var i = 0; i < ret.data.length; i++) {
