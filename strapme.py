@@ -57,6 +57,10 @@ def generate_post_json():
 	with open(os.path.join('dist', 'post_categories.json'), 'w') as f:
 		json.dump(post_categories, f)
 
+def rebuild_posts():
+	'''Rebuild only posts and post data'''
+	strap.run(['node_modules/.bin/gulp convert', generate_post_json])
+
 def publish():
 	'''Publish blog'''
 	strap.run('git subtree push --prefix dist origin gh-pages')
