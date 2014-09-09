@@ -1,7 +1,7 @@
 <!--
 layout: post
 title: Webs and Streams
-date: 2014-09-06 14:31:03 -1000
+date: 2014-09-06T14:31:03.000000
 comments: true
 categories: Thoughts
 -->
