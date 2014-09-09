@@ -1,7 +1,7 @@
 <!--
 layout: post
 title: How I Configured a Blog
-date: 2014-09-04 21:46:17 -1000
+date: 2014-09-04T21:46:17.000000
 comments: true
 categories: Web Development
 -->

@@ -1,7 +1,7 @@
 <!--
 layout: post
 title: On Having a Job
-date: 2014-06-30 21:28:50 -0700
+date: 2014-06-30T21:28:50.000000
 comments: true
 categories: Thoughts
 -->

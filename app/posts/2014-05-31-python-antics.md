@@ -1,7 +1,7 @@
 <!--
 layout: post
 title: Python Antics
-date: 2014-05-31 20:18:53 -0700
+date: 2014-05-31T20:18:53.000000
 comments: true
 categories: Python
 -->

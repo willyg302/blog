@@ -33,14 +33,6 @@ define([
 		editableThemes['default'].cancelTpl = '<button type="button" ng-click="$form.$cancel()">&#10006;</button>';
 	}]);
 
-	app.filter('toDate', function() {
-		return function(input) {
-			d = input.split(/\D/).slice(0, -2);
-			d[1] -= 1;
-			return new Date(Date.UTC.apply(Date, d));
-		}
-	});
-
 	app.controller('MainController', ['$scope', '$location', '$http', '$sce', function($scope, $location, $http, $sce) {
 		$('#logo').removeClass('sticky');
 		var defaultCategory = 'Anything';

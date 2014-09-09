@@ -1,5 +1,5 @@
 <div id="post">
-	<h1>{{ post.title }}<br><small>{{ post.date | toDate | date:'EEEE, MMMM d y' }}</small></h1>
+	<h1>{{ post.title }}<br><small>{{ post.date | date:'EEEE, MMMM d y' }}</small></h1>
 	<div class="categories">
 		<span ng-repeat="category in post.categories">
 			<span class="label" ng-class="getCategoryClass($index)" ng-click="setCategory(category)">{{ category }}</span>

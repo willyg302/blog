@@ -2,7 +2,7 @@ import os
 import re
 import json
 
-from time import strftime
+from datetime import datetime
 
 
 project = 'WillyG Productions Blog'
@@ -18,9 +18,9 @@ def clean():
 
 def new_post():
 	'''Create new blog post'''
-	time_str = strftime('%Y-%m-%d %H:%M:%S %z')
+	time_str = datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%S.%f')
 	title = raw_input('Title: ')
-	filename = '{}-{}'.format(time_str.split()[0], re.sub('[-\s]+', '-', re.sub('[^\w\s-]', '', title).strip().lower()))
+	filename = '{}-{}'.format(time_str.split('T')[0], re.sub('[-\s]+', '-', re.sub('[^\w\s-]', '', title).strip().lower()))
 	with open(os.path.join('app', 'posts', '{}.md'.format(filename)), 'w') as f:
 		f.write('<!--\nlayout: post\ntitle: {}\ndate: {}\ncomments: true\ncategories: {}\n-->\n'.format(title, time_str, raw_input('Categories: ')))
 

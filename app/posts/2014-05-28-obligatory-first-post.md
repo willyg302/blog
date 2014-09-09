@@ -1,7 +1,7 @@
 <!--
 layout: post
 title: Obligatory First Post
-date: 2014-05-28 21:18:08 -0700
+date: 2014-05-28T21:18:08.000000
 comments: true
 categories: 
 -->
