@@ -8,9 +8,8 @@ from datetime import datetime
 project = 'WillyG Productions Blog'
 
 def _npm_bower(command):
-	strap.run('npm {}'.format(command))
-	with strap.root('app'):
-		strap.run('bower {}'.format(command))
+	strap.npm(command)
+	strap.bower(command, root='app')
 
 def clean():
 	_npm_bower('prune')
@@ -59,7 +58,7 @@ def generate_post_json():
 
 def rebuild_posts():
 	'''Rebuild only posts and post data'''
-	strap.run(['node_modules/.bin/gulp convert', generate_post_json])
+	strap.node('gulp convert', module=True).run(generate_post_json)
 
 def publish():
 	'''Publish blog'''
@@ -69,4 +68,4 @@ def install():
 	_npm_bower('install')
 
 def default():
-	strap.run(['node_modules/.bin/gulp', generate_post_json])
+	strap.node('gulp', module=True).run(generate_post_json)
