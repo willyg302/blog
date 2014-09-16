@@ -3,7 +3,7 @@ layout: post
 title: Obligatory First Post
 date: 2014-05-28T21:18:08.000000
 comments: true
-categories: 
+categories: Uncategorized
 -->
 
 I'm finally making the move from [my old blog](http://willyg302.wordpress.com/) hosted on WordPress to this snazzy new Octopress. A few of the reasons why:

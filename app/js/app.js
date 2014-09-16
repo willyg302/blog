@@ -10,6 +10,15 @@ define([
 		'xeditable'
 	]);
 
+	function stringHash(s) {
+		// SDBM
+		var hash = 0;
+		for (var i = 0; i < s.length; i++) {
+			hash = s.charCodeAt(i) + (hash << 6) + (hash << 16) - hash;
+		}
+		return hash;
+	}
+
 	app.config(['$routeProvider', '$locationProvider', function($routeProvider, $locationProvider) {
 		$routeProvider
 			.when('/', {
@@ -73,8 +82,8 @@ define([
 			return $sce.trustAsHtml(html);
 		};
 
-		$scope.getCategoryClass = function(index) {
-			return "label-" + ['primary', 'warning', 'success', 'danger', 'info'][index % 5];
+		$scope.getCategoryColor = function(category) {
+			return "hsl(" + (stringHash(category) % 360) + ", 100%, 35%)";
 		};
 
 		$scope.setCategory = function(category) {
@@ -118,8 +127,8 @@ define([
 			$scope.loadDisqus();
 		});
 
-		$scope.getCategoryClass = function(index) {
-			return "label-" + ['primary', 'warning', 'success', 'danger', 'info'][index % 5];
+		$scope.getCategoryColor = function(category) {
+			return "hsl(" + (stringHash(category) % 360) + ", 100%, 35%)";
 		};
 
 		$scope.setCategory = function(category) {

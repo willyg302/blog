@@ -17,11 +17,12 @@ def clean():
 
 def new_post():
 	'''Create new blog post'''
+	metadata = '<!--\nlayout: post\ntitle: {}\ndate: {}\ncomments: true\ncategories: {}\n-->\n'
 	time_str = datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%S.%f')
 	title = raw_input('Title: ')
 	filename = '{}-{}'.format(time_str.split('T')[0], re.sub('[-\s]+', '-', re.sub('[^\w\s-]', '', title).strip().lower()))
 	with open(os.path.join('app', 'posts', '{}.md'.format(filename)), 'w') as f:
-		f.write('<!--\nlayout: post\ntitle: {}\ndate: {}\ncomments: true\ncategories: {}\n-->\n'.format(title, time_str, raw_input('Categories: ')))
+		f.write(metadata.format(title, time_str, raw_input('Categories: ') or 'Uncategorized'))
 
 def _parse_post_header(header):
 	ret = {}

@@ -7,7 +7,7 @@
 			You are currently viewing
 			<a href="#" buttons="no" editable-text="filter.search">{{ filter.search || 'all' }}</a>
 			notes about
-			<a href="#" buttons="no" editable-select="filter.category" e-ng-options="c for c in categories">{{ filter.category }}</a>
+			<a href="#" buttons="no" editable-select="filter.category" e-ng-options="c for c in categories | orderBy:'toString()'">{{ filter.category }}</a>
 			between
 			<a href="#" editable-date="filter.start">{{ filter.start || 'the Big Bang' }}</a>
 			and
@@ -19,7 +19,7 @@
 		<small>{{ post.date | date:'EEEE, MMMM d y' }}</small>
 		<div class="categories">
 			<span ng-repeat="category in post.categories">
-				<span class="label" ng-class="getCategoryClass($index)" ng-click="setCategory(category)">{{ category }}</span>
+				<span class="label" ng-style="{'background-color': getCategoryColor(category)}" ng-click="setCategory(category)">{{ category }}</span>
 			</span>
 		</div>
 		<p class="desc" ng-bind-html="renderHtml(post.more)"></p>
