@@ -6,6 +6,9 @@ var minifycss  = require('gulp-minify-css');
 var requirejs  = require('gulp-requirejs');
 var uglify     = require('gulp-uglify');
 
+var fs = require('fs');
+var request = require('request');
+
 var paths = {
 	requireJSIncludes: ['../bower_components/requirejs/require.js'],
 	assets: [
@@ -64,6 +67,13 @@ gulp.task('convert', function() {
 		.pipe(gulp.dest(paths.dist + "/posts"))
 });
 
+gulp.task('download-highlight', ['copy-assets'], function() {
+	request('http://yandex.st/highlightjs/8.0/styles/tomorrow.min.css')
+		.pipe(fs.createWriteStream(paths.dist + "/tomorrow.min.css"));
+	request('http://yandex.st/highlightjs/8.0/highlight.min.js')
+		.pipe(fs.createWriteStream(paths.dist + "/highlight.min.js"));
+});
+
 gulp.task('default', ['clean'], function() {
-	gulp.start('copy-assets', 'compile-js', 'compile-css', 'convert');
+	gulp.start('copy-assets', 'compile-js', 'compile-css', 'convert', 'download-highlight');
 });
