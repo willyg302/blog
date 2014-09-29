@@ -106,7 +106,7 @@ Remember that required install task I mentioned earlier? Here's why it's importa
 
 From the command line, you can call `strap init` (with some sensible arguments, of course) to initialize a project. For example, suppose you decided to call `strap init gh:willyg302/jarvis -d jarvis`. That would do the following:
 
-1. Clone https://github.com/willyg302/jarvis into the `jarvis/` directory
+1. Clone [the jarvis repo](https://github.com/willyg302/jarvis) into the `jarvis/` directory
 2. `cd` into that directory
 3. Run the install task
 

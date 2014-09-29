@@ -27,7 +27,7 @@ Here's the problem though: XML is absolutely, unequivocally, the worst document 
 
 Ideally, optimization should shrink the size of the file without changing its visual appearance, so I have a test for whether my SVGs have made it through optimization unscathed. It's called Ubuntu Image Viewer, though I'm sure equivalent programs on OSX and Windows will suffice. Here's what an optimized SVG usually looks like in Image Viewer:
 
-![Bad SVG](img/posts/2014-09-29-01.png)
+![Bad SVG](img/posts/2014-09-29-01-bad-svg.png)
 
 Eww! What the heck happened? Oddly enough, if I open this file in Google Chrome or Inkscape it renders totally fine. But sometimes the SVG is corrupted and missing components in Inkscape, and sometimes it even fails to render properly in Chrome. Like I said, XML.
 
@@ -39,7 +39,13 @@ Yep...if we're going to do this right, we have to do it the hard way: manually. 
 
 - **Flatten all groups**. Editors like Inkscape love to attach any transforms to groups when they can, and that'll lead to some really gnarly code. You can always regroup later.
 - **Trim SVG to contents**. You want your image to start at the origin `(0, 0)` and the artboard to fit snugly on all four sides.
-- **Use `viewBox`**. My `<svg>` tag always looks like this: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 X Y">`, where `X` and `Y` are the width and height of the image, respectively. That's all you need, *nothing else*.
+- **Use `viewBox`**. My `<svg>` tag always looks like this:
+
+  ```xml
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 X Y">
+  ```
+
+  where `X` and `Y` are the width and height of the image, respectively. That's all you need, *nothing else*.
 - **Remove useless top-level elements**. You don't need `sodipodi` and `metadata`. If you have gradients or effects, you will need a few `defs` to describe them, but for a flat image you can get rid of `defs` too.
 - **Get rid of `id`**. Unless you have gradients or plan to manipulate your SVG from JavaScript or CSS, you don't need to tag specific elements.
 - **You usually don't need `style`**. Inkscape shoves a bunch of junk into the `style` attribute of paths and shapes, especially if you've converted fonts into paths. Use your judgment here, but you really only need to describe the fill color `fill` and opacity `fill-opacity`.
