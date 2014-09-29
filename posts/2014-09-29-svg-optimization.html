@@ -20,7 +20,7 @@ categories: Uncategorized
 <p>Here&#39;s the problem though: XML is absolutely, unequivocally, the worst document format ever devised by any living species in the history of the universe. If you want to torture yourself, try writing an XML parser (don&#39;t forget to support namespaces!). It&#39;s no wonder, then, that SVG optimization is notoriously hard to get right.</p>
 <h2 id="the-acid-test">The Acid Test</h2>
 <p>Ideally, optimization should shrink the size of the file without changing its visual appearance, so I have a test for whether my SVGs have made it through optimization unscathed. It&#39;s called Ubuntu Image Viewer, though I&#39;m sure equivalent programs on OSX and Windows will suffice. Here&#39;s what an optimized SVG usually looks like in Image Viewer:</p>
-<p><img src="img/posts/2014-09-29-01.png" alt="Bad SVG"></p>
+<p><img src="img/posts/2014-09-29-01-bad-svg.png" alt="Bad SVG"></p>
 <p>Eww! What the heck happened? Oddly enough, if I open this file in Google Chrome or Inkscape it renders totally fine. But sometimes the SVG is corrupted and missing components in Inkscape, and sometimes it even fails to render properly in Chrome. Like I said, XML.</p>
 <p>You might be tempted to say, &quot;Well, if it looks okay in Chrome that&#39;s all that matters, right?&quot; And you&#39;d be right, except for the fact that dinosaurs like IE9 and Opera exist. Who knows what my SVGs look like on <em>those</em> things?</p>
 <h2 id="the-hard-way">The Hard Way</h2>
@@ -28,7 +28,11 @@ categories: Uncategorized
 <ul>
 <li><strong>Flatten all groups</strong>. Editors like Inkscape love to attach any transforms to groups when they can, and that&#39;ll lead to some really gnarly code. You can always regroup later.</li>
 <li><strong>Trim SVG to contents</strong>. You want your image to start at the origin <code>(0, 0)</code> and the artboard to fit snugly on all four sides.</li>
-<li><strong>Use <code>viewBox</code></strong>. My <code>&lt;svg&gt;</code> tag always looks like this: <code>&lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot; viewBox=&quot;0 0 X Y&quot;&gt;</code>, where <code>X</code> and <code>Y</code> are the width and height of the image, respectively. That&#39;s all you need, <em>nothing else</em>.</li>
+<li><p><strong>Use <code>viewBox</code></strong>. My <code>&lt;svg&gt;</code> tag always looks like this:</p>
+<pre><code class="lang-xml">&lt;svg <span class="hljs-variable">xmlns=</span><span class="hljs-string">"http://www.w3.org/2000/svg"</span> <span class="hljs-variable">viewBox=</span><span class="hljs-string">"0 0 X Y"</span>&gt;
+</code></pre>
+<p>where <code>X</code> and <code>Y</code> are the width and height of the image, respectively. That&#39;s all you need, <em>nothing else</em>.</p>
+</li>
 <li><strong>Remove useless top-level elements</strong>. You don&#39;t need <code>sodipodi</code> and <code>metadata</code>. If you have gradients or effects, you will need a few <code>defs</code> to describe them, but for a flat image you can get rid of <code>defs</code> too.</li>
 <li><strong>Get rid of <code>id</code></strong>. Unless you have gradients or plan to manipulate your SVG from JavaScript or CSS, you don&#39;t need to tag specific elements.</li>
 <li><strong>You usually don&#39;t need <code>style</code></strong>. Inkscape shoves a bunch of junk into the <code>style</code> attribute of paths and shapes, especially if you&#39;ve converted fonts into paths. Use your judgment here, but you really only need to describe the fill color <code>fill</code> and opacity <code>fill-opacity</code>.</li>
