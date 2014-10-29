@@ -1,19 +1,14 @@
+<div sidebar>
+	Welcome to my blog! You are currently viewing
+	<a href="#" buttons="no" editable-text="filter.search">{{ filter.search || 'all' }}</a>
+	notes about
+	<a href="#" buttons="no" editable-select="filter.category" e-ng-options="c for c in categories | orderBy:'toString()'">{{ filter.category }}</a>
+	between
+	<a href="#" editable-date="filter.start">{{ filter.start || 'the Big Bang' }}</a>
+	and
+	<a href="#" editable-date="filter.end">{{ filter.end || 'tomorrow' }}</a>.
+</div>
 <div id="masonry" masonry item-selector=".item" column-width="72">
-	<div class="item x-4 y-2"></div>
-	<div id="filter-tile" class="item tile x-4 y-4">
-		<h1>Welcome!</h1>
-		<p class="desc">This is a place for all my random thoughts about software development and the universe. Most of it is rational.</p>
-		<p class="desc">
-			You are currently viewing
-			<a href="#" buttons="no" editable-text="filter.search">{{ filter.search || 'all' }}</a>
-			notes about
-			<a href="#" buttons="no" editable-select="filter.category" e-ng-options="c for c in categories | orderBy:'toString()'">{{ filter.category }}</a>
-			between
-			<a href="#" editable-date="filter.start">{{ filter.start || 'the Big Bang' }}</a>
-			and
-			<a href="#" editable-date="filter.end">{{ filter.end || 'tomorrow' }}</a>.
-		</p>
-	</div>
 	<div class="masonry-brick item post" ng-repeat="post in posts | filter:filterPosts(filter) | orderBy:'-date'">
 		<h3><a ng-href="#!post/{{ post.url }}">{{ post.title }}</a></h3>
 		<small>{{ post.date | date:'EEEE, MMMM d y' }}</small>

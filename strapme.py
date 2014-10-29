@@ -7,14 +7,6 @@ from datetime import datetime
 
 project = 'WillyG Productions Blog'
 
-def _npm_bower(command):
-	strap.npm(command)
-	strap.bower(command, root='app')
-
-def clean():
-	_npm_bower('prune')
-	_npm_bower('cache clean')
-
 def new_post():
 	'''Create new blog post'''
 	metadata = '<!--\nlayout: post\ntitle: {}\ndate: {}\ncomments: true\ncategories: {}\n-->\n'
@@ -66,7 +58,7 @@ def publish():
 	strap.run('git subtree push --prefix dist origin gh-pages')
 
 def install():
-	_npm_bower('install')
+	strap.npm('install').bower('install', root='app')
 
 def default():
 	strap.node('gulp', module=True).run(generate_post_json)

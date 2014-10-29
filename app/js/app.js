@@ -42,8 +42,15 @@ define([
 		editableThemes['default'].cancelTpl = '<button type="button" ng-click="$form.$cancel()">&#10006;</button>';
 	}]);
 
+	app.directive('sidebar', function() {
+		return {
+			restrict: 'A',
+			transclude: true,
+			templateUrl: 'partials/sidebar.html'
+		};
+	});
+
 	app.controller('MainController', ['$scope', '$location', '$http', '$sce', function($scope, $location, $http, $sce) {
-		$('#logo').removeClass('sticky');
 		var defaultCategory = 'Anything';
 
 		$http.get('post_data.json').then(function(ret) {
@@ -114,8 +121,6 @@ define([
 	}]);
 
 	app.controller('PostController', ['$scope', '$window', '$http', '$location', '$routeParams', function($scope, $window, $http, $location, $routeParams) {
-		$('#logo').addClass('sticky');
-
 		$scope.postSrc = "posts/" + $routeParams.post + ".html";
 		$http.get('post_data.json').then(function(ret) {
 			for (var i = 0; i < ret.data.length; i++) {
