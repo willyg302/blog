@@ -33,6 +33,7 @@ categories: Web Development
 <p>Problem solved, right? Mission accomplished?</p>
 <p>Ha. If there&#39;s one thing any budding web developer should know, it&#39;s that things are <em>never</em> this easy.</p>
 <p>Apart from looking like Apple and Microsoft had gone on a drunken escapade and projectile vomited all over my <code>&lt;head&gt;</code>, these 18 lines of beautiful HTML (not to mention the 147 KB of redundant pixel information) <em>still did not work</em>:</p>
+<p><img src="img/posts/2014-10-28-01-no-favicon.png" alt="No Favicon"></p>
 <h2 id="a-brief-aside">A Brief Aside</h2>
 <p><img src="http://i132.photobucket.com/albums/q26/msmorbid921/frantic.gif" alt="Darn you, favicon"></p>
 <p><img src="http://www.reactiongifs.com/wp-content/uploads/2013/06/mad.gif" alt="Darn you to heck"></p>
@@ -40,6 +41,18 @@ categories: Web Development
 <p>The world is not perfect, but it doesn&#39;t hurt to dream sometimes. This is all that should be required to implement a perfect cross-platform favicon:</p>
 <pre><code class="lang-html">&lt;link <span class="hljs-variable">rel=</span><span class="hljs-string">"icon"</span> <span class="hljs-variable">type=</span><span class="hljs-string">"image/svg+xml"</span> <span class="hljs-variable">href=</span><span class="hljs-string">"look/ma/not_at_root/not_even_called_favicon.svg"</span>&gt;
 </code></pre>
-<p>s</p>
+<p>Because it is vector and not raster, an SVG image looks great in any size, eliminating the need for a haystack of different square images. You can even construct a <a href="http://tympanus.net/codrops/2014/08/19/making-svgs-responsive-with-css/">responsive SVG</a> for more complex icons at larger sizes. And what about those transparent favicons that need a background in certain situations, such as on a Windows Phone tile? Well, <a href="http://hofmannsven.com/2013/laboratory/svg-stacking/">SVG stacking</a> comes to the rescue: just define a background layer that is initially set to <code>display: none;</code>, and applications that require the layer can flip its visibility.</p>
+<p>Applications <strong>should</strong>:</p>
+<ul>
+<li>Look in the head of the current HTML document for a link tagged with <code>rel=&quot;icon&quot;</code></li>
+<li>Adapt this <em>one</em> icon for any size or use case</li>
+</ul>
+<p>Applications <strong>should NOT</strong>:</p>
+<ul>
+<li>Assume anything about the location of the icon, such as that it&#39;s at the &quot;root&quot;</li>
+<li>Require/accept size-specific icons or reject icons not labeled with a <code>sizes</code> attribute</li>
+<li>Define proprietary relationship tags, like <code>apple-touch-icon</code> (seriously, what the hell were they thinking?)</li>
+</ul>
+<p>Currently there is no support for SVG favicons in any of the &quot;big three&quot; web browsers, although bug reports requesting them are open -- see <a href="https://bugzilla.mozilla.org/show_bug.cgi?id=366324#c22">Firefox</a>, <a href="http://code.google.com/p/chromium/issues/detail?id=294179">Chrome</a>, and <a href="https://connect.microsoft.com/IE/feedback/details/782416/svg-favicon-support">Internet Explorer</a>. Judging by the feedback it appears that support <em>may</em> be coming, but is a distant glimmer on the horizon.</p>
 <h2 id="for-now">For Now</h2>
-<p>I&#39;ve decided to hold off on making my site work as expected no matter what, at least until browsers get their you-know-what together about something as trivial as the favicon. In all honesty, as cool as it is to see my logo in all its retina glory on the home screen of an iPhone, I don&#39;t think anyone plans to bookmark my site anytime soon. And even if they did, they could probably live without a nice looking bookmark.</p>
+<p>I&#39;ve decided to hold off on making my site work as expected no matter what, at least until browsers get their you-know-what together about something as trivial as the favicon. In all honesty, as cool as it is to see my logo in all its retina glory on the home screen of an iPhone, I don&#39;t think anyone plans to bookmark my site anytime soon. And even if they did, they could probably live without a nice-looking site icon.</p>

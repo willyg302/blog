@@ -41,6 +41,8 @@ Ha. If there's one thing any budding web developer should know, it's that things
 
 Apart from looking like Apple and Microsoft had gone on a drunken escapade and projectile vomited all over my `<head>`, these 18 lines of beautiful HTML (not to mention the 147 KB of redundant pixel information) *still did not work*:
 
+![No Favicon](img/posts/2014-10-28-01-no-favicon.png)
+
 ## A Brief Aside
 
 ![Darn you, favicon](http://i132.photobucket.com/albums/q26/msmorbid921/frantic.gif)
@@ -55,8 +57,21 @@ The world is not perfect, but it doesn't hurt to dream sometimes. This is all th
 <link rel="icon" type="image/svg+xml" href="look/ma/not_at_root/not_even_called_favicon.svg">
 ```
 
-s
+Because it is vector and not raster, an SVG image looks great in any size, eliminating the need for a haystack of different square images. You can even construct a [responsive SVG](http://tympanus.net/codrops/2014/08/19/making-svgs-responsive-with-css/) for more complex icons at larger sizes. And what about those transparent favicons that need a background in certain situations, such as on a Windows Phone tile? Well, [SVG stacking](http://hofmannsven.com/2013/laboratory/svg-stacking/) comes to the rescue: just define a background layer that is initially set to `display: none;`, and applications that require the layer can flip its visibility.
+
+Applications **should**:
+
+- Look in the head of the current HTML document for a link tagged with `rel="icon"`
+- Adapt this *one* icon for any size or use case
+
+Applications **should NOT**:
+
+- Assume anything about the location of the icon, such as that it's at the "root"
+- Require/accept size-specific icons or reject icons not labeled with a `sizes` attribute
+- Define proprietary relationship tags, like `apple-touch-icon` (seriously, what the hell were they thinking?)
+
+Currently there is no support for SVG favicons in any of the "big three" web browsers, although bug reports requesting them are open -- see [Firefox](https://bugzilla.mozilla.org/show_bug.cgi?id=366324#c22), [Chrome](http://code.google.com/p/chromium/issues/detail?id=294179), and [Internet Explorer](https://connect.microsoft.com/IE/feedback/details/782416/svg-favicon-support). Judging by the feedback it appears that support *may* be coming, but is a distant glimmer on the horizon.
 
 ## For Now
 
-I've decided to hold off on making my site work as expected no matter what, at least until browsers get their you-know-what together about something as trivial as the favicon. In all honesty, as cool as it is to see my logo in all its retina glory on the home screen of an iPhone, I don't think anyone plans to bookmark my site anytime soon. And even if they did, they could probably live without a nice looking bookmark.
+I've decided to hold off on making my site work as expected no matter what, at least until browsers get their you-know-what together about something as trivial as the favicon. In all honesty, as cool as it is to see my logo in all its retina glory on the home screen of an iPhone, I don't think anyone plans to bookmark my site anytime soon. And even if they did, they could probably live without a nice-looking site icon.
