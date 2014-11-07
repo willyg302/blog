@@ -20,13 +20,13 @@ If I could jump back in time to freshman year, here are the four things I would 
 
 I am for obvious reasons biased towards git, but whatever the VCS, a graduate should know how to manage their code not only alone but as part of a team. This concept should be introduced fairly early, maybe even in the second semester.
 
-At that point a student is probably still learning their first language: having covered Java's syntax and basic control structures in the first semester, for example, they would move on to data structures and basic algorithms (sorting, etc.). This is by no means a good time to drop the "complexity" of a VCS on anyone, which is why at first it might be a good idea to simply introduce it as a new way to turn in assignments.
+At that point a student is probably still learning their first language: having covered Java's syntax and basic control structures in the first semester, for example, they would move on to data structures and common algorithms (sorting, etc.). This is by no means a good time to drop the "complexity" of a VCS on anyone, which is why at first it might be a good idea to simply introduce it as a new way to turn in assignments.
 
 Imagine the following scenario: your teacher shows your a "website" (GitHub repo in disguise) where you are to turn in all assignments -- naturally the students have already been added as contributors. On the first day of class you were given a step-by-step walkthrough of how to install git. Then your teacher shows you how to `git commit` and `git push`. "Remember those two," you are told again and again. And you do, because how hard is it really to remember two words? So for an entire semester that's how you turn things in. You finish your assignment, you open up that little window called a "terminal" to type two commands, and it automagically appears on the teacher's website.
 
 By the time higher-level courses roll around...surprise! You were using this thing called a "version control system" all along. Oh, and look at all the *other* cool stuff it can do! At that point, students should participate in a group project where committing is part of the grade. When they mess up and cause all sorts of hilarious merge conflicts -- and they will -- resolving them becomes part of the learning process.
 
-> **NOTE**: Yes, I realize a single repo for all students is just asking for plagiarism; some savvy student could `git pull` at the last moment and have the keys to the kingdom. Surely there's a better way, but for now we'll assume everyone is an angel.
+> **NOTE**: Yes, I realize a single repo for all students is just asking for plagiarism to occur; some savvy student could `git pull` at the last moment and have the keys to the kingdom. Surely there's a better way, but for now we'll assume everyone is an angel.
 
 Right now my university regards VCS as something students should learn on their own. Here's why that needs to change:
 
@@ -64,7 +64,7 @@ You *could* write a test suite that makes sure this works for `fib(0)` and `fib(
 
 The other typical example is the assignment on writing getters and setters for properly encapsulated Java classes. Ooh look, I set `x` to 19 and when I called `getX()` it returned 19! Success!
 
-In practice tests are never that simple. There are all sorts of considerations like mocking objects, functions, and return calls, finding edge cases, linting, etc. This requires a project complex enough to warrant such testing concepts, and I wouldn't expect to see such a project in most of my classes. One plausible solution is to give students a fairly large completed project that has errors riddled throughout, and task them with writing tests to uncover and subsequently fix the errors.
+In practice tests are never that simple. There are all sorts of considerations like mocking objects, functions, and return calls, finding edge cases, linting, etc. This requires a project complex enough to warrant these testing concepts, and I wouldn't expect to see such a project in most of my classes. One plausible solution is to give students a fairly large completed project that has errors riddled throughout, and task them with writing tests to uncover and subsequently fix the errors.
 
 ## How to Google
 
@@ -107,7 +107,7 @@ The point is, knowing how to Google is important. I'm constantly amazed by the d
 
 In lab one day, a hapless student popped a question much like the one above. I didn't know the answer either (what, you expect me to tattoo `BufferedReader` onto the back of my hand?) so I told him to Google it. Then I watched. And I was mortified. It was a wonder the student managed to find anything, and eventually I had to help him along. "Read a file Java," I said. Four words. And what do you know, the first hit was a winner.
 
-In another part of the world, I was on a team that had a big deliverable due in three weeks. We were using a web framework that none of us had experience in, and we knew we had to haul ass. So we ate Google search results and Stack Overflow and framework documentation for breakfast, lunch, and dinner. [This Firefox plugin](https://addons.mozilla.org/en-US/firefox/addon/tree-style-tab/) became our best friend. Sounds like a horror story, but it's more common than you might think. And wouldn't you know, we got it done...and learned a new framework to boot.
+In another part of the world, I watched expert Googling on a daily basis. Unless you're one of the venerable greybeards of a large tech company (and they are unfortunately an endangered species), you spend your working hours in a near-constant state of searching: trying to hunt the root cause of a bug here, learning a new framework there. Over the summer [this Firefox plugin](https://addons.mozilla.org/en-US/firefox/addon/tree-style-tab/) became my best friend. I chewed through Stack Overflow and system documentation for breakfast, lunch, and occasionally dinner.
 
 From these experiences, I've come to believe wholeheartedly that there's a strong relationship between being a good "searcher" and being a good programmer. I also believe that both can be taught.
 
@@ -125,25 +125,33 @@ Fun fact: in a real job, your manager isn't going to ask you ten questions or gi
 
 This past semester, I've noticed that I do remarkably little *thinking* in college. Sure, there's thinking involved in trudging through assignments and digesting textbook material, but it's not the active creative kind I've learned to associate with the workplace. I've also noticed the same trend in other students, and if the only programming they do is for school, then they are disastrously unprepared for applying their knowledge after college ends. Or, as [this amazing article](http://nautil.us/issue/17/big-bangs/how-i-rewired-my-brain-to-become-fluent-in-math-rd) about learning math says:
 
-> Teachers can inadvertently set their students up for failure as those students blunder in illusions of competence.
+> "Teachers can inadvertently set their students up for failure as those students blunder in illusions of competence."
 
 But, how to teach someone to *think*? Here I don't mean thinking so much as I mean applying programming concepts to real-world problems, which does indeed require a level of creative thought several orders of magnitude above anything you see in school. Is this something that can even be taught?
 
-A colleague of mine now working towards his PhD is pondering the very same questions. He believes, as the article about math above does, that what's missing is a fundamental understand of programming concepts at the very beginning. We finish canned assignments and get passing grades and so are led to believe we "understand" programming, but when we see something novel we are unable to apply what we've learned, mostly likely because we *don't have enough practice*. It's a [10,000 hour](http://www.wisdomgroup.com/blog/10000-hours-of-practice/) sort of thing.
+A colleague of mine now working towards his PhD is pondering the very same questions. He believes, as the article about math above does, that what's missing is a fundamental understanding of programming concepts at the very beginning. We finish canned assignments and get passing grades and so are led to believe we "understand" programming, but when we see something novel we are unable to apply what we've learned, most likely because we *don't have enough practice*. It's a [10,000 hour](http://www.wisdomgroup.com/blog/10000-hours-of-practice/) sort of thing.
 
 Which brings me to...
 
 ## The Secret Ingredient
 
-Okay, so if you become a programming virtuoso through years of grueling practice, are you willing to invest all that time and effort? Most freshmen probably wouldn't. I myself chose computer science because I wanted to learn how to make video games, and was very nonplussed by discrete math in my first semester. The thought of rote programming would turn me off very quickly, but our goal is to make computer science more inviting.
+Okay, so if you become a programming virtuoso through years of grueling practice, are you willing to invest all that time and effort? Most freshmen probably wouldn't. I myself chose computer science because I wanted to learn how to make video games, and was very nonplussed by discrete math in my first semester. The thought of rote programming would turn me off very quickly, but our goal is to make computer science more inviting to the masses.
 
 So here's what I tell people when they ask me how to become a better programmer (for some odd and undeserved reason I've been getting that question a lot recently): think of something you really want to make, and make it.
 
 This is the secret ingredient. A DIY project outside of school or work, on your own free time.
 
-The first trick to this exercise is to disregard everything you think you know or *don't* know. Set unrealistic goals. Make the next Facebook. 
+The first trick to this exercise is to disregard everything you think you know or *don't* know. Set unrealistic goals. [Make the next Facebook](http://en.wikipedia.org/wiki/History_of_Facebook#Facemash). The first hurdle you'll have to overcome is turning this lofty dream into something tangible. What language will you use? Will you need a database? What will your product look like? What colors will it be in? Decisions, decisions. All requiring a measure of knowledge and *creative thought* to answer.
 
-Some of us are gifted with the amazing ability to be self-taught, but for others it's like being thrown into the lion's cage with a juicy steak on the first day of zoo work.
+Chances are you won't know what you need to know right away. Maybe you've never set up a web server before (if your project happens to require one), so you're going to need to learn how. That's right...*Google* to the rescue.
+
+Learning something as "out there" as setting up your own web server when you have absolutely no web experience has the advantage of honing one of life's great skills: [autodidacticism](http://en.wikipedia.org/wiki/Autodidacticism) (no, I didn't know that word off the top of my head, Google to the rescue again). Some of us are gifted with the amazing ability to be self-taught, but for others it's like being thrown into the lion's cage with a juicy steak on the first day of the new zoo job. However, like anything else, it's a skill that can be improved over time. Yes, you might get mauled the first few times. But soon you'll be slinging steaks with the best of them.
+
+Whatever your project, I would only hope that you use a *VCS* to manage it and write ample *tests*. Just a suggestion.
+
+As you can see, working on a DIY project can make up for any shortcomings of being a computer science major and then some. But there's one more benefit: it keeps you interested. Tired of writing the Fibonacci sequence? Can't think of why you'd want to know how to print out every other line of a text file? Having second thoughts about programming as a career? Make a website. Or a sweet app. Or a game to amaze your friends.
+
+Do what you've always wanted to do. You'll be surprised how much you learn, not only about programming, but about yourself.
 
 ## Honorable Mentions
 
