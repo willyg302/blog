@@ -68,9 +68,9 @@ gulp.task('convert', function() {
 });
 
 gulp.task('download-highlight', ['copy-assets'], function() {
-	request('http://yandex.st/highlightjs/8.0/styles/tomorrow.min.css')
+	request('http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/tomorrow.min.css')
 		.pipe(fs.createWriteStream(paths.dist + "/tomorrow.min.css"));
-	request('http://yandex.st/highlightjs/8.0/highlight.min.js')
+	request('http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/highlight.min.js')
 		.pipe(fs.createWriteStream(paths.dist + "/highlight.min.js"));
 });
 
