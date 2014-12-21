@@ -51,14 +51,14 @@ def generate_post_json():
 
 def rebuild_posts():
 	'''Rebuild only posts and post data'''
-	strap.node('gulp convert', module=True).run(generate_post_json)
+	ok.node('gulp convert', module=True).run(generate_post_json)
 
 def publish():
 	'''Publish blog'''
-	strap.run('git subtree push --prefix dist origin gh-pages')
+	ok.run('git subtree push --prefix dist origin gh-pages')
 
 def install():
-	strap.npm('install').bower('install', root='app')
+	ok.npm('install').bower('install', root='app')
 
 def default():
-	strap.node('gulp', module=True).run(generate_post_json)
+	ok.node('gulp', module=True).run(generate_post_json)
