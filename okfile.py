@@ -58,7 +58,7 @@ def publish():
 	ok.run('git subtree push --prefix dist origin gh-pages')
 
 def install():
-	ok.npm('install').bower('install', root='app')
+	ok.npm('install').bower('install')
 
 def default():
 	ok.node('gulp', module=True).run(generate_post_json)

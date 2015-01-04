@@ -6,18 +6,23 @@
     "type": "git",
     "url": "https://github.com/willyg302/blog"
   },
-  "dependencies": {},
+  "dependencies": {
+    "imagesloaded": "~3.1.8",
+    "masonry-layout": "~3.2.1"
+  },
   "devDependencies": {
-    "bower": "~1.3.9",
-    "bower-requirejs": "~1.1.0",
     "gulp": "~3.8.7",
-    "gulp-clean": "~0.3.1",
     "gulp-less": "~1.3.5",
     "gulp-markdown": "~1.0.0",
     "gulp-minify-css": "~0.3.7",
-    "gulp-requirejs": "~0.1.3",
     "gulp-uglify": "~1.0.0",
+    "browserify": "~8.0.3",
+    "deamdify": "~0.1.1",
+    "debowerify": "~1.2.0",
+    "del": "~1.1.1",
     "highlight.js": "~8.2.0",
-    "request": "~2.44.0"
+    "request": "~2.44.0",
+    "vinyl-buffer": "~1.0.0",
+    "vinyl-source-stream": "~1.0.0"
   }
 }
