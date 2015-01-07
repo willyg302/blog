@@ -1,6 +1,7 @@
 require('angular');
 require('angular-route');
 require('angular-xeditable');
+require('angular-gist');
 require('./masonry-directive');
 
 
@@ -17,7 +18,8 @@ function stringHash(s) {
 var app = angular.module('blog', [
 	'ngRoute',
 	'masonry',
-	'xeditable'
+	'xeditable',
+	'gist'
 ]);
 
 app.config(['$routeProvider', '$locationProvider', function($routeProvider, $locationProvider) {

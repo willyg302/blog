@@ -1,0 +1,358 @@
+<!--
+layout: post
+title: AWS Lambda: Testing the Waters
+date: 2015-01-06T05:39:29.324919
+comments: true
+categories: AWS Lambda
+-->
+
+<p>In <a href="http://willyg302.github.io/blog/#!/post/2014-11-14-what-lambda-is">a previous post</a> I waxed poetic about the potential of AWS Lambda. Now it&#39;s time to actually <em>use</em> it.</p>
+<!-- more -->
+
+<p>As this is a &quot;testing the waters&quot; post, we won&#39;t be building anything particularly useful or production-ready. Instead, we will work towards implementing one of the very first ideas I had for a Lambda function: <strong>running GitHub Gists in the cloud</strong>. This strikes me as interesting for several reasons:</p>
+<ul>
+<li>Instant decoupled versioning. Currently Lambda&#39;s versioning system is at best n+1 and at worst nonexistent, whereas Gists are backed by git and separated from the AWS infrastructure.</li>
+<li>Consolidation of one-off Lambda functions into a single &quot;uber-function&quot; ...rather than manage dozens of Lambda functions that do silly things like MD5-hash a string or add two numbers.</li>
+<li>Easier sharing of public functionality. Letting other people run your Lambda functions entails the horrors of IAM roles. On the other hand, everyone can see your public Gists.</li>
+<li>All the other benefits of GitHub (sharing, comments, forking, etc.) for Lambda. Hooray!</li>
+</ul>
+<p>Alright, let&#39;s get to it!</p>
+<h2 id="step-1-running-arbitrary-code">Step 1: Running Arbitrary Code</h2>
+<blockquote>
+<p><strong>NOTE</strong>: Whenever you hear something like &quot;arbitrary code&quot; in the context of JavaScript, it usually means <code>eval()</code> (or something like it) is involved. It should go without saying that careless use of <code>eval()</code> is a <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/eval#Don.27t_use_eval.21">really bad thing</a>. But we&#39;ll be careful.</p>
+</blockquote>
+<p>As we will basically be pulling in code from a URL and then evaluating it against some arguments, it makes sense to first construct a system for evaluating functions stored as strings. Once this is done, we can replace the string with the result of a GET request to GitHub&#39;s Gist API.</p>
+<p>Before going any further, we need to define a protocol for how these Gists will be structured and evaluated. Initially I considered simply storing the entire function in the Gist and passing args in as an array, which requires a straightforward <code>eval()</code> and <code>apply()</code>. However, this presented several problems. The first was that <code>eval()</code> does not return the evaluated code -- or even an AST of it -- but rather injects it into the current scope. This means that there would be no way to bind the function to a callable variable short of prepending <code>var f =</code> to the string, but doing so requires knowing <a href="http://www.w3schools.com/js/js_function_definition.asp">how the function was defined</a>. The second problem was that managing the args as an array independent of calling the function just felt <em>weird</em>. In other words, I needed some way to &quot;match&quot; the args to their application -- i.e. a dictionary.</p>
+<p>My solution was to store only the function <em>body</em> in the Gist and use an argument dictionary instead of an array. What does this mean? Well, suppose I have a function like this:</p>
+<pre><code class="lang-js"><span class="hljs-keyword">var</span> add = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(a, b)</span> </span>{
+    <span class="hljs-keyword">return</span> a + b;
+};
+</code></pre>
+<p>Then my Gist would be:</p>
+<pre><code class="lang-js"><span class="hljs-keyword">return</span> <span class="hljs-literal">a</span> + b<span class="hljs-comment">;</span>
+</code></pre>
+<p>And my arguments would be something like the following:</p>
+<pre><code class="lang-json">{
+    "<span class="hljs-attribute">a</span>": <span class="hljs-value"><span class="hljs-number">5</span></span>,
+    "<span class="hljs-attribute">b</span>": <span class="hljs-value"><span class="hljs-number">3</span>
+</span>}
+</code></pre>
+<p>Note that although this restricts the Gist to one function body, you can still do remarkable things in a single JavaScript function thanks to <a href="http://www.w3schools.com/js/js_function_closures.asp">function closures</a>.</p>
+<p>Whew! I think it&#39;s about time to get to some coding. First, create a new Lambda function from the AWS Console (don&#39;t worry about the code for now as you can always edit it later; just use one of the default samples) and navigate to the editing view by clicking the <code>Edit/Test</code> button. From here, you can modify your code and test it out by invoking it with manual events, then see the results in realtime.</p>
+<p>At this point I know I want my function to handle an event like the following:</p>
+<pre><code class="lang-json">{
+    "<span class="hljs-attribute">fn</span>": <span class="hljs-value"><span class="hljs-string">"return a + b;"</span></span>,
+    "<span class="hljs-attribute">args</span>": <span class="hljs-value">{
+        "<span class="hljs-attribute">a</span>": <span class="hljs-value"><span class="hljs-number">5</span></span>,
+        "<span class="hljs-attribute">b</span>": <span class="hljs-value"><span class="hljs-number">3</span>
+    </span>}
+</span>}
+</code></pre>
+<p>The first thing to do is get the argument names and values:</p>
+<pre><code class="lang-js"><span class="hljs-keyword">var</span> k = Object.keys(<span class="hljs-keyword">event</span>.args);
+<span class="hljs-keyword">var</span> v = [];
+<span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; k.length; i++) {
+    v.push(<span class="hljs-keyword">event</span>.args[k[i]]);
+}
+</code></pre>
+<p>Now for the hard part: we need to create a new function given the <code>event.fn</code> string and argument names now stored in the <code>k</code> array. A quick Google search <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function#Examples">reveals</a> that it&#39;s possible to do so via the following:</p>
+<pre><code class="lang-js"><span class="hljs-keyword">var</span> <span class="hljs-keyword">add</span> = <span class="hljs-keyword">new</span> <span class="hljs-function"><span class="hljs-keyword">Function</span><span class="hljs-params">(<span class="hljs-string">'a'</span>, <span class="hljs-string">'b'</span>, <span class="hljs-string">'return a + b'</span>)</span>;</span>
+</code></pre>
+<p>However, we have the argument names as an array that must be destructured into the <code>Function</code> constructor. Although ES6 Harmony will make this <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment">trivial</a>, we&#39;re stuck with using <code>apply()</code> in a rather weird way:</p>
+<pre><code class="lang-js"><span class="hljs-keyword">var</span> fn = <span class="hljs-keyword">new</span> (<span class="hljs-function"><span class="hljs-keyword">Function</span>.<span class="hljs-title">prototype</span>.<span class="hljs-title">bind</span>.<span class="hljs-title">apply</span><span class="hljs-params">(
+    <span class="hljs-keyword">Function</span>,
+    [null].<span class="hljs-keyword">concat</span>(k)</span>.<span class="hljs-title">concat</span><span class="hljs-params">([<span class="hljs-keyword">event</span>.fn])</span>
+));</span>
+</code></pre>
+<p>And now that our function is defined and bound to <code>fn</code>, we can call it:</p>
+<pre><code class="lang-js"><span class="hljs-keyword">var</span> <span class="hljs-literal">result</span> = fn.apply(null, v);
+context.done(null, <span class="hljs-literal">result</span>);
+</code></pre>
+<p>Putting it all together now (with some additional logging):</p>
+<pre><code class="lang-js">exports.handler = function(event, context) {
+    console.log(<span class="hljs-string">"Executing function: "</span> + event.fn + <span class="hljs-string">" with args: "</span> + <span class="hljs-type">JSON</span>.stringify(event.args));
+    <span class="hljs-keyword">var</span> k = <span class="hljs-type">Object</span>.keys(event.args);
+    <span class="hljs-keyword">var</span> v = [];
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; k.length; i++) {
+        v.push(event.args[k[i]]);
+    }
+    <span class="hljs-keyword">var</span> fn = new (<span class="hljs-type">Function</span>.prototype.<span class="hljs-keyword">bind</span>.apply(
+        <span class="hljs-type">Function</span>,
+        [null].concat(k).concat([event.fn])
+    ));
+    <span class="hljs-keyword">var</span> <span class="hljs-literal">result</span> = fn.apply(null, v);
+    context.done(null, <span class="hljs-literal">result</span>);
+};
+</code></pre>
+<p>Run that with the aforementioned event, and you should see the following:</p>
+<p><img src="img/posts/2015-01-06-01-uber-function.png" alt="Uber Function"></p>
+<p>Through a large and completely unnecessary series of abstractions, we have gotten the cloud to add 5 and 3.</p>
+<h2 id="step-2-fetching-gists">Step 2: Fetching Gists</h2>
+<p>Now instead of inlining our function in the event, we&#39;ll provide a Gist ID:</p>
+<pre><code class="lang-json">{
+    "<span class="hljs-attribute">gist</span>": <span class="hljs-value"><span class="hljs-string">"4c7161844cb5280b99c7"</span></span>,
+    "<span class="hljs-attribute">args</span>": <span class="hljs-value">{
+        "<span class="hljs-attribute">a</span>": <span class="hljs-value"><span class="hljs-number">5</span></span>,
+        "<span class="hljs-attribute">b</span>": <span class="hljs-value"><span class="hljs-number">3</span>
+    </span>}
+</span>}
+</code></pre>
+<p>Which points to this Gist:</p>
+<gist id="4c7161844cb5280b99c7"></gist>
+
+<p>We&#39;ll also modify our code to the following:</p>
+<pre><code class="lang-js"><span class="hljs-keyword">var</span> https = <span class="hljs-built_in">require</span>(<span class="hljs-string">'https'</span>);
+
+<span class="hljs-keyword">var</span> getGist = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(id, callback)</span> </span>{
+    <span class="hljs-keyword">var</span> opts = {
+        host: <span class="hljs-string">'api.github.com'</span>,
+        port: <span class="hljs-number">443</span>,
+        path: <span class="hljs-string">"/gists/"</span> + id,
+        method: <span class="hljs-string">'GET'</span>,
+        headers: {
+            <span class="hljs-string">'user-agent'</span>: <span class="hljs-string">'AWS Lambda function'</span>
+        }
+    };
+
+    https.request(opts, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(res)</span> </span>{
+        <span class="hljs-keyword">var</span> gist = <span class="hljs-string">''</span>;
+        res.on(<span class="hljs-string">'data'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(chunk)</span> </span>{
+            gist += chunk;
+        });
+        res.on(<span class="hljs-string">'end'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> </span>{
+            <span class="hljs-keyword">var</span> files = <span class="hljs-built_in">JSON</span>.parse(gist).files;
+            callback(files[<span class="hljs-built_in">Object</span>.keys(files)[<span class="hljs-number">0</span>]].content);
+        });
+    }).end();
+};
+
+exports.handler = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(event, context)</span> </span>{
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"Executing gist: "</span> + event.gist + <span class="hljs-string">" with args: "</span> + <span class="hljs-built_in">JSON</span>.stringify(event.args));
+    <span class="hljs-keyword">var</span> k = <span class="hljs-built_in">Object</span>.keys(event.args);
+    <span class="hljs-keyword">var</span> v = [];
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; k.length; i++) {
+        v.push(event.args[k[i]]);
+    }
+    getGist(event.gist, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(contents)</span> </span>{
+        <span class="hljs-keyword">var</span> fn = <span class="hljs-keyword">new</span> (<span class="hljs-built_in">Function</span>.prototype.bind.apply(
+            <span class="hljs-built_in">Function</span>,
+            [<span class="hljs-literal">null</span>].concat(k).concat([contents])
+        ));
+        <span class="hljs-keyword">var</span> result = fn.apply(<span class="hljs-literal">null</span>, v);
+        context.done(<span class="hljs-literal">null</span>, result);
+    });
+};
+</code></pre>
+<p>The meat of the added code is in the <code>getGist()</code> function that, true to its name, invokes a <code>callback</code> passing the contents of the Gist with a given <code>id</code>. How this function works is outside of the scope of this post so I&#39;ll not go over it here, but one point in particular that bears mentioning is that we restrict Gists to only a single file -- note how we are only concerned with <code>Object.keys(files)[0]</code>. This makes sense, since logically a single JavaScript function should only be a single file.</p>
+<p>Okay, now for the moment of truth:</p>
+<p><img src="img/posts/2015-01-06-02-uber-function-gist.png" alt="Uber Function Gist"></p>
+<p>Once again, AWS Lambda has produced 8 and is now batting two for two.</p>
+<h2 id="step-3-the-gist-library">Step 3: The Gist Library</h2>
+<p>I don&#39;t know about you, but I sure as heck won&#39;t be able to remember that Gist <code>4c7161844cb5280b99c7</code> is my JavaScript <code>add()</code> function. So the next natural step is to create some sort of Gist &quot;collection&quot; mapping functions to their respective IDs, such that they can be called easily. It just so happens that this will require writing some client-side code using the AWS SDK. Along the way we&#39;ll figure out how to get Lambda to talk back to our clients.</p>
+<p>Oh, wait. A library with only a single Gist is kind of pointless, is it not? Let&#39;s add another one:</p>
+<gist id="9213e3afa774b436edbf"></gist>
+
+<p>In the spirit of want-driven programming, I&#39;m going to say I want to be able to define a JavaScript object like the following as my library:</p>
+<pre><code class="lang-json">{
+    "<span class="hljs-attribute">add</span>": <span class="hljs-value"><span class="hljs-string">"4c7161844cb5280b99c7"</span></span>,
+    "<span class="hljs-attribute">fib</span>": <span class="hljs-value"><span class="hljs-string">"9213e3afa774b436edbf"</span>
+</span>}
+</code></pre>
+<p>And do this:</p>
+<pre><code class="lang-js"><span class="hljs-keyword">var</span> lib = gistLibrary.load(<span class="hljs-comment">/* library object here */</span>);
+
+lib.add({
+    a: <span class="hljs-number">5</span>,
+    b: <span class="hljs-number">3</span>
+}, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(res)</span> </span>{
+    <span class="hljs-built_in">console</span>.log(res);  <span class="hljs-comment">// 8!</span>
+});
+</code></pre>
+<h3 id="step-3a-some-resources">Step 3A: Some Resources</h3>
+<p>Right now, AWS Lambda is completely event-driven. That means that when you invoke a Lambda function via HTTP request, it doesn&#39;t just return its results. Hopefully in the future Lambda will support a REST-like endpoint, but for now we have to resort to defining a <a href="http://en.wikipedia.org/wiki/Sink_%28computing%29">sink</a>. In this case, an SQS queue will do nicely.</p>
+<p>Before that, we&#39;ll need to create a new IAM user role for what we&#39;re about to do (this step isn&#39;t completely necessary but is considered a best-practice):</p>
+<ol>
+<li>Go to the IAM console</li>
+<li>Click on &quot;Users&quot; in the sidebar, then &quot;Create New Users&quot;</li>
+<li>Enter a username and hit &quot;Create&quot;</li>
+<li>Click on your newly-created user in the table and scroll down to the &quot;Permissions&quot; section and hit &quot;Attach User Policy&quot;</li>
+<li>Select the &quot;AWS Lambda Full Access&quot; template for your policy, but also add <code>&quot;sqs:*&quot;</code> under <code>&quot;Action&quot;</code></li>
+</ol>
+<p>Was that complicated or what? Thankfully, this new role allows us to access both Lambda and SQS. Now you can go over to SQS and create a new queue -- this part is pretty straightforward so I won&#39;t go through it. Take note of the queue&#39;s URL for later.</p>
+<p>Lastly, don&#39;t forget to also add <code>&quot;sqs:*&quot;</code> to your Lambda function&#39;s IAM role policy, otherwise it won&#39;t be able to write to the SQS queue.</p>
+<h3 id="step-3b-modified-lambda-function">Step 3B: Modified Lambda Function</h3>
+<p>Our new workflow will be to invoke the Lambda function, have it post its result to the SQS queue, and poll the queue to retrieve the result. Therefore we need to modify our function to post to SQS:</p>
+<pre><code class="lang-js"><span class="hljs-keyword">var</span> https = require('https');
+<span class="hljs-keyword">var</span> aws = require('aws-sdk');
+
+<span class="hljs-keyword">var</span> sqs = new aws.<span class="hljs-type">SQS</span>();
+
+// getGist() here
+
+<span class="hljs-keyword">var</span> postToSQS = function(url, data, callback) {
+    sqs.sendMessage({
+        <span class="hljs-type">MessageBody</span>: <span class="hljs-type">JSON</span>.stringify(data),
+        <span class="hljs-type">QueueUrl</span>: url
+    }, function(err) {
+        callback(err);
+    });
+};
+
+exports.handler = function(event, context) {
+    console.log(<span class="hljs-string">"Executing gist: "</span> + event.gist + <span class="hljs-string">" with args: "</span> + <span class="hljs-type">JSON</span>.stringify(event.args));
+    <span class="hljs-keyword">var</span> k = <span class="hljs-type">Object</span>.keys(event.args);
+    <span class="hljs-keyword">var</span> v = [];
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; k.length; i++) {
+        v.push(event.args[k[i]]);
+    }
+    getGist(event.gist, function(contents) {
+        <span class="hljs-keyword">var</span> fn = new (<span class="hljs-type">Function</span>.prototype.<span class="hljs-keyword">bind</span>.apply(
+            <span class="hljs-type">Function</span>,
+            [null].concat(k).concat([contents])
+        ));
+        <span class="hljs-keyword">var</span> <span class="hljs-literal">result</span> = fn.apply(null, v);
+        postToSQS(event.sqsQueueUrl, {
+            id: event.gist,
+            <span class="hljs-literal">result</span>: <span class="hljs-literal">result</span>
+        }, function(err) {
+            context.done(err, <span class="hljs-string">"Finished with result: "</span> + <span class="hljs-literal">result</span>);
+        });
+    });
+};
+</code></pre>
+<p>Here I have omitted the <code>getGist()</code> function for brevity as it has not changed.</p>
+<h3 id="step-3c-client-code">Step 3C: Client Code</h3>
+<p>First, let us add some scaffolding:</p>
+<pre><code class="lang-js"><span class="hljs-keyword">var</span> aws = <span class="hljs-built_in">require</span>(<span class="hljs-string">'aws-sdk'</span>);
+
+<span class="hljs-keyword">var</span> gistLibrary = {};
+gistLibrary.pendingRequests = {};
+
+gistLibrary.config = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(conf)</span> </span>{
+    <span class="hljs-comment">// @TODO</span>
+};
+
+gistLibrary.load = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(lib)</span> </span>{
+    <span class="hljs-comment">// @TODO</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>;
+};
+
+<span class="hljs-built_in">module</span>.exports = gistLibrary;
+</code></pre>
+<p>Our <code>config()</code> function is fairly straightforward; we&#39;ll take in some AWS keys and other necessary variables in a dictionary and store it:</p>
+<pre><code class="lang-js"><span class="hljs-keyword">this</span>._config = conf;
+aws.config.apiVersions = {
+<span class="hljs-label">    lambda:</span> <span class="hljs-string">'2014-11-11'</span>,
+<span class="hljs-label">    sqs:</span> <span class="hljs-string">'2014-11-11'</span>
+};
+aws.config.update({
+<span class="hljs-label">    accessKeyId:</span> <span class="hljs-keyword">this</span>._config.ACCESS,
+<span class="hljs-label">    secretAccessKey:</span> <span class="hljs-keyword">this</span>._config.SECRET,
+<span class="hljs-label">    region:</span> <span class="hljs-keyword">this</span>._config.REGION
+});
+<span class="hljs-keyword">this</span>.sqs = <span class="hljs-keyword">new</span> aws.SQS();
+<span class="hljs-keyword">this</span>.lambda = <span class="hljs-keyword">new</span> aws.Lambda();
+</code></pre>
+<p>The <code>load()</code> function is a bit more involved:</p>
+<pre><code class="lang-js"><span class="hljs-keyword">this</span>._library = lib;
+<span class="hljs-built_in">Object</span>.keys(lib).map(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(f)</span> </span>{
+    <span class="hljs-keyword">this</span>[f] = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(args, callback)</span> </span>{
+        <span class="hljs-keyword">var</span> self = <span class="hljs-keyword">this</span>;
+        <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"Calling Gist with ID: "</span> + self._library[f]);
+        self.addPending(self._library[f], callback);
+
+        <span class="hljs-comment">// Set up SQS to receive a message</span>
+
+        <span class="hljs-comment">// Call the Lambda function</span>
+    };
+}, <span class="hljs-keyword">this</span>);
+</code></pre>
+<p>First the <code>addPending()</code> function:</p>
+<pre><code class="lang-js">gistLibrary.addPending = function(id, <span class="hljs-function"><span class="hljs-keyword">val</span>) {</span>
+    <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.pendingRequests.hasOwnProperty(id)) {
+        <span class="hljs-keyword">if</span> (typeof(<span class="hljs-keyword">this</span>.pendingRequests[id]) === <span class="hljs-symbol">'functio</span>n') {
+            <span class="hljs-keyword">this</span>.pendingRequests[id](<span class="hljs-function"><span class="hljs-keyword">val</span>);</span>
+        } <span class="hljs-keyword">else</span> {
+            <span class="hljs-function"><span class="hljs-keyword">val</span>(</span><span class="hljs-keyword">this</span>.pendingRequests[id]);
+        }
+        delete <span class="hljs-keyword">this</span>.pendingRequests[id];
+    } <span class="hljs-keyword">else</span> {
+        <span class="hljs-keyword">this</span>.pendingRequests[id] = <span class="hljs-function"><span class="hljs-keyword">val</span>;</span>
+    }
+};
+</code></pre>
+<p>Note that <code>val</code> may be either a result from the SQS queue or a callback, defined when a function is called. This is because execution is asynchronous; it&#39;s possible (albeit highly unlikely) that a result could be returned before the callback can be stored. When working with Lambda/SQS, and really whenever network requests are involved, one must be extremely careful to avoid assuming any sort of sequential order to one&#39;s code.</p>
+<p>At last, let us set up our SQS listener:</p>
+<pre><code class="lang-js"><span class="hljs-keyword">self</span>.sqs.receiveMessage({
+    QueueUrl: <span class="hljs-keyword">self</span>._config.SQS_QUEUE_URL,
+    MaxNumberOfMessages: <span class="hljs-number">1</span>,
+    WaitTimeSeconds: <span class="hljs-number">3</span>
+}, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(err, data)</span> </span>{
+    <span class="hljs-keyword">if</span> (err) {
+        console.log(err);
+        <span class="hljs-keyword">return</span>;
+    }
+    <span class="hljs-keyword">var</span> message = data.Messages[<span class="hljs-number">0</span>];
+    <span class="hljs-keyword">var</span> res = JSON.parse(message.Body);
+    <span class="hljs-keyword">self</span>.addPending(res.id, res.result);
+    <span class="hljs-keyword">self</span>.sqs.deleteMessage({
+        QueueUrl: <span class="hljs-keyword">self</span>._config.SQS_QUEUE_URL,
+        ReceiptHandle: message.ReceiptHandle
+    }, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(err, data)</span> </span>{
+        err &amp;&amp; console.log(err);
+    });
+});
+</code></pre>
+<p>And call the Lambda function:</p>
+<pre><code class="lang-js"><span class="hljs-variable">self</span>.lambda.invokeAsync({
+    FunctionName: <span class="hljs-variable">self</span>._config.LAMBDA_FUNCTION,
+    InvokeArgs: JSON.stringify({
+        gist: <span class="hljs-variable">self</span>._library[f],
+        args: args,
+        sqsQueueUrl: <span class="hljs-variable">self</span>._config.SQS_QUEUE_URL
+    })
+}, <span class="hljs-function"><span class="hljs-keyword">function</span>(</span>err, data) {
+    err &amp;&amp; console.<span class="hljs-built_in">log</span>(err);
+});
+</code></pre>
+<h3 id="step-3d-using-the-library">Step 3D: Using the Library</h3>
+<p>This is best illustrated with a code sample:</p>
+<pre><code class="lang-js"><span class="hljs-keyword">var</span> gistLibrary = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./gistLibrary'</span>);
+
+gistLibrary.config({
+    ACCESS: <span class="hljs-string">'[AWS ACCESS KEY HERE]'</span>,
+    SECRET: <span class="hljs-string">'[AWS SECRET KEY HERE]'</span>,
+    REGION: <span class="hljs-string">'[YOUR AWS REGION]'</span>,
+    SQS_QUEUE_URL: <span class="hljs-string">'[THE URL OF YOUR SQS QUEUE]'</span>,
+    LAMBDA_FUNCTION: <span class="hljs-string">'[THE NAME OF YOUR LAMBDA FUNCTION]'</span>
+});
+
+<span class="hljs-keyword">var</span> lib = gistLibrary.load({
+    <span class="hljs-string">"add"</span>: <span class="hljs-string">"4c7161844cb5280b99c7"</span>,
+    <span class="hljs-string">"fib"</span>: <span class="hljs-string">"9213e3afa774b436edbf"</span>
+});
+
+lib.add({
+    a: <span class="hljs-number">5</span>,
+    b: <span class="hljs-number">3</span>
+}, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(res)</span> </span>{
+    <span class="hljs-built_in">console</span>.log(res);
+});
+
+lib.fib({
+    n: <span class="hljs-number">10</span>
+}, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(res)</span> </span>{
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"nth Fibonacci: "</span> + res);
+});
+</code></pre>
+<p>If you save this in a file called <code>example.js</code>, you can then do the following:</p>
+<pre><code class="lang-diff">$ node example.js 
+Calling Gist with <span class="hljs-string">ID:</span> <span class="hljs-number">4</span>c7161844cb5280b99c7
+Calling Gist with <span class="hljs-string">ID:</span> <span class="hljs-number">9213e3</span>afa774b436edbf
+<span class="hljs-number">8</span>
+nth <span class="hljs-string">Fibonacci:</span> <span class="hljs-number">55</span>
+</code></pre>
+<h2 id="recap">Recap</h2>
+<p>We&#39;ve done quite a bit, so since you&#39;ve come this far let&#39;s recap! Hopefully this post has shown you not only the basic AWS Lambda workflows, but some of the iterative processes involved in sculpting a Lambda function. Our product is by no means production-ready or complete, but with comparatively little code we have created a powerful system for executing Gists in the cloud that is immediately scalable and fault-tolerant. Future iterations could improve upon error handling and leverage promises instead of all our lazy callback hacks.</p>
+<p>However, we&#39;ve just scratched the surface of what Lambda can do! In a future Lambda post I&#39;ll be taking this idea one step further by seeing if I can create a Lambda function hosting system <em>using</em> Lambda (so meta, amirite?).</p>
+<p>If you have any other ideas for cool applications, I&#39;d love to hear them!</p>
