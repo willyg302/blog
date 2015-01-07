@@ -222,6 +222,9 @@ exports.handler = function(event, context) {
 </code></pre>
 <p>Here I have omitted the <code>getGist()</code> function for brevity as it has not changed.</p>
 <h3 id="step-3c-client-code">Step 3C: Client Code</h3>
+<p>Practically all client-side work you do with Lambda will require the AWS SDK, so install that now (assuming you have <code>npm init</code>-ed your project):</p>
+<pre><code class="lang-bash">$ npm <span class="hljs-operator"><span class="hljs-keyword">install</span> aws-sdk <span class="hljs-comment">--save</span></span>
+</code></pre>
 <p>First, let us add some scaffolding:</p>
 <pre><code class="lang-js"><span class="hljs-keyword">var</span> aws = <span class="hljs-built_in">require</span>(<span class="hljs-string">'aws-sdk'</span>);
 
@@ -267,7 +270,7 @@ aws.config.update({
     };
 }, <span class="hljs-keyword">this</span>);
 </code></pre>
-<p>First the <code>addPending()</code> function:</p>
+<p>As soon as a function in our library is called, we store its callback for later invocation via the <code>addPending()</code> function:</p>
 <pre><code class="lang-js">gistLibrary.addPending = function(id, <span class="hljs-function"><span class="hljs-keyword">val</span>) {</span>
     <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.pendingRequests.hasOwnProperty(id)) {
         <span class="hljs-keyword">if</span> (typeof(<span class="hljs-keyword">this</span>.pendingRequests[id]) === <span class="hljs-symbol">'functio</span>n') {
@@ -281,7 +284,7 @@ aws.config.update({
     }
 };
 </code></pre>
-<p>Note that <code>val</code> may be either a result from the SQS queue or a callback, defined when a function is called. This is because execution is asynchronous; it&#39;s possible (albeit highly unlikely) that a result could be returned before the callback can be stored. When working with Lambda/SQS, and really whenever network requests are involved, one must be extremely careful to avoid assuming any sort of sequential order to one&#39;s code.</p>
+<p>Note that <code>val</code> may be either a result from the SQS queue or the callback defined when a function is called. This is because execution is asynchronous; it&#39;s possible (albeit highly unlikely) that a result could be returned before the callback can be stored. When working with Lambda/SQS, and really whenever network requests are involved, one must be extremely careful to avoid assuming any sort of sequential order to one&#39;s code.</p>
 <p>At last, let us set up our SQS listener:</p>
 <pre><code class="lang-js"><span class="hljs-keyword">self</span>.sqs.receiveMessage({
     QueueUrl: <span class="hljs-keyword">self</span>._config.SQS_QUEUE_URL,
@@ -315,6 +318,7 @@ aws.config.update({
     err &amp;&amp; console.<span class="hljs-built_in">log</span>(err);
 });
 </code></pre>
+<p>At best, this is an exercise in correctly formatting the JavaScript objects that get passed around. Try to see how the data flows in a complete round-trip from invocation to the AWS Console -- perhaps by perusing your CloudWatch logs -- back to our pending queue.</p>
 <h3 id="step-3d-using-the-library">Step 3D: Using the Library</h3>
 <p>This is best illustrated with a code sample:</p>
 <pre><code class="lang-js"><span class="hljs-keyword">var</span> gistLibrary = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./gistLibrary'</span>);

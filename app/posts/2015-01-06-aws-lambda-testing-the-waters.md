@@ -289,6 +289,12 @@ Here I have omitted the `getGist()` function for brevity as it has not changed.
 
 ### Step 3C: Client Code
 
+Practically all client-side work you do with Lambda will require the AWS SDK, so install that now (assuming you have `npm init`-ed your project):
+
+```bash
+$ npm install aws-sdk --save
+```
+
 First, let us add some scaffolding:
 
 ```js
@@ -343,7 +349,7 @@ Object.keys(lib).map(function(f) {
 }, this);
 ```
 
-First the `addPending()` function:
+As soon as a function in our library is called, we store its callback for later invocation via the `addPending()` function:
 
 ```js
 gistLibrary.addPending = function(id, val) {
@@ -360,7 +366,7 @@ gistLibrary.addPending = function(id, val) {
 };
 ```
 
-Note that `val` may be either a result from the SQS queue or a callback, defined when a function is called. This is because execution is asynchronous; it's possible (albeit highly unlikely) that a result could be returned before the callback can be stored. When working with Lambda/SQS, and really whenever network requests are involved, one must be extremely careful to avoid assuming any sort of sequential order to one's code.
+Note that `val` may be either a result from the SQS queue or the callback defined when a function is called. This is because execution is asynchronous; it's possible (albeit highly unlikely) that a result could be returned before the callback can be stored. When working with Lambda/SQS, and really whenever network requests are involved, one must be extremely careful to avoid assuming any sort of sequential order to one's code.
 
 At last, let us set up our SQS listener:
 
@@ -400,6 +406,8 @@ self.lambda.invokeAsync({
 	err && console.log(err);
 });
 ```
+
+At best, this is an exercise in correctly formatting the JavaScript objects that get passed around. Try to see how the data flows in a complete round-trip from invocation to the AWS Console -- perhaps by perusing your CloudWatch logs -- back to our pending queue.
 
 ### Step 3D: Using the Library
 
