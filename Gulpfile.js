@@ -3,8 +3,7 @@ var deploy     = require('gulp-gh-pages');
 var uglify     = require('gulp-uglify');
 
 var browserify = require('browserify');
-var deamdify   = require('deamdify');
-var debowerify = require('debowerify');
+var coffeeify  = require('coffeeify');
 var del        = require('del');
 var buffer     = require('vinyl-buffer');
 var vinyl      = require('vinyl-source-stream');
@@ -17,7 +16,7 @@ var paths = {
 		__dirname + '/blog/js',
 		__dirname + '/blog/less'
 	],
-	js: __dirname + '/app/js/main.js',
+	js: __dirname + '/app/js/main.coffee',
 	dist: __dirname + '/blog',
 	deploy: __dirname + '/blog/**/*'
 };
@@ -33,8 +32,7 @@ gulp.task('deploy', function() {
 
 gulp.task('compile-js', function() {
 	return browserify(paths.js)
-		.transform(debowerify)
-		.transform(deamdify)
+		.transform(coffeeify)
 		.bundle()
 		.pipe(vinyl('main.js'))
 		.pipe(buffer())
