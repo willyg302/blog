@@ -1,0 +1,77 @@
+<!DOCTYPE html><html><head><title>Python Antics - WillyG Productions Blog</title><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="author" content="William Gaul"><link rel="icon" type="image/x-icon" href="data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAD///8A////AP///wD///8A////AP///wD///8ALzLc/y8y3P////8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8ALzLc/y8y3P8vMtz/LzLc/////wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wAvMtz/LzLc/////wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8Alpftgf///wD///8ALzLc/y8y3P////8A////AJaX7YH///8A////AP///wD///8A////AP///wD///8ALzLc/y8y3P////8A////AC8y3P8vMtz/////AP///wAvMtz/LzLc/////wD///8A////AP///wD///8ALzLc/y8y3P+Wl+2B////AP///wD///8A////AP///wD///8AlpftgS8y3P8vMtz/////AP///wD///8ALzLc/y8y3P8vMtz/////AP///wD///8A////AP///wD///8A////AP///wAvMtz/LzLc/y8y3P////8ALzLc/y8y3P8vMtz/LzLc/////wD///8ALzLc/////wD///8ALzLc/////wD///8ALzLc/y8y3P8vMtz/LzLc/y8y3P8vMtz/LzLc/y8y3P////8A////AC8y3P////8A////AC8y3P////8A////AC8y3P8vMtz/LzLc/y8y3P////8ALzLc/y8y3P////8A////AJaX7YEvMtz/////AP///wAvMtz/lpftgf///wD///8ALzLc/y8y3P////8A////AP///wAvMtz/////AP///wAvMtz/LzLc/////wD///8ALzLc/y8y3P////8A////AC8y3P////8A////AP///wD///8A////AP///wD///8ALzLc/y8y3P////8A////AC8y3P8vMtz/////AP///wD///8A////AP///wD///8A////AP///wD///8A////AC8y3P8vMtz/////AP///wAvMtz/LzLc/////wD///8A////AP///wD///8A////AP///wD///8A////AP///wAvMtz/LzLc/y8y3P8vMtz/LzLc/y8y3P////8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AC8y3P8vMtz/LzLc/y8y3P////8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8ALzLc/y8y3P////8A////AP///wD///8A////AP///wD///8A/n8AAPw/AAD+fwAA9m8AAOZnAADH4wAAj/EAAA2wAAANsAAAmZkAANmbAAD5nwAA+Z8AAPgfAAD8PwAA/n8AAA=="><script type="text/javascript">(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-41109411-2', 'willyg302.github.io');
+ga('send', 'pageview');</script><link rel="stylesheet" type="text/css" href="/main.css"></head><body><div id="sidebar"><object width="100%" type="image/svg+xml" data="/img/willyg-blog-logo.svg"></object><div class="colophon"><p><input id="search" type="text" placeholder="Search" onkeydown="setSearch(event);" class="form-control"></p><p>You are currently viewing the post &ldquo;Python Antics.&rdquo;</p></div><div class="nav"><a href="http://willyg302.github.io/#">Home</a><a href="/" class="active">Blog</a><a href="http://willyg302.github.io/#projects">Projects</a><a href="http://willyg302.github.io/#about">About</a><a href="http://willyg302.github.io/#contact">Contact</a></div><div class="controls"> <a href="/">Blog Home</a> &middot; <a href="/feed.xml">RSS</a></div></div><div id="post"><div class="content"><h1>Python Antics<br><small>Saturday, May 31 2014</small></h1><div class="categories"><a style="background-color: hsl(188, 100%, 35%);" onclick="setCategory('Python')" class="label">Python</a></div><p>It’s strange how often I find myself in situations where I have to do stupid things that push the boundaries of whatever languages I am working with. Recently I’ve been doing a lot of Python development, so naturally I’ve also been getting myself into a lot of <code>import</code> trouble.</p>
+<!-- more -->
+
+<p>As an example, here’s a little beauty I wrote a while back:</p>
+<pre><code class="lang-python"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">load_plugin</span><span class="hljs-params">(name)</span>:</span>
+    <span class="hljs-keyword">try</span>:
+        plugin = __import__(<span class="hljs-string">'{}.{}'</span>.format(__name__, name), fromlist=[<span class="hljs-string">'*'</span>])
+    <span class="hljs-keyword">except</span> ImportError, e:
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">None</span>
+    _plugins[name] = plugin
+    <span class="hljs-keyword">return</span> plugin
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">load_plugins</span><span class="hljs-params">()</span>:</span>
+    <span class="hljs-keyword">for</span> name <span class="hljs-keyword">in</span> glob.glob(<span class="hljs-string">'{}/[!_]*.py'</span>.format(
+            os.path.dirname(os.path.abspath(__file__)))):
+        load_plugin(os.path.basename(name)[:-<span class="hljs-number">3</span>])
+</code></pre>
+<p>This code is stored in an <code>__init__.py</code> file. When the module is imported, it searches for all sibling Python files (that don’t begin with an underscore, so we don’t include ourselves) and imports them into a dictionary accessible by filename. The beauty of this method is that it’s dynamic. I don’t have to explicitly define a new import for every file in the module; I just dump it in there and know it’ll be in the <code>_plugins</code> dictionary.</p>
+<p>Here’s another one. Suppose you want to use a decorator defined in another module <em>without</em> an import statement. The main reason for such a requirement is that Python’s import system is a pain in the glutei maximi when the location of the module is not known; you can’t assume it will be installed globally, and absolute paths are a no-no.</p>
+<p>I searched around for a while and the general consensus was that you just can’t use something if you don’t know where it is. This makes sense, because if I didn’t know where my car was in the morning, I would probably not be driving it anytime soon.</p>
+<p>I finally <em>did</em> hit upon a solution, though. The crux of the process was realizing the problem was with scope. All import statements really do is define a new global-level variable in the current scope pointing to the “imported” module. But we don’t have to obey this scope at all. In fact, once the module is imported we can pass it around just like any other variable, and this means we can also wrap it in a context that has no import statements at all.</p>
+<p>So first, let’s make our decorator in a file called <code>a.py</code>:</p>
+<pre><code class="lang-python"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyDecorator</span><span class="hljs-params">(object)</span>:</span>
+
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">__init__</span><span class="hljs-params">(self, f)</span>:</span>
+        <span class="hljs-keyword">print</span> <span class="hljs-string">"Init decorator"</span>
+        self.f = f
+
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">__call__</span><span class="hljs-params">(self)</span>:</span>
+        <span class="hljs-keyword">print</span> <span class="hljs-string">"Calling function..."</span>
+        self.f()
+</code></pre>
+<p>And now the magic, in a file called <code>c.py</code>:</p>
+<pre><code class="lang-python"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">run</span><span class="hljs-params">(dec)</span>:</span>
+
+    <span class="hljs-decorator">@dec</span>
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">fun</span><span class="hljs-params">()</span>:</span>
+        <span class="hljs-keyword">print</span> <span class="hljs-string">"Called fun"</span>
+
+    fun()
+</code></pre>
+<p>Notice the nested functions. Our decorator is passed as a parameter <code>dec</code> to the outer function, and since it is now defined in the scope of <code>run()</code>, it can be freely used. To tie everything together, we have <code>b.py</code>:</p>
+<pre><code class="lang-python"><span class="hljs-keyword">from</span> a <span class="hljs-keyword">import</span> MyDecorator
+<span class="hljs-keyword">import</span> c
+
+c.run(MyDecorator)
+</code></pre>
+<p>Run <code>python b.py</code> and voila, the decorator works as expected.</p>
+<p>This is an absolutely horrible thing to do, but simplifies a lot of the issues I was having with imports in arbitrary Python scripts. Now, <code>c.py</code> can be anywhere it wants to be, and as long as <code>b.py</code> can import both it and the decorator, things will work.</p>
+<p>But we have to ask ourselves at this point, “Can I do better?” And with a language as malleable as Python, the answer is usually yes.</p>
+<p>See, I find it quite a pain that <code>c.py</code> has to know about the decorator at all — and by that I mean that it has to get passed into <code>run()</code>‘s scope. Let’s fix that with a little global namespace munging in <code>b.py</code>:</p>
+<pre><code class="lang-python"><span class="hljs-keyword">from</span> a <span class="hljs-keyword">import</span> MyDecorator
+<span class="hljs-keyword">import</span> c
+
+c.run.func_globals[<span class="hljs-string">'dec'</span>] = MyDecorator
+c.run()
+</code></pre>
+<p>And now <code>c.py</code> can become:</p>
+<pre><code class="lang-python"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">run</span><span class="hljs-params">()</span>:</span>
+
+    <span class="hljs-decorator">@dec</span>
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">fun</span><span class="hljs-params">()</span>:</span>
+        <span class="hljs-keyword">print</span> <span class="hljs-string">"Called fun"</span>
+
+    fun()
+</code></pre>
+<p>Once again, don’t try this at home.</p>
+</div><div class="comments"><h2>Comments</h2><div id="disqus_thread"></div><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript><a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a></div></div><script type="text/javascript">(function() {
+	var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+	dsq.src = '//willyg302.disqus.com/embed.js';
+	(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();</script><script type="text/javascript" src="/main.js"></script></body></html>
