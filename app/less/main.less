@@ -1,8 +1,13 @@
 @bootless: '../../bower_components/bootstrap/less/';
+@hljs: '../../node_modules/highlight.js/styles/';
+
+@import (inline) "@{hljs}tomorrow.css";
 
 // Useful Bootstrap mixins
 @import "@{bootless}mixins/background-variant.less";
 @import "@{bootless}mixins/clearfix.less";
+@import "@{bootless}mixins/forms.less";
+@import "@{bootless}mixins/grid.less";
 @import "@{bootless}mixins/gradients.less";
 @import "@{bootless}mixins/image.less";
 @import "@{bootless}mixins/labels.less";
@@ -19,12 +24,11 @@
 @import "@{bootless}variables.less";
 @import "@{bootless}type.less";
 @import "@{bootless}code.less";
+@import "@{bootless}forms.less";
 @import "@{bootless}labels.less";
 @import "@{bootless}responsive-embed.less";
 
 @import url(http://fonts.googleapis.com/css?family=Open+Sans:300,400,700);
-
-@import (inline) "../../bower_components/angular-xeditable/dist/css/xeditable.css";
 
 // Blog styles
 @import "variables.less";

@@ -1,10 +1,10 @@
-<!--
-layout: post
+---
 title: Webs and Streams
 date: 2014-09-06T14:31:03.000000
+tags: Thoughts
+template: post.jade
 comments: true
-categories: Thoughts
--->
+---
 
 > **Note**: This post was adapted from an assignment I had to do for a Systems Design course at college. We were tasked with writing about what we thought were the world's worst and best designs. Here are my picks.
 

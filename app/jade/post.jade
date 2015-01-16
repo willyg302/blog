@@ -1,0 +1,37 @@
+extends ./common.jade
+
+prepend head
+	- var pageTitle = title + " - " + blog.title
+
+block colophon
+	| You are currently viewing the post &ldquo;#{title}.&rdquo;
+
+block pageContent
+	- var categories = tags.split(', ')
+	#post
+		.content
+			h1
+				= title
+				br
+				small= moment(date).format('dddd, MMMM D YYYY')
+			.categories
+				each category in categories
+					- var color = helpers.getCategoryColor(category)
+					a.label(style='background-color: #{color};', onclick="setCategory('#{category}')")= category
+			!= contents
+		.comments
+			h2 Comments
+			//- DISQUS
+			#disqus_thread
+			noscript
+				| Please enable JavaScript to view the 
+				a(href='http://disqus.com/?ref_noscript') comments powered by Disqus.
+			a.dsq-brlink(href='http://disqus.com')
+				| comments powered by 
+				span.logo-disqus Disqus
+	script(type='text/javascript').
+		(function() {
+			var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+			dsq.src = '//willyg302.disqus.com/embed.js';
+			(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+		})();

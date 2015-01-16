@@ -1,11 +1,11 @@
 html {
-	background: url("img/bg.png") repeat;
+	background: url("/img/bg.png") repeat;
 }
 
 body {
 	margin: 0;
 	padding: @tile-margin * 2;
-	background-color: none;
+	background-color: transparent !important;
 }
 
 img {
@@ -76,23 +76,39 @@ img {
 		bottom: 0;
 		left: 0;
 		width: 100%;
-		height: @tile-margin * 8;
+		height: @tile-margin * 20;
+		border-bottom: @tile-margin * 4 solid @color-tile-bg;
 		#gradient > .vertical(@start-color: fade(@color-tile-bg, 0%); @end-color: @color-tile-bg);
+	}
+
+	a.label {
+		margin-right: 4px;
+	}
+
+	.desc {
+		margin-top: 8px;
 	}
 }
 
 
 // PAGES
 
-#masonry {
+#isotope {
 	.clearfix();
 	.wrap-sidebar(2);
 }
 
 #post {
-	.tile-bg();
 	.wrap-sidebar(3);
 	margin: @tile-margin;
+
+	.content, .comments {
+		.tile-bg();
+	}
+
+	.comments {
+		margin-top: @tile-margin * 2;
+	}
 
 	h1, h2 {
 		margin-top: 0;
@@ -101,6 +117,10 @@ img {
 	.categories {
 		font-size: @font-size-large;
 		margin-bottom: @tile-padding;
+	}
+
+	a.label {
+		margin-right: 6px;
 	}
 }
 
@@ -113,6 +133,16 @@ img {
 
 	@media only screen and (min-width: (@screen-break)) {
 		position: fixed !important;
+	}
+
+	.colophon {
+		margin-top: @tile-padding;
+	}
+
+	.controls {
+		position: absolute;
+		top: 120px;
+		left: 120px;
 	}
 }
 
@@ -161,22 +191,8 @@ img {
 	}
 }
 
-.colophon {
-	margin-top: @tile-padding;
-}
-
 
 // OTHER STUFF
-
-p.desc {
-	margin-top: 8px;
-}
-
-// Fix for x-editable
-.editable-empty {
-	font-style: inherit !important;
-	color: #428bca !important;
-}
 
 // Horizontally scrolling code blocks
 pre {

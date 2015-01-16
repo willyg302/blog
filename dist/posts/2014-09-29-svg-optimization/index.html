@@ -1,0 +1,55 @@
+<!DOCTYPE html><html><head><title>SVG Optimization - WillyG Productions Blog</title><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="author" content="William Gaul"><link rel="icon" type="image/x-icon" href="data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAD///8A////AP///wD///8A////AP///wD///8ALzLc/y8y3P////8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8ALzLc/y8y3P8vMtz/LzLc/////wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wAvMtz/LzLc/////wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8Alpftgf///wD///8ALzLc/y8y3P////8A////AJaX7YH///8A////AP///wD///8A////AP///wD///8ALzLc/y8y3P////8A////AC8y3P8vMtz/////AP///wAvMtz/LzLc/////wD///8A////AP///wD///8ALzLc/y8y3P+Wl+2B////AP///wD///8A////AP///wD///8AlpftgS8y3P8vMtz/////AP///wD///8ALzLc/y8y3P8vMtz/////AP///wD///8A////AP///wD///8A////AP///wAvMtz/LzLc/y8y3P////8ALzLc/y8y3P8vMtz/LzLc/////wD///8ALzLc/////wD///8ALzLc/////wD///8ALzLc/y8y3P8vMtz/LzLc/y8y3P8vMtz/LzLc/y8y3P////8A////AC8y3P////8A////AC8y3P////8A////AC8y3P8vMtz/LzLc/y8y3P////8ALzLc/y8y3P////8A////AJaX7YEvMtz/////AP///wAvMtz/lpftgf///wD///8ALzLc/y8y3P////8A////AP///wAvMtz/////AP///wAvMtz/LzLc/////wD///8ALzLc/y8y3P////8A////AC8y3P////8A////AP///wD///8A////AP///wD///8ALzLc/y8y3P////8A////AC8y3P8vMtz/////AP///wD///8A////AP///wD///8A////AP///wD///8A////AC8y3P8vMtz/////AP///wAvMtz/LzLc/////wD///8A////AP///wD///8A////AP///wD///8A////AP///wAvMtz/LzLc/y8y3P8vMtz/LzLc/y8y3P////8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AC8y3P8vMtz/LzLc/y8y3P////8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8ALzLc/y8y3P////8A////AP///wD///8A////AP///wD///8A/n8AAPw/AAD+fwAA9m8AAOZnAADH4wAAj/EAAA2wAAANsAAAmZkAANmbAAD5nwAA+Z8AAPgfAAD8PwAA/n8AAA=="><script type="text/javascript">(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-41109411-2', 'willyg302.github.io');
+ga('send', 'pageview');</script><link rel="stylesheet" type="text/css" href="/main.css"></head><body><div id="sidebar"><object width="100%" type="image/svg+xml" data="/img/willyg-blog-logo.svg"></object><div class="colophon"><p><input id="search" type="text" placeholder="search" onkeydown="setSearch(event);" class="form-control"></p><p>You are currently viewing the post &ldquo;SVG Optimization.&rdquo;</p></div><div class="nav"><a href="http://willyg302.github.io/#">Home</a><a href="/" class="active">Blog</a><a href="http://willyg302.github.io/#projects">Projects</a><a href="http://willyg302.github.io/#about">About</a><a href="http://willyg302.github.io/#contact">Contact</a></div><div class="controls"> <a href="/">Blog Home</a> &middot; <a href="/feed.xml">RSS</a></div></div><div id="post"><div class="content"><h1>SVG Optimization<br><small>Sunday, September 28 2014</small></h1><div class="categories"><a style="background-color: hsl(-350, 100%, 35%);" onclick="setCategory('Uncategorized')" class="label">Uncategorized</a></div><p>SVG images are pretty awesome. However, just like anything else on the web they should be optimized for size and displayability, and that’s when things get decidedly less awesome.</p>
+<p>But fear not! After reading this post, you’ll be an SVG-optimizing wizard!</p>
+<!-- more -->
+
+<p>SVG stands for <em>Scalable Vector Graphics</em>: it’s an XML-based image format that interoperates well with HTML and CSS. That means you can do some cool stuff like have <a href="http://tympanus.net/Development/SVGDrawingAnimation/">animated</a> or <a href="http://tympanus.net/Tutorials/InteractiveSVG/">interactive</a> images, <em>and</em> it scales to any display size. Let’s see your grandma’s GIFs do that.</p>
+<p>Naturally, whenever I have to do any sort of image work on the web I first think about whether I can make an SVG. They work well for logos (such as the one for this blog), icons, and a whole host of other visual elements. If you’re not convinced yet, you can learn a whole lot more about SVGs on the web from <a href="http://css-tricks.com/using-svg/">this comprehensive article</a>.</p>
+<p>When I first started working with SVG, I didn’t even consider optimization; I’d simply export images from Illustrator or Inkscape and use them as-is. Then I happened to crack one open in a text editor and saw a bunch of horrendous gunk like <code>inkscape:</code> and <code>sodipodi</code>, not to mention a barf of metadata. Turns out all this information is absolutely <strong>useless</strong> and can be optimized away. It also turns out that you can do a lot of interesting path fiddling and layout optimizations to crush the file size down even more. There are generally two ways to go about it:</p>
+<ul>
+<li>Use a command-line tool like <a href="https://github.com/svg/svgo">SVGO</a>. SVGO in particular was really handy for a time that I had to crunch 421 SVGs at once.</li>
+<li>If you want more fine-grained control, use a visual optimizer. I really recommend <a href="http://petercollingridge.appspot.com/svg-editor">this one</a> because if you know what you’re doing you can also mess with the SVG elements in edit mode.</li>
+</ul>
+<p>Here’s the problem though: XML is absolutely, unequivocally, the worst document format ever devised by any living species in the history of the universe. If you want to torture yourself, try writing an XML parser (don’t forget to support namespaces!). It’s no wonder, then, that SVG optimization is notoriously hard to get right.</p>
+<h2 id="the-acid-test">The Acid Test</h2>
+<p>Ideally, optimization should shrink the size of the file without changing its visual appearance, so I have a test for whether my SVGs have made it through optimization unscathed. It’s called Ubuntu Image Viewer, though I’m sure equivalent programs on OSX and Windows will suffice. Here’s what an optimized SVG usually looks like in Image Viewer:</p>
+<p><img src="img/posts/2014-09-29-01-bad-svg.png" alt="Bad SVG"></p>
+<p>Eww! What the heck happened? Oddly enough, if I open this file in Google Chrome or Inkscape it renders totally fine. But sometimes the SVG is corrupted and missing components in Inkscape, and sometimes it even fails to render properly in Chrome. Like I said, XML.</p>
+<p>You might be tempted to say, “Well, if it looks okay in Chrome that’s all that matters, right?” And you’d be right, except for the fact that dinosaurs like IE9 and Opera exist. Who knows what my SVGs look like on <em>those</em> things?</p>
+<h2 id="the-hard-way">The Hard Way</h2>
+<p>Yep…if we’re going to do this right, we have to do it the hard way: manually. Here are some loose rules for manually optimizing SVGs that are now part of my workflow:</p>
+<ul>
+<li><strong>Flatten all groups</strong>. Editors like Inkscape love to attach any transforms to groups when they can, and that’ll lead to some really gnarly code. You can always regroup later.</li>
+<li><strong>Trim SVG to contents</strong>. You want your image to start at the origin <code>(0, 0)</code> and the artboard to fit snugly on all four sides.</li>
+<li><p><strong>Use <code>viewBox</code></strong>. My <code>&lt;svg&gt;</code> tag always looks like this:</p>
+<pre><code class="lang-xml"><span class="hljs-tag">&lt;<span class="hljs-title">svg</span> <span class="hljs-attribute">xmlns</span>=<span class="hljs-value">"http://www.w3.org/2000/svg"</span> <span class="hljs-attribute">viewBox</span>=<span class="hljs-value">"0 0 X Y"</span>&gt;</span>
+</code></pre>
+<p>where <code>X</code> and <code>Y</code> are the width and height of the image, respectively. That’s all you need, <em>nothing else</em>.</p>
+</li>
+<li><strong>Remove useless top-level elements</strong>. You don’t need <code>sodipodi</code> and <code>metadata</code>. If you have gradients or effects, you will need a few <code>defs</code> to describe them, but for a flat image you can get rid of <code>defs</code> too.</li>
+<li><strong>Get rid of <code>id</code></strong>. Unless you have gradients or plan to manipulate your SVG from JavaScript or CSS, you don’t need to tag specific elements.</li>
+<li><strong>You usually don’t need <code>style</code></strong>. Inkscape shoves a bunch of junk into the <code>style</code> attribute of paths and shapes, especially if you’ve converted fonts into paths. Use your judgment here, but you really only need to describe the fill color <code>fill</code> and opacity <code>fill-opacity</code>.</li>
+<li><strong>Group liberally</strong>. Now that you’ve flattened groups, you can merge paths as you see fit into groups based on common fill color, etc. This means you can also delete the relevant common attributes.</li>
+</ul>
+<p>Whew, that was a lot! Now here are some hard rules you should always abide by:</p>
+<ul>
+<li><strong>Absolute coordinates</strong>: If you ever have to tweak SVG paths by hand, relative coordinates suck.</li>
+<li><strong>Precision isn’t important</strong>: Why SVG editors save coordinates up to 6 decimal places, I will never know. Unless you plan on making an Earth-sized display, 3 decimal places is enough.</li>
+</ul>
+<p>In Inkscape, you can configure these rules by going to <code>File</code>, <code>Inkscape Preferences...</code>, <code>SVG output</code>. Apply the following changes:</p>
+<ul>
+<li>Uncheck “Allow relative coordinates”</li>
+<li>Set “Numeric precision” to 3</li>
+<li>Set “Minimum exponent” to -3</li>
+</ul>
+<p>You should also uncheck “Use named colors” and check “Inline attributes” to shave a few bytes off.</p>
+<p>That’s all I have for now. I wish you well in your SVG travels.</p>
+</div><div class="comments"><h2>Comments</h2><div id="disqus_thread"></div><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript><a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a></div></div><script type="text/javascript">(function() {
+	var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+	dsq.src = '//willyg302.disqus.com/embed.js';
+	(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();</script><script type="text/javascript" src="/main.js"></script></body></html>

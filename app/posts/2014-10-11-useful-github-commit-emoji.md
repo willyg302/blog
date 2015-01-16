@@ -1,10 +1,10 @@
-<!--
-layout: post
+---
 title: Useful GitHub Commit Emoji
 date: 2014-10-11T04:29:17.071373
+tags: Uncategorized
+template: post.jade
 comments: true
-categories: Uncategorized
--->
+---
 
 For a while now users of GitHub have been able to [include emoji](https://github.com/blog/816-emoji) pretty much anywhere. The problem? There are [nearly 1000](http://www.emoji-cheat-sheet.com/) to choose from, so which ones are actually useful for commits?
 

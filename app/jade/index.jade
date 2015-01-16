@@ -1,0 +1,24 @@
+extends ./common.jade
+
+prepend head
+	- var pageTitle = blog.title
+
+block colophon
+	| You are currently viewing 
+	span#viewing
+	| .
+
+block pageContent
+	#isotope
+		each post in collections.posts
+			- var categories = post.tags.split(', ')
+			- var content = post.less || post.contents
+			.item.post(data-categories=post.tags)
+				h3: a(href="/" + post.path)= post.title
+				small= moment(post.date).format('dddd, MMMM D YYYY')
+				.categories
+					each category in categories
+						- var color = helpers.getCategoryColor(category)
+						a.label(style='background-color: #{color};', onclick="setCategory('#{category}')")= category
+				.desc
+					!= content

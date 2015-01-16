@@ -1,10 +1,10 @@
-<!--
-layout: post
+---
 title: SVG Optimization
 date: 2014-09-29T00:12:58.785278
+tags: Uncategorized
+template: post.jade
 comments: true
-categories: Uncategorized
--->
+---
 
 SVG images are pretty awesome. However, just like anything else on the web they should be optimized for size and displayability, and that's when things get decidedly less awesome.
 

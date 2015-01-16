@@ -1,10 +1,10 @@
-<!--
-layout: post
+---
 title: Four Things Computer Science Should Teach
 date: 2014-11-07T05:18:21.384927
+tags: Thoughts
+template: post.jade
 comments: true
-categories: Thoughts
--->
+---
 
 I can't speak for every college in the world when I say that a computer science curriculum, and by extension academia in general, leaves one sorely unprepared for the workplace.
 

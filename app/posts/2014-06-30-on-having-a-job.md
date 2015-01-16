@@ -1,10 +1,10 @@
-<!--
-layout: post
+---
 title: On Having a Job
 date: 2014-06-30T21:28:50.000000
+tags: Thoughts
+template: post.jade
 comments: true
-categories: Thoughts
--->
+---
 
 I started programming always thinking I'd eventually have one of *those* programming jobs. You know, one where you're stuck in a little cube on some floor in some building with a big shiny metal sign outside that also occasionally makes the evening news.
 

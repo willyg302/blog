@@ -1,10 +1,10 @@
-<!--
-layout: post
+---
 title: (Almost) Proper Cross-Browser Timestamps
 date: 2014-09-09T21:57:52.310916
+tags: Web Development
+template: post.jade
 comments: true
-categories: Web Development
--->
+---
 
 While making this blog, one of the things I had to do was figure out a way to represent post timestamps. These are used not only for sorting and filtering posts by date, but to display the date a post was written in a pretty, human-readable format.
 

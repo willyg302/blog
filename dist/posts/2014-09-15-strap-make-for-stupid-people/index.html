@@ -1,0 +1,107 @@
+<!DOCTYPE html><html><head><title>strap: Make for Stupid People - WillyG Productions Blog</title><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="author" content="William Gaul"><link rel="icon" type="image/x-icon" href="data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAD///8A////AP///wD///8A////AP///wD///8ALzLc/y8y3P////8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8ALzLc/y8y3P8vMtz/LzLc/////wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wAvMtz/LzLc/////wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8Alpftgf///wD///8ALzLc/y8y3P////8A////AJaX7YH///8A////AP///wD///8A////AP///wD///8ALzLc/y8y3P////8A////AC8y3P8vMtz/////AP///wAvMtz/LzLc/////wD///8A////AP///wD///8ALzLc/y8y3P+Wl+2B////AP///wD///8A////AP///wD///8AlpftgS8y3P8vMtz/////AP///wD///8ALzLc/y8y3P8vMtz/////AP///wD///8A////AP///wD///8A////AP///wAvMtz/LzLc/y8y3P////8ALzLc/y8y3P8vMtz/LzLc/////wD///8ALzLc/////wD///8ALzLc/////wD///8ALzLc/y8y3P8vMtz/LzLc/y8y3P8vMtz/LzLc/y8y3P////8A////AC8y3P////8A////AC8y3P////8A////AC8y3P8vMtz/LzLc/y8y3P////8ALzLc/y8y3P////8A////AJaX7YEvMtz/////AP///wAvMtz/lpftgf///wD///8ALzLc/y8y3P////8A////AP///wAvMtz/////AP///wAvMtz/LzLc/////wD///8ALzLc/y8y3P////8A////AC8y3P////8A////AP///wD///8A////AP///wD///8ALzLc/y8y3P////8A////AC8y3P8vMtz/////AP///wD///8A////AP///wD///8A////AP///wD///8A////AC8y3P8vMtz/////AP///wAvMtz/LzLc/////wD///8A////AP///wD///8A////AP///wD///8A////AP///wAvMtz/LzLc/y8y3P8vMtz/LzLc/y8y3P////8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AC8y3P8vMtz/LzLc/y8y3P////8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8ALzLc/y8y3P////8A////AP///wD///8A////AP///wD///8A/n8AAPw/AAD+fwAA9m8AAOZnAADH4wAAj/EAAA2wAAANsAAAmZkAANmbAAD5nwAA+Z8AAPgfAAD8PwAA/n8AAA=="><script type="text/javascript">(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-41109411-2', 'willyg302.github.io');
+ga('send', 'pageview');</script><link rel="stylesheet" type="text/css" href="/main.css"></head><body><div id="sidebar"><object width="100%" type="image/svg+xml" data="/img/willyg-blog-logo.svg"></object><div class="colophon"><p><input id="search" type="text" placeholder="search" onkeydown="setSearch(event);" class="form-control"></p><p>You are currently viewing the post &ldquo;strap: Make for Stupid People.&rdquo;</p></div><div class="nav"><a href="http://willyg302.github.io/#">Home</a><a href="/" class="active">Blog</a><a href="http://willyg302.github.io/#projects">Projects</a><a href="http://willyg302.github.io/#about">About</a><a href="http://willyg302.github.io/#contact">Contact</a></div><div class="controls"> <a href="/">Blog Home</a> &middot; <a href="/feed.xml">RSS</a></div></div><div id="post"><div class="content"><h1>strap: Make for Stupid People<br><small>Sunday, September 14 2014</small></h1><div class="categories"><a style="background-color: hsl(188, 100%, 35%);" onclick="setCategory('Python')" class="label">Python</a><a style="background-color: hsl(-8, 100%, 35%);" onclick="setCategory('strap')" class="label">strap</a></div><p>I made this thing called <a href="https://github.com/willyg302/strap.py">strap</a>. It’s pretty kewl. This is a post about why it was made, how it was made, and what you can do with it.</p>
+<!-- more -->
+
+<h2 id="why-make-is-hard">Why? Make is Hard</h2>
+<p>You’re probably thinking (and rightly so), “<em>Another</em> build tool? Really?!”</p>
+<p>Make is kewl, too. It’s the original build tool, the granddaddy of them all, and even after all this time it still deserves merit. Posts have been written about why it is “<a href="https://algorithms.rdio.com/post/make/">The Ultimate Frontend Build Tool</a>“. Sometimes people do things in Gulp or Grunt that could easily be accomplished by a line or two of Bash thrown into a Makefile. Sometimes people do things in Gulp or Grunt that they shouldn’t even be doing in Gulp or Grunt, like renaming files and deleting directories. (Okay, yes, there are Windows devs out there. I pity them.)</p>
+<p>But even though Make is kewl, it usually ends up looking something like this:</p>
+<pre><code class="lang-make">program_NAME := myprogram
+program_C_SRCS := $(wildcard *.c)
+program_CXX_SRCS := $(wildcard *.cpp)
+program_C_OBJS := ${program_C_SRCS:.c=.o}
+program_CXX_OBJS := ${program_CXX_SRCS:.cpp=.o}
+program_OBJS := $(program_C_OBJS) $(program_CXX_OBJS)
+program_INCLUDE_DIRS :=
+program_LIBRARY_DIRS :=
+program_LIBRARIES :=
+
+CPPFLAGS += $(foreach includedir,$(program_INCLUDE_DIRS),-I$(includedir))
+LDFLAGS += $(foreach librarydir,$(program_LIBRARY_DIRS),-L$(librarydir))
+LDFLAGS += $(foreach library,$(program_LIBRARIES),-l$(library))
+
+.PHONY: all clean distclean
+
+all: $(program_NAME)
+
+$(program_NAME): $(program_OBJS)
+    $(LINK.cc) $(program_OBJS) -o $(program_NAME)
+
+clean:
+    @- $(RM) $(program_NAME)
+    @- $(RM) $(program_OBJS)
+
+distclean: clean
+</code></pre>
+<p><img src="http://cdn.meme.li/instances/500x/48471959.jpg" alt="dafuq"></p>
+<p>Thankfully, the author of that Make goodness has <a href="https://sites.google.com/site/michaelsafyan/software-engineering/how-to-write-a-makefile">provided</a> an explanation long enough to fill the first chapter of a book about why Makefiles are too darn hard to understand. And it gets <a href="http://www.conifersystems.com/whitepapers/gnu-make/">worse</a>. A lot <a href="https://blog.mozilla.org/adirondackfirefly/2012/03/06/makefile-landmines/">worse</a>.</p>
+<p>On the contrary, Python syntax is like a big bowl of unicorns and marshmallows.</p>
+<h2 id="why-people-are-stupid">Why? People are Stupid</h2>
+<p>Before you get all angry and start flipping tables, let me tell you a little story about Bob, the happy software developer.</p>
+<p>Bob is working on a Python project that uses <code>pip</code> to install dependencies (well, he also uses <code>easy_install</code> for greenlet, because for some inconceivable reason <code>pip</code> just borks when trying to install greenlet). So he’s coding happily when one day his boss comes in with a few requirements for the project:</p>
+<ul>
+<li>It has to run on both Windows and OSX</li>
+<li>It should be easy to set up from a “vanilla” machine (out of the box, with none of the aforementioned tools yet installed)</li>
+<li>Its setup should assume nothing about the expertise of the people setting it up</li>
+</ul>
+<p>Indeed, Bob knew his project was destined to be used by his coworkers, several of whom had never touched a shell in their lives. He also knew that by the time the project was to be used by said coworkers, he might be gone. Suddenly Bob was no longer happy.</p>
+<p>Bob decided he needed a cross-platform setup script. Make? No (dang it, Windows). But what then? It was on a fine winter day that it occurred to our hero Bob that he could write a cross-platform setup script in Python — after all, he was already using the language for the project itself, and installing Python on a bare machine was not a terribly difficult task. So <a href="https://github.com/willyg302/Parrot/commit/d00908d87b991a0a9788a38db23df6a0bfa20b77">that’s what he did</a>.</p>
+<p>Of course, Bob’s coworkers aren’t stupid. Neither are Bob or his boss. By “stupid” I mean that everyone in this world has different levels of expertise. Some are venerable whitebeards of the terminal, and others are like babies banging pots and pans together. When babies banging pots and pans together are placed in a position of having to set up a project, you can expect things to get loud and messy really fast. You can teach them how to make a proper percussion concerto, sure, but that doesn’t lessen the fact that the project should accommodate <em>all</em> skill levels as much as possible. Don’t expect everyone in the world to understand Make, even if you do.</p>
+<p>On the contrary, Python is probably one of the easiest languages to understand with zero experience (okay, I swear I’m done exalting Python).</p>
+<h2 id="a-gentle-introduction-to-strap">A Gentle Introduction to strap</h2>
+<p>Here are a few of the cool things you can do in strap.</p>
+<h3 id="makefiles-meet-strapme-py-">Makefiles, Meet <code>strapme.py</code></h3>
+<p>With Make, you have Makefiles. With strap, you have a file called <code>strapme.py</code>. It’s sort of like a readme, only for strap, and written in the imperative style like Gulp.</p>
+<p>This file consists of a number of functions. Functions that don’t begin with an underscore are <strong>tasks</strong> that you can run. Two such tasks that must always be there are <code>default()</code> and <code>install()</code>, but of course you can add as many tasks as you want. This being a Python file, you can also write all the legal Python you want. Write to files, parse JSON, manipulate dates, import modules…you name it, you can do it. Beat that, Gulp!</p>
+<p>However, <code>strapme.py</code> is a special Python file because it has the <code>strap</code> variable automatically declared in its scope. Using this magical variable you can do all sorts of crazy things:</p>
+<pre><code class="lang-python">strap.run([
+    <span class="hljs-string">"pip install some-module"</span>,
+    <span class="hljs-string">"echo Hello world!"</span>,
+    <span class="hljs-string">"npm install"</span>,
+    <span class="hljs-string">"node_modules/.bin/gulp"</span>,
+    some_other_task
+])
+strap.pip(<span class="hljs-string">'install some-module'</span>).run(<span class="hljs-string">'echo Hello world!'</span>).npm(<span class="hljs-string">'install'</span>).node(<span class="hljs-string">'gulp'</span>, module=<span class="hljs-keyword">True</span>).run(some_other_task)  <span class="hljs-comment"># Same as above</span>
+
+<span class="hljs-comment"># And yes, in case you were wondering...</span>
+strap.run(<span class="hljs-string">'make &amp;&amp; make install'</span>)
+strap.make().make(<span class="hljs-string">'install'</span>)  <span class="hljs-comment"># Same as above</span>
+</code></pre>
+<p>The goal is to have a syntax that’s as intuitive as possible, while still providing common-sense fallbacks to familiar shell commands.</p>
+<h3 id="clone-like-a-champ">Clone Like a Champ</h3>
+<p>Remember that required install task I mentioned earlier? Here’s why it’s important.</p>
+<p>From the command line, you can call <code>strap init</code> (with some sensible arguments, of course) to initialize a project. For example, suppose you decided to call <code>strap init gh:willyg302/jarvis -d jarvis</code>. That would do the following:</p>
+<ol>
+<li>Clone <a href="https://github.com/willyg302/jarvis">the jarvis repo</a> into the <code>jarvis/</code> directory</li>
+<li><code>cd</code> into that directory</li>
+<li>Run the install task</li>
+</ol>
+<p>If your install task happens to manage downloading all your Node modules and Bower packages, or sets up a new virtual environment and grabs stuff from PyPI, or even just runs Make, then you’re done. With <em>one command</em> you were able to grab the project off GitHub and initialize it. How easy is that?</p>
+<h3 id="earning-its-name">Earning Its Name</h3>
+<p>But wait, there’s more! I didn’t call strap “Make for stupid people” without a perfectly legitimate reason, and this goes all the way back to our tale about Bob the slightly less happy software developer.</p>
+<p>Suppose your project happens to use <code>pip</code>. Some guy who has Python and strap on his machine, but nothing else, decides to download your project. So he runs <code>strap init</code> and the project gets cloned and the install task is run and everything is going hunky-dory until suddenly strap comes upon your <code>strap.pip(&#39;install some-module&#39;)</code> command. Whatever shall it do?</p>
+<p>You might expect it to error out. But no. strap is better than that.</p>
+<p>strap will check to see if <code>pip</code> is installed on the system before trying to run it. In this case it isn’t, so what it will do is try to install it. Fortunately, strap happens to come with the necessary <code>ez_setup.py</code> and <code>get-pip.py</code> files needed to install both <code>easy_install</code> and <code>pip</code> (respectively), so strap will chug away and install everything. When that’s taken care of, it’ll pick up where it left off and install some-module, and your user will now have <code>pip</code> on their system.</p>
+<p>“Okay,” you’re saying, “But you can’t install Node programmatically.” Psst…you actually <a href="https://gist.github.com/isaacs/579814">can</a>, but that violates our basic principle of cross-platform-ness. If you run a strap script that uses Node and the user doesn’t have Node on their system, it <em>will</em> error out. strap comes to the rescue, though. Here’s what users will see:</p>
+<pre><code>Unable to install module node: Installation must be done manually
+Please visit http://nodejs.org/ for installation instructions.
+</code></pre><p>Whoa! Instead of some unintelligible garbage about node not being recognized as the name of a cmdlet, function, script file, or operable program, you get a nice URL in a nice message. Nice.</p>
+<h2 id="how-abusing-python">How? Abusing Python</h2>
+<p>For what it does, strap is pretty small. The core logic is a wee bit over 200 LOC. There’s a utilities file that clocks in at nearly 100 LOC. The various modules that extend core functionality are usually 10-20 LOC each. And then we have <a href="https://github.com/willyg302/clip.py">clip.py</a>, which is just used for command-line parsing and is about 200 LOC.</p>
+<p>All this functionality in such a small space means copious abuse of Python. For example, we have the <a href="https://github.com/willyg302/strap.py/blob/master/strap/strap.py#L121-L136"><code>strap.run()</code> method</a>, which takes either a list/tuple or a function or a string that might possibly be offloaded to a function. To facilitate all the direct calls to various modules (e.g. calling <code>strap.node()</code> actually dynamically imports the node module and runs its <code>run()</code> method) I have implemented a pretty weird <a href="https://github.com/willyg302/strap.py/blob/master/strap/strap.py#L86-L91"><code>__getattr__</code></a>. Oh, and <a href="https://github.com/willyg302/strap.py/blob/master/strap/strap.py#L210-L217">here’s</a> the code for printing out a list of tasks in a <code>strapme.py</code> file along with their descriptions. I love comprehensions.</p>
+<h2 id="how-dynamic-loading-and-injecting">How? Dynamic Loading and Injecting</h2>
+<p>Handling <code>strapme.py</code> files is one of the most interesting things I’ve ever had to do in any programming language. For one thing, you’re talking about dynamically importing a Python file from an arbitrary path in such a way that any code within that file runs relative to its own path. Then there’s the magical declaration of the <code>strap</code> variable.</p>
+<p>Dynamic importing is actually pretty easy; the hard part was figuring out how to do it since the documentation is quite scarce. It’s implemented by the paltry four lines <a href="https://github.com/willyg302/strap.py/blob/master/strap/utils.py#L33-L37">here</a>. What this returns is a module just like any other imported Python module. This means that if I say <code>config = get_strapme(dir)</code>, then I can access the <code>project</code> variable defined in the global scope in the <code>strapme.py</code> file by doing <code>config.project</code>.</p>
+<p>I can also do this: <code>setattr(config, &#39;strap&#39;, strap)</code>. Oooh…magic.</p>
+<p>As it turns out, this dynamic injection is the <em>only</em> way such a system would have worked. Don’t believe me? Try accessing the strap variable from the global scope. The reason why it breaks there is because the variable isn’t shielded, which is exactly what injection achieves. Moreover, if you try to import the strap library from within a <code>strapme.py</code> file, suddenly you’ve got a circular dependency — because of the way Python importing works such a task would be…less than intuitive. Definitely not something we want stupid people to tackle.</p>
+<h2 id="kewl-so-what-now-">Kewl. So What Now?</h2>
+<p><a href="https://github.com/willyg302/strap.py">Get strap</a>, of course!</p>
+</div><div class="comments"><h2>Comments</h2><div id="disqus_thread"></div><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript><a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a></div></div><script type="text/javascript">(function() {
+	var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+	dsq.src = '//willyg302.disqus.com/embed.js';
+	(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();</script><script type="text/javascript" src="/main.js"></script></body></html>

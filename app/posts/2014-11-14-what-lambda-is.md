@@ -1,10 +1,10 @@
-<!--
-layout: post
+---
 title: What Lambda Is
 date: 2014-11-14T03:07:34.718697
+tags: AWS Lambda
+template: post.jade
 comments: true
-categories: AWS Lambda
--->
+---
 
 To quote Joe MacMillan from *Halt and Catch Fire*, "The computer's not The Thing. It's the thing that gets us to The Thing."
 

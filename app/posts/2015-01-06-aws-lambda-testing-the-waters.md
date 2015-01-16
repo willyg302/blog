@@ -1,12 +1,13 @@
-<!--
-layout: post
-title: AWS Lambda: Testing the Waters
+---
+title: "AWS Lambda: Testing the Waters"
 date: 2015-01-06T05:39:29.324919
+tags: AWS Lambda
+template: post.jade
 comments: true
-categories: AWS Lambda
--->
+gist: willyg302/4c7161844cb5280b99c7, willyg302/9213e3afa774b436edbf
+---
 
-In [a previous post](http://willyg302.github.io/blog/#!/post/2014-11-14-what-lambda-is) I waxed poetic about the potential of AWS Lambda. Now it's time to actually *use* it.
+In [a previous post](/posts/2014-11-14-what-lambda-is) I waxed poetic about the potential of AWS Lambda. Now it's time to actually *use* it.
 
 <!-- more -->
 
@@ -119,7 +120,7 @@ exports.handler = function(event, context) {
 
 Run that with the aforementioned event, and you should see the following:
 
-![Uber Function](img/posts/2015-01-06-01-uber-function.png)
+![Uber Function](/img/posts/2015-01-06-01-uber-function.png)
 
 Through a large and completely unnecessary series of abstractions, we have gotten the cloud to add 5 and 3.
 
@@ -139,7 +140,7 @@ Now instead of inlining our function in the event, we'll provide a Gist ID:
 
 Which points to this Gist:
 
-<gist id="4c7161844cb5280b99c7"></gist>
+gist:willyg302/4c7161844cb5280b99c7
 
 We'll also modify our code to the following:
 
@@ -191,7 +192,7 @@ The meat of the added code is in the `getGist()` function that, true to its name
 
 Okay, now for the moment of truth:
 
-![Uber Function Gist](img/posts/2015-01-06-02-uber-function-gist.png)
+![Uber Function Gist](/img/posts/2015-01-06-02-uber-function-gist.png)
 
 Once again, AWS Lambda has produced 8 and is now batting two for two.
 
@@ -201,7 +202,7 @@ I don't know about you, but I sure as heck won't be able to remember that Gist `
 
 Oh, wait. A library with only a single Gist is kind of pointless, is it not? Let's add another one:
 
-<gist id="9213e3afa774b436edbf"></gist>
+gist:willyg302/9213e3afa774b436edbf
 
 In the spirit of want-driven programming, I'm going to say I want to be able to define a JavaScript object like the following as my library:
 

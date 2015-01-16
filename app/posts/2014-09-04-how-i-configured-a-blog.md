@@ -1,10 +1,10 @@
-<!--
-layout: post
+---
 title: How I Configured a Blog
 date: 2014-09-04T21:46:17.000000
+tags: Web Development
+template: post.jade
 comments: true
-categories: Web Development
--->
+---
 
 The blog you're reading right now was *configured* 100% entirely by yours truly. I say configured rather than some other verb (like *programmed* or *built*) because a ridiculous amount of the work involved configuration -- of Node packages, of Bower, of Gulp, of JavaScript requirements, of Less...the list goes on and on.
 

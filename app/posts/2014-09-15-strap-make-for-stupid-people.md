@@ -1,10 +1,10 @@
-<!--
-layout: post
-title: strap: Make for Stupid People
+---
+title: "strap: Make for Stupid People"
 date: 2014-09-15T07:31:54.459391
+tags: Python, strap
+template: post.jade
 comments: true
-categories: Python, strap
--->
+---
 
 I made this thing called [strap](https://github.com/willyg302/strap.py). It's pretty kewl. This is a post about why it was made, how it was made, and what you can do with it.
 

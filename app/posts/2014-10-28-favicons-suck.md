@@ -1,10 +1,10 @@
-<!--
-layout: post
+---
 title: Favicons Suck
 date: 2014-10-28T21:48:30.936556
+tags: Web Development
+template: post.jade
 comments: true
-categories: Web Development
--->
+---
 
 Every once in a while I tinker with my website to "improve" it. In the last such attempt at improvement I decided to tackle decent favicon support. Up until then I had been using a base64-encoded 16x16 transparent image, since it saved a request and worked fine for the most part, but UX was severely lacking in things like mobile bookmarks and home screen tiles.
 

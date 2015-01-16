@@ -1,10 +1,10 @@
-<!--
-layout: post
+---
 title: Python Antics
 date: 2014-05-31T20:18:53.000000
+tags: Python
+template: post.jade
 comments: true
-categories: Python
--->
+---
 
 It's strange how often I find myself in situations where I have to do stupid things that push the boundaries of whatever languages I am working with. Recently I've been doing a lot of Python development, so naturally I've also been getting myself into a lot of `import` trouble.
 

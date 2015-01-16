@@ -1,10 +1,10 @@
-<!--
-layout: post
+---
 title: Breaking the Chain
 date: 2014-11-30T07:58:40.230704
+tags: Thoughts
+template: post.jade
 comments: true
-categories: Thoughts
--->
+---
 
 ![Combo Breaker](img/posts/2014-11-30-01-combo-breaker.png)
 
