@@ -7,22 +7,23 @@ append footer
 	script(type='text/javascript', src='/blog/main.js')
 
 block content
-	#sidebar
-		object(width='100%', type='image/svg+xml', data='/blog/img/willyg-blog-logo.svg')
-		.colophon
-			p
-				input#search.form-control(type='text', placeholder='Search', onkeydown="setSearch(event);")
-			p
-				block colophon
-		.nav
-			a(href='/#') Home
-			a.active(href='/blog') Blog
-			a(href='/#projects') Projects
-			a(href='/#about') About
-			a(href='/#contact') Contact
-		.controls
-			| 
-			a(href='/blog') Blog Home
-			|  &middot; 
-			a(href='/blog/feed.xml') RSS
+	.sidebar-wrapper
+		.sidebar
+			object(width='100%', type='image/svg+xml', data='/blog/img/willyg-blog-logo.svg')
+			.colophon
+				p
+					input#search.form-control(type='text', placeholder='Search', onkeydown="setSearch(event);")
+				p
+					block colophon
+			.nav
+				a(href='/#') Home
+				a.active(href='/blog') Blog
+				a(href='/#projects') Projects
+				a(href='/#about') About
+				a(href='/#contact') Contact
+			.controls
+				| 
+				a(href='/blog') Blog Home
+				|  &middot; 
+				a(href='/blog/feed.xml') RSS
 	block pageContent

@@ -3,9 +3,11 @@ html {
 }
 
 body {
-	margin: 0;
+	margin: 0 auto;
 	padding: @tile-margin * 2;
 	background-color: transparent !important;
+	position: relative;
+	max-width: @break-large;
 }
 
 img {
@@ -26,11 +28,11 @@ img {
 }
 
 .wrap-sidebar(@margin) {
-	@media only screen and (min-width: (@screen-break)) {
+	@media only screen and (min-width: (@break-small)) {
 		margin-left: @tile4 + @tile-margin * @margin;
 	}
 
-	@media only screen and (max-width: (@screen-break - 1px)) {
+	@media only screen and (max-width: (@break-small - 1px)) {
 		margin-top: @tile6 + @tile-margin * @margin;
 	}
 }
@@ -124,14 +126,18 @@ img {
 	}
 }
 
-#sidebar {
+.sidebar-wrapper {
 	position: absolute;
 	top: @tile-margin * 3;
 	left: @tile-margin * 3;
+}
+
+.sidebar {
+	position: absolute;
 	width: @tile4;
 	height: @tile6;
 
-	@media only screen and (min-width: (@screen-break)) {
+	@media only screen and (min-width: (@break-small)) {
 		position: fixed !important;
 	}
 
