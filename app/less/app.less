@@ -1,66 +1,13 @@
-html {
-	background: url("/blog/img/bg.png") repeat;
-}
-
-body {
-	margin: 0 auto;
-	padding: @tile-margin * 2;
-	background-color: transparent !important;
-	position: relative;
-	max-width: @break-large;
-}
-
-img {
-	max-width: 100%;
-}
-
 .label {
 	cursor: pointer;
 }
 
-
-// MIXINS
-
-.tile-bg() {
-	background-color: @color-tile-bg;
-	padding: @tile-padding;
-	.box-shadow(0px 0px 5px 1px rgba(0, 0, 0, 0.1));
-}
-
-.wrap-sidebar(@margin) {
-	@media only screen and (min-width: (@break-small)) {
-		margin-left: @tile4 + @tile-margin * @margin;
-	}
-
-	@media only screen and (max-width: (@break-small - 1px)) {
-		margin-top: @tile6 + @tile-margin * @margin;
-	}
-}
-
-
-// ITEMS
-
 .item {
-	position: relative;
-	float: left;
-	width: @tile;
-	height: @tile;
-	margin: @tile-margin;
-
 	> * {
 		margin: 0;
 		padding: 0;
 	}
 }
-
-.x-1 { width:  @tile; }
-.y-1 { height: @tile; }
-.x-2 { width:  @tile2; }
-.y-2 { height: @tile2; }
-.x-4 { width:  @tile4; }
-.y-4 { height: @tile4; }
-.x-6 { width:  @tile6; }
-.y-6 { height: @tile6; }
 
 .post {
 	.tile-bg();
@@ -92,14 +39,6 @@ img {
 	}
 }
 
-
-// PAGES
-
-#isotope {
-	.clearfix();
-	.wrap-sidebar(2);
-}
-
 #post {
 	.wrap-sidebar(3);
 	margin: @tile-margin;
@@ -126,75 +65,10 @@ img {
 	}
 }
 
-.sidebar-wrapper {
+.controls {
 	position: absolute;
-	top: @tile-margin * 3;
-	left: @tile-margin * 3;
-}
-
-.sidebar {
-	position: absolute;
-	width: @tile4;
-	height: @tile6;
-
-	@media only screen and (min-width: (@break-small)) {
-		position: fixed !important;
-	}
-
-	.colophon {
-		margin-top: @tile-padding;
-	}
-
-	.controls {
-		position: absolute;
-		top: 120px;
-		left: 120px;
-	}
-}
-
-.nav {
-	position: absolute;
-	bottom: @tile-padding;
-	padding-left: @tile-padding;
-	width: 100%;
-
-	& > a {
-		display: block;
-		font-size: @font-size-large;
-
-		&.active {
-			color: @color-red;
-		}
-
-		&:hover {
-			text-decoration: none;
-		}
-
-		&::before, &::after {
-			display: inline-block;
-			opacity: 0;
-			.transition-transform(~"0.3s, opacity 0.2s");
-		}
-
-		&::before {
-			margin-right: 10px;
-			content: '[';
-			.translate(20px, 0);
-		}
-
-		&::after {
-			margin-left: 10px;
-			content: ']';
-			.translate(-20px, 0);
-		}
-
-		&:hover, &:focus {
-			&::before, &::after {
-				opacity: 1;
-				.translate(0, 0);
-			}
-		}
-	}
+	top: 120px;
+	left: 120px;
 }
 
 

@@ -78,7 +78,7 @@ module.exports = function() {
 			engine: 'jade',
 			directory: './app/jade'
 		}))
-		.destination('./dist')
+		.destination('./blog')
 		.build(function(err, files) {
 			err && console.log(err);
 		});

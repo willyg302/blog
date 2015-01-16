@@ -12,14 +12,14 @@ var vinyl      = require('vinyl-source-stream');
 
 var paths = {
 	clean: [
-		__dirname + '/dist/css/',
-		__dirname + '/dist/jade',
-		__dirname + '/dist/js',
-		__dirname + '/dist/less'
+		__dirname + '/blog/css',
+		__dirname + '/blog/jade',
+		__dirname + '/blog/js',
+		__dirname + '/blog/less'
 	],
 	js: __dirname + '/app/js/main.js',
-	dist: __dirname + '/dist',
-	deploy: __dirname + '/dist/**/*'
+	dist: __dirname + '/blog',
+	deploy: __dirname + '/blog/**/*'
 };
 
 gulp.task('clean', function(cb) {
