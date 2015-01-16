@@ -3,7 +3,7 @@
 	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
 })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 ga('create', 'UA-41109411-2', 'willyg302.github.io');
-ga('send', 'pageview');</script><link rel="stylesheet" type="text/css" href="/main.css"></head><body><div id="sidebar"><object width="100%" type="image/svg+xml" data="/img/willyg-blog-logo.svg"></object><div class="colophon"><p><input id="search" type="text" placeholder="Search" onkeydown="setSearch(event);" class="form-control"></p><p>You are currently viewing the post &ldquo;AWS Lambda: Testing the Waters.&rdquo;</p></div><div class="nav"><a href="http://willyg302.github.io/#">Home</a><a href="/" class="active">Blog</a><a href="http://willyg302.github.io/#projects">Projects</a><a href="http://willyg302.github.io/#about">About</a><a href="http://willyg302.github.io/#contact">Contact</a></div><div class="controls"> <a href="/">Blog Home</a> &middot; <a href="/feed.xml">RSS</a></div></div><div id="post"><div class="content"><h1>AWS Lambda: Testing the Waters<br><small>Monday, January 5 2015</small></h1><div class="categories"><a style="background-color: hsl(218, 100%, 35%);" onclick="setCategory('AWS Lambda')" class="label">AWS Lambda</a></div><p>In <a href="/posts/2014-11-14-what-lambda-is">a previous post</a> I waxed poetic about the potential of AWS Lambda. Now it’s time to actually <em>use</em> it.</p>
+ga('send', 'pageview');</script><link rel="stylesheet" type="text/css" href="/blog/main.css"></head><body><div id="sidebar"><object width="100%" type="image/svg+xml" data="/blog/img/willyg-blog-logo.svg"></object><div class="colophon"><p><input id="search" type="text" placeholder="Search" onkeydown="setSearch(event);" class="form-control"></p><p>You are currently viewing the post &ldquo;AWS Lambda: Testing the Waters.&rdquo;</p></div><div class="nav"><a href="/#">Home</a><a href="/blog" class="active">Blog</a><a href="/#projects">Projects</a><a href="/#about">About</a><a href="/#contact">Contact</a></div><div class="controls"> <a href="/blog">Blog Home</a> &middot; <a href="/blog/feed.xml">RSS</a></div></div><div id="post"><div class="content"><h1>AWS Lambda: Testing the Waters<br><small>Monday, January 5 2015</small></h1><div class="categories"><a style="background-color: hsl(218, 100%, 35%);" onclick="setCategory('AWS Lambda')" class="label">AWS Lambda</a></div><p>In <a href="/blog/posts/2014-11-14-what-lambda-is">a previous post</a> I waxed poetic about the potential of AWS Lambda. Now it’s time to actually <em>use</em> it.</p>
 <!-- more -->
 
 <p>As this is a “testing the waters” post, we won’t be building anything particularly useful or production-ready. Instead, we will work towards implementing one of the very first ideas I had for a Lambda function: <strong>running GitHub Gists in the cloud</strong>. This strikes me as interesting for several reasons:</p>
@@ -82,7 +82,7 @@ context.done(<span class="hljs-literal">null</span>, result);
 };
 </code></pre>
 <p>Run that with the aforementioned event, and you should see the following:</p>
-<p><img src="/img/posts/2015-01-06-01-uber-function.png" alt="Uber Function"></p>
+<p><img src="/blog/img/posts/2015-01-06-01-uber-function.png" alt="Uber Function"></p>
 <p>Through a large and completely unnecessary series of abstractions, we have gotten the cloud to add 5 and 3.</p>
 <h2 id="step-2-fetching-gists">Step 2: Fetching Gists</h2>
 <p>Now instead of inlining our function in the event, we’ll provide a Gist ID:</p>
@@ -141,7 +141,7 @@ exports.handler = <span class="hljs-function"><span class="hljs-keyword">functio
 </code></pre>
 <p>The meat of the added code is in the <code>getGist()</code> function that, true to its name, invokes a <code>callback</code> passing the contents of the Gist with a given <code>id</code>. How this function works is outside of the scope of this post so I’ll not go over it here, but one point in particular that bears mentioning is that we restrict Gists to only a single file — note how we are only concerned with <code>Object.keys(files)[0]</code>. This makes sense, since logically a single JavaScript function should only be a single file.</p>
 <p>Okay, now for the moment of truth:</p>
-<p><img src="/img/posts/2015-01-06-02-uber-function-gist.png" alt="Uber Function Gist"></p>
+<p><img src="/blog/img/posts/2015-01-06-02-uber-function-gist.png" alt="Uber Function Gist"></p>
 <p>Once again, AWS Lambda has produced 8 and is now batting two for two.</p>
 <h2 id="step-3-the-gist-library">Step 3: The Gist Library</h2>
 <p>I don’t know about you, but I sure as heck won’t be able to remember that Gist <code>4c7161844cb5280b99c7</code> is my JavaScript <code>add()</code> function. So the next natural step is to create some sort of Gist “collection” mapping functions to their respective IDs, such that they can be called easily. It just so happens that this will require writing some client-side code using the AWS SDK. Along the way we’ll figure out how to get Lambda to talk back to our clients.</p>
@@ -359,4 +359,4 @@ nth Fibonacci: 55
 	var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
 	dsq.src = '//willyg302.disqus.com/embed.js';
 	(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-})();</script><script type="text/javascript" src="/main.js"></script></body></html>
+})();</script><script type="text/javascript" src="/blog/main.js"></script></body></html>

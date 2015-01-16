@@ -3,7 +3,7 @@
 	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
 })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 ga('create', 'UA-41109411-2', 'willyg302.github.io');
-ga('send', 'pageview');</script><link rel="stylesheet" type="text/css" href="/main.css"></head><body><div id="sidebar"><object width="100%" type="image/svg+xml" data="/img/willyg-blog-logo.svg"></object><div class="colophon"><p><input id="search" type="text" placeholder="Search" onkeydown="setSearch(event);" class="form-control"></p><p>You are currently viewing the post &ldquo;SVG Optimization.&rdquo;</p></div><div class="nav"><a href="http://willyg302.github.io/#">Home</a><a href="/" class="active">Blog</a><a href="http://willyg302.github.io/#projects">Projects</a><a href="http://willyg302.github.io/#about">About</a><a href="http://willyg302.github.io/#contact">Contact</a></div><div class="controls"> <a href="/">Blog Home</a> &middot; <a href="/feed.xml">RSS</a></div></div><div id="post"><div class="content"><h1>SVG Optimization<br><small>Sunday, September 28 2014</small></h1><div class="categories"><a style="background-color: hsl(-350, 100%, 35%);" onclick="setCategory('Uncategorized')" class="label">Uncategorized</a></div><p>SVG images are pretty awesome. However, just like anything else on the web they should be optimized for size and displayability, and that’s when things get decidedly less awesome.</p>
+ga('send', 'pageview');</script><link rel="stylesheet" type="text/css" href="/blog/main.css"></head><body><div id="sidebar"><object width="100%" type="image/svg+xml" data="/blog/img/willyg-blog-logo.svg"></object><div class="colophon"><p><input id="search" type="text" placeholder="Search" onkeydown="setSearch(event);" class="form-control"></p><p>You are currently viewing the post &ldquo;SVG Optimization.&rdquo;</p></div><div class="nav"><a href="/#">Home</a><a href="/blog" class="active">Blog</a><a href="/#projects">Projects</a><a href="/#about">About</a><a href="/#contact">Contact</a></div><div class="controls"> <a href="/blog">Blog Home</a> &middot; <a href="/blog/feed.xml">RSS</a></div></div><div id="post"><div class="content"><h1>SVG Optimization<br><small>Sunday, September 28 2014</small></h1><div class="categories"><a style="background-color: hsl(-350, 100%, 35%);" onclick="setCategory('Uncategorized')" class="label">Uncategorized</a></div><p>SVG images are pretty awesome. However, just like anything else on the web they should be optimized for size and displayability, and that’s when things get decidedly less awesome.</p>
 <p>But fear not! After reading this post, you’ll be an SVG-optimizing wizard!</p>
 <!-- more -->
 
@@ -17,7 +17,7 @@ ga('send', 'pageview');</script><link rel="stylesheet" type="text/css" href="/ma
 <p>Here’s the problem though: XML is absolutely, unequivocally, the worst document format ever devised by any living species in the history of the universe. If you want to torture yourself, try writing an XML parser (don’t forget to support namespaces!). It’s no wonder, then, that SVG optimization is notoriously hard to get right.</p>
 <h2 id="the-acid-test">The Acid Test</h2>
 <p>Ideally, optimization should shrink the size of the file without changing its visual appearance, so I have a test for whether my SVGs have made it through optimization unscathed. It’s called Ubuntu Image Viewer, though I’m sure equivalent programs on OSX and Windows will suffice. Here’s what an optimized SVG usually looks like in Image Viewer:</p>
-<p><img src="img/posts/2014-09-29-01-bad-svg.png" alt="Bad SVG"></p>
+<p><img src="/blog/img/posts/2014-09-29-01-bad-svg.png" alt="Bad SVG"></p>
 <p>Eww! What the heck happened? Oddly enough, if I open this file in Google Chrome or Inkscape it renders totally fine. But sometimes the SVG is corrupted and missing components in Inkscape, and sometimes it even fails to render properly in Chrome. Like I said, XML.</p>
 <p>You might be tempted to say, “Well, if it looks okay in Chrome that’s all that matters, right?” And you’d be right, except for the fact that dinosaurs like IE9 and Opera exist. Who knows what my SVGs look like on <em>those</em> things?</p>
 <h2 id="the-hard-way">The Hard Way</h2>
@@ -52,4 +52,4 @@ ga('send', 'pageview');</script><link rel="stylesheet" type="text/css" href="/ma
 	var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
 	dsq.src = '//willyg302.disqus.com/embed.js';
 	(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-})();</script><script type="text/javascript" src="/main.js"></script></body></html>
+})();</script><script type="text/javascript" src="/blog/main.js"></script></body></html>
