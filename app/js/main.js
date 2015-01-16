@@ -50,7 +50,7 @@ var filter = function() {
 
 window.setCategory = function(category) {
 	filters.cat = category;
-	window.location.href = "/?" + qs.stringify(filters);
+	window.location.href = "/blog?" + qs.stringify(filters);
 	return false;
 };
 
@@ -62,7 +62,7 @@ window.setSearch = function(e) {
 		} else {
 			delete filters.q;
 		}
-		window.location.href = "/?" + qs.stringify(filters);
+		window.location.href = "/blog?" + qs.stringify(filters);
 		return false;
 	}
 };

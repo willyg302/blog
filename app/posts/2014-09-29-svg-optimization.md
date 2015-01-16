@@ -27,7 +27,7 @@ Here's the problem though: XML is absolutely, unequivocally, the worst document 
 
 Ideally, optimization should shrink the size of the file without changing its visual appearance, so I have a test for whether my SVGs have made it through optimization unscathed. It's called Ubuntu Image Viewer, though I'm sure equivalent programs on OSX and Windows will suffice. Here's what an optimized SVG usually looks like in Image Viewer:
 
-![Bad SVG](img/posts/2014-09-29-01-bad-svg.png)
+![Bad SVG](/blog/img/posts/2014-09-29-01-bad-svg.png)
 
 Eww! What the heck happened? Oddly enough, if I open this file in Google Chrome or Inkscape it renders totally fine. But sometimes the SVG is corrupted and missing components in Inkscape, and sometimes it even fails to render properly in Chrome. Like I said, XML.
 

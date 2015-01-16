@@ -41,7 +41,7 @@ Ha. If there's one thing any budding web developer should know, it's that things
 
 Apart from looking like Apple and Microsoft had gone on a drunken escapade and projectile vomited all over my `<head>`, these 18 lines of beautiful HTML (not to mention the 147 KB of redundant pixel information) *still did not work*:
 
-![No Favicon](img/posts/2014-10-28-01-no-favicon.png)
+![No Favicon](/blog/img/posts/2014-10-28-01-no-favicon.png)
 
 ## A Brief Aside
 

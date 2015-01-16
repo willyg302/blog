@@ -1,28 +1,28 @@
 extends ./base.jade
 
 append head
-	link(rel='stylesheet', type='text/css', href='/main.css')
+	link(rel='stylesheet', type='text/css', href='/blog/main.css')
 
 append footer
-	script(type='text/javascript', src='/main.js')
+	script(type='text/javascript', src='/blog/main.js')
 
 block content
 	#sidebar
-		object(width='100%', type='image/svg+xml', data='/img/willyg-blog-logo.svg')
+		object(width='100%', type='image/svg+xml', data='/blog/img/willyg-blog-logo.svg')
 		.colophon
 			p
 				input#search.form-control(type='text', placeholder='Search', onkeydown="setSearch(event);")
 			p
 				block colophon
 		.nav
-			a(href='http://willyg302.github.io/#') Home
-			a.active(href='/') Blog
-			a(href='http://willyg302.github.io/#projects') Projects
-			a(href='http://willyg302.github.io/#about') About
-			a(href='http://willyg302.github.io/#contact') Contact
+			a(href='/#') Home
+			a.active(href='/blog') Blog
+			a(href='/#projects') Projects
+			a(href='/#about') About
+			a(href='/#contact') Contact
 		.controls
 			| 
-			a(href='/') Blog Home
+			a(href='/blog') Blog Home
 			|  &middot; 
-			a(href='/feed.xml') RSS
+			a(href='/blog/feed.xml') RSS
 	block pageContent

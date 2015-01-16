@@ -36,7 +36,7 @@ Right now my university regards VCS as something students should learn on their 
 
 As an illustration of that last point, consider these commits:
 
-![Bad Commits](img/posts/2014-11-07-01-bad-commits.png)
+![Bad Commits](/blog/img/posts/2014-11-07-01-bad-commits.png)
 
 These were made by a teammate of mine on a course project I'm currently working on. Anyone with any experience using git is probably trying to claw their eyes out right now, and for [good reason](http://robots.thoughtbot.com/5-useful-tips-for-a-better-commit-message). But how is my teammate supposed to know that such a thing as "commit etiquette" exists?
 

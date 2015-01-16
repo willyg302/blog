@@ -6,7 +6,7 @@ template: post.jade
 comments: true
 ---
 
-![Combo Breaker](img/posts/2014-11-30-01-combo-breaker.png)
+![Combo Breaker](/blog/img/posts/2014-11-30-01-combo-breaker.png)
 
 A little under a week ago, I broke the chain.
 
