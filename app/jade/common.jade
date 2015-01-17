@@ -12,18 +12,12 @@ block content
 			object(width='100%', type='image/svg+xml', data='/blog/img/willyg-blog-logo.svg')
 			.colophon
 				p
-					input#search.form-control(type='text', placeholder='Search', onkeydown="setSearch(event);")
+					input#search.form-control(type='text', placeholder='Search', onkeydown="search(event);")
 				p
 					block colophon
 			.nav
-				a(href='/#') Home
-				a.active(href='/blog') Blog
-				a(href='/#projects') Projects
-				a(href='/#about') About
-				a(href='/#contact') Contact
-			.controls
-				| 
 				a(href='/blog') Blog Home
-				|  &middot; 
-				a(href='/blog/feed.xml') RSS
+				a(href='/blog/feed.xml') RSS Feed
+				a(href='/#') Site
+				a(href='/#contact') Contact
 	block pageContent

@@ -13,7 +13,8 @@ block pageContent
 		each post in collections.posts
 			- var categories = post.tags.split(', ')
 			- var content = post.less || post.contents
-			.item.post(data-categories=post.tags)
+			- var sanitizedDate = post.date.toString()
+			.item.post(data-categories=post.tags, data-date=sanitizedDate)
 				h3: a(href="/blog/" + post.path)= post.title
 				small= moment(post.date).format('dddd, MMMM D YYYY')
 				.categories
