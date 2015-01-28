@@ -43,11 +43,11 @@
 	.wrap-sidebar(3);
 	margin: @tile-margin;
 
-	.content, .comments {
+	.content, .comments, .share {
 		.tile-bg();
 	}
 
-	.comments {
+	.comments, .share {
 		margin-top: @tile-margin * 2;
 	}
 
@@ -81,4 +81,13 @@ pre {
 // Put a little room below videos
 .embed-responsive {
 	margin-bottom: 10px;
+}
+
+// Fix share button formatting
+.share-button {
+	display: inline-block;
+}
+
+.share-button > iframe, .fb_iframe_widget > span {
+	vertical-align: top !important;
 }
