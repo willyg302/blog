@@ -10,8 +10,21 @@ ga('send', 'pageview');</script><link rel="stylesheet" type="text/css" href="/bl
 <li>Shifting focus from game development to more general software development</li>
 </ul>
 <p>Hopefully this is the start of something good.</p>
-</div><div class="comments"><h2>Comments</h2><div id="disqus_thread"></div><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript><a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a></div></div><script type="text/javascript">(function() {
-	var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+</div><div class="share"><div class="share-button"><a href="https://twitter.com/share" data-text="Obligatory First Post" class="twitter-share-button">Tweet</a></div><div class="share-button"><div data-href="http://willyg302.github.io/blog/posts/2014-05-28-obligatory-first-post" data-layout="button_count" class="fb-share-button"></div></div></div><div class="comments"><h2>Comments</h2><div id="disqus_thread"></div><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript><a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a></div></div><div id="fb-root"></div><script type="text/javascript">(function() {
+	var dsq = document.createElement('script');
+	dsq.type = 'text/javascript';
+	dsq.async = true;
 	dsq.src = '//willyg302.disqus.com/embed.js';
 	(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-})();</script><script type="text/javascript" src="/blog/main.js"></script></body></html>
+})();
+function share(id, src) {
+	var js, fjs = document.getElementsByTagName('script')[0];
+	if (!document.getElementById(id)) {
+		js = document.createElement('script');
+		js.id = id;
+		js.src = src;
+		fjs.parentNode.insertBefore(js, fjs);
+	}
+}
+share('twitter-wjs', '//platform.twitter.com/widgets.js');
+share('facebook-jssdk', '//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.0');</script><script type="text/javascript" src="/blog/main.js"></script></body></html>

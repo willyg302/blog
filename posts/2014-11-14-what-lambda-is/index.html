@@ -6,7 +6,6 @@ ga('create', 'UA-41109411-2', 'willyg302.github.io');
 ga('send', 'pageview');</script><link rel="stylesheet" type="text/css" href="/blog/main.css"></head><body><div class="sidebar-wrapper"><div class="sidebar"><object width="100%" type="image/svg+xml" data="/blog/img/willyg-blog-logo.svg"></object><div class="colophon"><p><input id="search" type="text" placeholder="Search" onkeydown="search(event);" class="form-control"></p><p>You are currently viewing the post &ldquo;What Lambda Is.&rdquo;</p></div><div class="nav"><a href="/blog">Blog Home</a><a href="/blog/feed.xml">RSS Feed</a><a href="/#">Site</a><a href="/#contact">Contact</a></div></div></div><div id="post"><div class="content"><h1>What Lambda Is<br><small>Thursday, November 13 2014</small></h1><div class="categories"><a style="background-color: hsl(218, 100%, 35%);" onclick="setCategory('AWS Lambda')" class="label">AWS Lambda</a></div><p>To quote Joe MacMillan from <em>Halt and Catch Fire</em>, “The computer’s not The Thing. It’s the thing that gets us to The Thing.”</p>
 <p>I sense another Thing approaching.</p>
 <!-- more -->
-
 <div class="embed-responsive embed-responsive-16by9">
     <iframe width="560" height="315" src="//www.youtube.com/embed/9eHoyUVo-yg" frameborder="0" allowfullscreen></iframe>
 </div>
@@ -15,8 +14,21 @@ ga('send', 'pageview');</script><link rel="stylesheet" type="text/css" href="/bl
 <p>I have <a href="http://willyg302.github.io/blog/#!/post/2014-09-06-webs-and-streams">previously touched upon</a> the trend towards small applications that do one thing well, and am seeing it unfold through services such as <a href="https://api.blockspring.com/">Blockspring</a>, <a href="https://www.webscript.io/">Webscript</a>, and now AWS Lambda. What these services enable is an ecosystem of code-at-your-fingertips. Want to MD5 hash a file but can’t remember which Python module to import? No problem, here’s a cloud function that’ll do it for you. Want to automate the terribly boring task of filtering your album of 1000 Instagram-bound images but don’t have the slightest clue how to use ImageMagick? You don’t have to worry anymore!</p>
 <p>So we’ve nailed the <strong>simplicity</strong> aspect of the Unix design philosophy; now it’s time to work on <strong>teamwork</strong>. Having a piece of code in the cloud ready to be run at a moment’s notice is cool, but what’s really smashing is when you can start <em>combining</em> your functions. Imagine all the possibilities!</p>
 <p>Lambda may seem like a lot of things to different people, but to me it provides a means for incredible innovation and an entirely “new” way of thinking about application development. It’s the thing that gets us to The Thing, and I for one can’t wait to see what The Thing is.</p>
-</div><div class="comments"><h2>Comments</h2><div id="disqus_thread"></div><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript><a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a></div></div><script type="text/javascript">(function() {
-	var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+</div><div class="share"><div class="share-button"><a href="https://twitter.com/share" data-text="What Lambda Is" class="twitter-share-button">Tweet</a></div><div class="share-button"><div data-href="http://willyg302.github.io/blog/posts/2014-11-14-what-lambda-is" data-layout="button_count" class="fb-share-button"></div></div></div><div class="comments"><h2>Comments</h2><div id="disqus_thread"></div><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript><a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a></div></div><div id="fb-root"></div><script type="text/javascript">(function() {
+	var dsq = document.createElement('script');
+	dsq.type = 'text/javascript';
+	dsq.async = true;
 	dsq.src = '//willyg302.disqus.com/embed.js';
 	(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-})();</script><script type="text/javascript" src="/blog/main.js"></script></body></html>
+})();
+function share(id, src) {
+	var js, fjs = document.getElementsByTagName('script')[0];
+	if (!document.getElementById(id)) {
+		js = document.createElement('script');
+		js.id = id;
+		js.src = src;
+		fjs.parentNode.insertBefore(js, fjs);
+	}
+}
+share('twitter-wjs', '//platform.twitter.com/widgets.js');
+share('facebook-jssdk', '//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.0');</script><script type="text/javascript" src="/blog/main.js"></script></body></html>

@@ -5,7 +5,6 @@
 ga('create', 'UA-41109411-2', 'willyg302.github.io');
 ga('send', 'pageview');</script><link rel="stylesheet" type="text/css" href="/blog/main.css"></head><body><div class="sidebar-wrapper"><div class="sidebar"><object width="100%" type="image/svg+xml" data="/blog/img/willyg-blog-logo.svg"></object><div class="colophon"><p><input id="search" type="text" placeholder="Search" onkeydown="search(event);" class="form-control"></p><p>You are currently viewing the post &ldquo;Python Antics.&rdquo;</p></div><div class="nav"><a href="/blog">Blog Home</a><a href="/blog/feed.xml">RSS Feed</a><a href="/#">Site</a><a href="/#contact">Contact</a></div></div></div><div id="post"><div class="content"><h1>Python Antics<br><small>Saturday, May 31 2014</small></h1><div class="categories"><a style="background-color: hsl(188, 100%, 35%);" onclick="setCategory('Python')" class="label">Python</a></div><p>It’s strange how often I find myself in situations where I have to do stupid things that push the boundaries of whatever languages I am working with. Recently I’ve been doing a lot of Python development, so naturally I’ve also been getting myself into a lot of <code>import</code> trouble.</p>
 <!-- more -->
-
 <p>As an example, here’s a little beauty I wrote a while back:</p>
 <pre><code class="lang-python"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">load_plugin</span><span class="hljs-params">(name)</span>:</span>
     <span class="hljs-keyword">try</span>:
@@ -70,8 +69,21 @@ c.run()
     fun()
 </code></pre>
 <p>Once again, don’t try this at home.</p>
-</div><div class="comments"><h2>Comments</h2><div id="disqus_thread"></div><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript><a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a></div></div><script type="text/javascript">(function() {
-	var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+</div><div class="share"><div class="share-button"><a href="https://twitter.com/share" data-text="Python Antics" class="twitter-share-button">Tweet</a></div><div class="share-button"><div data-href="http://willyg302.github.io/blog/posts/2014-05-31-python-antics" data-layout="button_count" class="fb-share-button"></div></div></div><div class="comments"><h2>Comments</h2><div id="disqus_thread"></div><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript><a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a></div></div><div id="fb-root"></div><script type="text/javascript">(function() {
+	var dsq = document.createElement('script');
+	dsq.type = 'text/javascript';
+	dsq.async = true;
 	dsq.src = '//willyg302.disqus.com/embed.js';
 	(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-})();</script><script type="text/javascript" src="/blog/main.js"></script></body></html>
+})();
+function share(id, src) {
+	var js, fjs = document.getElementsByTagName('script')[0];
+	if (!document.getElementById(id)) {
+		js = document.createElement('script');
+		js.id = id;
+		js.src = src;
+		fjs.parentNode.insertBefore(js, fjs);
+	}
+}
+share('twitter-wjs', '//platform.twitter.com/widgets.js');
+share('facebook-jssdk', '//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.0');</script><script type="text/javascript" src="/blog/main.js"></script></body></html>

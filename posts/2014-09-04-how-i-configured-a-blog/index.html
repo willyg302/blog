@@ -5,7 +5,6 @@
 ga('create', 'UA-41109411-2', 'willyg302.github.io');
 ga('send', 'pageview');</script><link rel="stylesheet" type="text/css" href="/blog/main.css"></head><body><div class="sidebar-wrapper"><div class="sidebar"><object width="100%" type="image/svg+xml" data="/blog/img/willyg-blog-logo.svg"></object><div class="colophon"><p><input id="search" type="text" placeholder="Search" onkeydown="search(event);" class="form-control"></p><p>You are currently viewing the post &ldquo;How I Configured a Blog.&rdquo;</p></div><div class="nav"><a href="/blog">Blog Home</a><a href="/blog/feed.xml">RSS Feed</a><a href="/#">Site</a><a href="/#contact">Contact</a></div></div></div><div id="post"><div class="content"><h1>How I Configured a Blog<br><small>Thursday, September 4 2014</small></h1><div class="categories"><a style="background-color: hsl(47, 100%, 35%);" onclick="setCategory('Web Development')" class="label">Web Development</a></div><p>The blog you’re reading right now was <em>configured</em> 100% entirely by yours truly. I say configured rather than some other verb (like <em>programmed</em> or <em>built</em>) because a ridiculous amount of the work involved configuration — of Node packages, of Bower, of Gulp, of JavaScript requirements, of Less…the list goes on and on.</p>
 <!-- more -->
-
 <p>Over the summer I’ve been learning a lot about such project management tools and why they exist. Previously I probably would have relied on a direct CDN link to Angular in my HTML or, worse, downloaded <code>angular.js</code> and included it with the rest of my committed source. But now, depending on Angular is as easy as <code>&quot;angular&quot;: &quot;~1.2.23&quot;</code> in my <code>bower.json</code>. Essentially, all these tools serve to abstract away a project’s dependencies and provide convenient ways to upgrade or delete them if need be.</p>
 <p>The downside to this productivity boost is that configuration is <em>not</em> simple. At times, dependencies are so abstracted that it becomes hard to see what will happen until the project is built. On more than one occasion I found myself digging through my minified JavaScript and CSS files to be sure that certain components (pulled from <code>bower_components/</code>, no less) were where they needed to be. And for someone who has never used such tools before, the amount of Googling required is astronomical; you can probably get anything done with Gulp, but first you have to find the right module and then learn how to integrate that module with your project and then pray that there isn’t an unsolved issue with it or else you’ll be screwed.</p>
 <p>If that wasn’t enough, I also had to choose to use Gulp/Bower/RequireJS versus some other solution, like Grunt/Yeoman, or Gulp/Browserify, or ComponentJS (oh wait, I meant <a href="http://duojs.org/">Duo</a>). I had actually started using Grunt until I did a bit of Googling and realized that it was <a href="http://www.100percentjs.com/just-like-grunt-gulp-browserify-now/">old and busted</a>. And I was almost going to use Browserify, but it was a little <em>too</em> automated for my tastes — the same reason I also didn’t give Duo a whirl. Who knows, maybe next week I will. But by then there will be an even better solution, and everything I just mentioned will be outdated.</p>
@@ -20,8 +19,21 @@ package.json
 </code></pre>
 <p>Then I spammed <code>npm install</code> and <code>bower install</code>, complained a lot, and something magically happened.</p>
 <p>Oh, and of course I used <a href="https://github.com/willyg302/strap.py">strap</a>. More on that later.</p>
-</div><div class="comments"><h2>Comments</h2><div id="disqus_thread"></div><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript><a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a></div></div><script type="text/javascript">(function() {
-	var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+</div><div class="share"><div class="share-button"><a href="https://twitter.com/share" data-text="How I Configured a Blog" class="twitter-share-button">Tweet</a></div><div class="share-button"><div data-href="http://willyg302.github.io/blog/posts/2014-09-04-how-i-configured-a-blog" data-layout="button_count" class="fb-share-button"></div></div></div><div class="comments"><h2>Comments</h2><div id="disqus_thread"></div><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript><a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a></div></div><div id="fb-root"></div><script type="text/javascript">(function() {
+	var dsq = document.createElement('script');
+	dsq.type = 'text/javascript';
+	dsq.async = true;
 	dsq.src = '//willyg302.disqus.com/embed.js';
 	(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-})();</script><script type="text/javascript" src="/blog/main.js"></script></body></html>
+})();
+function share(id, src) {
+	var js, fjs = document.getElementsByTagName('script')[0];
+	if (!document.getElementById(id)) {
+		js = document.createElement('script');
+		js.id = id;
+		js.src = src;
+		fjs.parentNode.insertBefore(js, fjs);
+	}
+}
+share('twitter-wjs', '//platform.twitter.com/widgets.js');
+share('facebook-jssdk', '//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.0');</script><script type="text/javascript" src="/blog/main.js"></script></body></html>

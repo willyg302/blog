@@ -5,7 +5,6 @@
 ga('create', 'UA-41109411-2', 'willyg302.github.io');
 ga('send', 'pageview');</script><link rel="stylesheet" type="text/css" href="/blog/main.css"></head><body><div class="sidebar-wrapper"><div class="sidebar"><object width="100%" type="image/svg+xml" data="/blog/img/willyg-blog-logo.svg"></object><div class="colophon"><p><input id="search" type="text" placeholder="Search" onkeydown="search(event);" class="form-control"></p><p>You are currently viewing the post &ldquo;(Almost) Proper Cross-Browser Timestamps.&rdquo;</p></div><div class="nav"><a href="/blog">Blog Home</a><a href="/blog/feed.xml">RSS Feed</a><a href="/#">Site</a><a href="/#contact">Contact</a></div></div></div><div id="post"><div class="content"><h1>(Almost) Proper Cross-Browser Timestamps<br><small>Tuesday, September 9 2014</small></h1><div class="categories"><a style="background-color: hsl(47, 100%, 35%);" onclick="setCategory('Web Development')" class="label">Web Development</a></div><p>While making this blog, one of the things I had to do was figure out a way to represent post timestamps. These are used not only for sorting and filtering posts by date, but to display the date a post was written in a pretty, human-readable format.</p>
 <!-- more -->
-
 <p>My current system is pretty simple. I have automated the creation of new posts in Markdown via a Python script, which injects the current time as a timestamp in an HTML comment. When the blog is built, the same Python script parses the comment and aggregates post information into a JSON file, which Angular can then request and use. The timestamp is available as the string <code>post.date</code>, and displaying the date nicely is as simple as <code>post.date | date:&#39;EEEE, MMMM d y&#39;</code> (using Angular’s date filter).</p>
 <p>The system worked great so I pushed it out. Then I later accessed my blog from a mobile device and was surprised to see “undefined, undefined NaN NaN” where the date should have been.</p>
 <p>Turns out that JavaScript’s date support is not consistent across browsers: in particular, mobile browsers lag significantly behind. So I set out in search for a timestamp format that would work across “all” browsers (that I could test).</p>
@@ -20,8 +19,21 @@ stop(hammer_time)
 </code></pre>
 <p>Terrible puns aside, it’s important to call <code>utcnow()</code> instead of <code>now()</code> so that time zone information is retained by normalizing to UTC.</p>
 <p>Of course, JavaScript is notorious for being difficult to get 100% right, so I’m sure there’s some obscure version of Opera or IE7 that this will break in. If you absolutely have to have your dates work no matter what, it’s best to depend on a proven library like <a href="http://momentjs.com/">Moment.js</a>. My situation didn’t really warrant the added bloat of such a library for one date string, so I’m happy with my decently proper solution.</p>
-</div><div class="comments"><h2>Comments</h2><div id="disqus_thread"></div><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript><a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a></div></div><script type="text/javascript">(function() {
-	var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+</div><div class="share"><div class="share-button"><a href="https://twitter.com/share" data-text="(Almost) Proper Cross-Browser Timestamps" class="twitter-share-button">Tweet</a></div><div class="share-button"><div data-href="http://willyg302.github.io/blog/posts/2014-09-09-almost-proper-cross-browser-timestamps" data-layout="button_count" class="fb-share-button"></div></div></div><div class="comments"><h2>Comments</h2><div id="disqus_thread"></div><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript><a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a></div></div><div id="fb-root"></div><script type="text/javascript">(function() {
+	var dsq = document.createElement('script');
+	dsq.type = 'text/javascript';
+	dsq.async = true;
 	dsq.src = '//willyg302.disqus.com/embed.js';
 	(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-})();</script><script type="text/javascript" src="/blog/main.js"></script></body></html>
+})();
+function share(id, src) {
+	var js, fjs = document.getElementsByTagName('script')[0];
+	if (!document.getElementById(id)) {
+		js = document.createElement('script');
+		js.id = id;
+		js.src = src;
+		fjs.parentNode.insertBefore(js, fjs);
+	}
+}
+share('twitter-wjs', '//platform.twitter.com/widgets.js');
+share('facebook-jssdk', '//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.0');</script><script type="text/javascript" src="/blog/main.js"></script></body></html>

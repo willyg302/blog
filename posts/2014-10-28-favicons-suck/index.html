@@ -5,7 +5,6 @@
 ga('create', 'UA-41109411-2', 'willyg302.github.io');
 ga('send', 'pageview');</script><link rel="stylesheet" type="text/css" href="/blog/main.css"></head><body><div class="sidebar-wrapper"><div class="sidebar"><object width="100%" type="image/svg+xml" data="/blog/img/willyg-blog-logo.svg"></object><div class="colophon"><p><input id="search" type="text" placeholder="Search" onkeydown="search(event);" class="form-control"></p><p>You are currently viewing the post &ldquo;Favicons Suck.&rdquo;</p></div><div class="nav"><a href="/blog">Blog Home</a><a href="/blog/feed.xml">RSS Feed</a><a href="/#">Site</a><a href="/#contact">Contact</a></div></div></div><div id="post"><div class="content"><h1>Favicons Suck<br><small>Tuesday, October 28 2014</small></h1><div class="categories"><a style="background-color: hsl(47, 100%, 35%);" onclick="setCategory('Web Development')" class="label">Web Development</a></div><p>Every once in a while I tinker with my website to “improve” it. In the last such attempt at improvement I decided to tackle decent favicon support. Up until then I had been using a base64-encoded 16x16 transparent image, since it saved a request and worked fine for the most part, but UX was severely lacking in things like mobile bookmarks and home screen tiles.</p>
 <!-- more -->
-
 <p>Rather than stop to wonder why this was the case, I decided to plunge headlong into the hellhole that is the modern favicon. Quite early on I uncovered <a href="https://github.com/audreyr/favicon-cheat-sheet">this gem</a>, which suggested that to guarantee cross-platform support I should resize my logo a bunch of times and ImageMagick some of the generated images into a nice <code>favicon.ico</code>.</p>
 <p>This seemed like a horrendously repetitive task just dying to be automated, and in fact it <a href="http://realfavicongenerator.net/">has been</a>. Using the beautiful “Real Favicon Generator” I was able to quickly generate all the files necessary for not only generic browser support but a wide variety of use cases on mobile and TV platforms, <em>and</em> (as if that wasn’t enough) verify that my deployed site performed as expected. All it took in the end were these lines:</p>
 <pre><code class="lang-html"><span class="hljs-tag">&lt;<span class="hljs-title">link</span> <span class="hljs-attribute">rel</span>=<span class="hljs-value">"shortcut icon"</span> <span class="hljs-attribute">href</span>=<span class="hljs-value">"dist/img/favicon/favicon.ico"</span>&gt;</span>
@@ -53,8 +52,21 @@ ga('send', 'pageview');</script><link rel="stylesheet" type="text/css" href="/bl
 <p>Currently there is no support for SVG favicons in any of the “big three” web browsers, although bug reports requesting them are open — see <a href="https://bugzilla.mozilla.org/show_bug.cgi?id=366324#c22">Firefox</a>, <a href="http://code.google.com/p/chromium/issues/detail?id=294179">Chrome</a>, and <a href="https://connect.microsoft.com/IE/feedback/details/782416/svg-favicon-support">Internet Explorer</a>. Judging by the feedback it appears that support <em>may</em> be coming, but is a distant glimmer on the horizon.</p>
 <h2 id="for-now">For Now</h2>
 <p>I’ve decided to hold off on making my site work as expected no matter what, at least until browsers get their you-know-what together about something as trivial as the favicon. In all honesty, as cool as it is to see my logo in all its retina glory on the home screen of an iPhone, I don’t think anyone plans to bookmark my site anytime soon. And even if they did, they could probably live without a nice-looking site icon.</p>
-</div><div class="comments"><h2>Comments</h2><div id="disqus_thread"></div><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript><a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a></div></div><script type="text/javascript">(function() {
-	var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+</div><div class="share"><div class="share-button"><a href="https://twitter.com/share" data-text="Favicons Suck" class="twitter-share-button">Tweet</a></div><div class="share-button"><div data-href="http://willyg302.github.io/blog/posts/2014-10-28-favicons-suck" data-layout="button_count" class="fb-share-button"></div></div></div><div class="comments"><h2>Comments</h2><div id="disqus_thread"></div><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript><a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a></div></div><div id="fb-root"></div><script type="text/javascript">(function() {
+	var dsq = document.createElement('script');
+	dsq.type = 'text/javascript';
+	dsq.async = true;
 	dsq.src = '//willyg302.disqus.com/embed.js';
 	(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-})();</script><script type="text/javascript" src="/blog/main.js"></script></body></html>
+})();
+function share(id, src) {
+	var js, fjs = document.getElementsByTagName('script')[0];
+	if (!document.getElementById(id)) {
+		js = document.createElement('script');
+		js.id = id;
+		js.src = src;
+		fjs.parentNode.insertBefore(js, fjs);
+	}
+}
+share('twitter-wjs', '//platform.twitter.com/widgets.js');
+share('facebook-jssdk', '//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.0');</script><script type="text/javascript" src="/blog/main.js"></script></body></html>

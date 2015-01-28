@@ -6,7 +6,6 @@ ga('create', 'UA-41109411-2', 'willyg302.github.io');
 ga('send', 'pageview');</script><link rel="stylesheet" type="text/css" href="/blog/main.css"></head><body><div class="sidebar-wrapper"><div class="sidebar"><object width="100%" type="image/svg+xml" data="/blog/img/willyg-blog-logo.svg"></object><div class="colophon"><p><input id="search" type="text" placeholder="Search" onkeydown="search(event);" class="form-control"></p><p>You are currently viewing the post &ldquo;SVG Optimization.&rdquo;</p></div><div class="nav"><a href="/blog">Blog Home</a><a href="/blog/feed.xml">RSS Feed</a><a href="/#">Site</a><a href="/#contact">Contact</a></div></div></div><div id="post"><div class="content"><h1>SVG Optimization<br><small>Sunday, September 28 2014</small></h1><div class="categories"><a style="background-color: hsl(-350, 100%, 35%);" onclick="setCategory('Uncategorized')" class="label">Uncategorized</a></div><p>SVG images are pretty awesome. However, just like anything else on the web they should be optimized for size and displayability, and that’s when things get decidedly less awesome.</p>
 <p>But fear not! After reading this post, you’ll be an SVG-optimizing wizard!</p>
 <!-- more -->
-
 <p>SVG stands for <em>Scalable Vector Graphics</em>: it’s an XML-based image format that interoperates well with HTML and CSS. That means you can do some cool stuff like have <a href="http://tympanus.net/Development/SVGDrawingAnimation/">animated</a> or <a href="http://tympanus.net/Tutorials/InteractiveSVG/">interactive</a> images, <em>and</em> it scales to any display size. Let’s see your grandma’s GIFs do that.</p>
 <p>Naturally, whenever I have to do any sort of image work on the web I first think about whether I can make an SVG. They work well for logos (such as the one for this blog), icons, and a whole host of other visual elements. If you’re not convinced yet, you can learn a whole lot more about SVGs on the web from <a href="http://css-tricks.com/using-svg/">this comprehensive article</a>.</p>
 <p>When I first started working with SVG, I didn’t even consider optimization; I’d simply export images from Illustrator or Inkscape and use them as-is. Then I happened to crack one open in a text editor and saw a bunch of horrendous gunk like <code>inkscape:</code> and <code>sodipodi</code>, not to mention a barf of metadata. Turns out all this information is absolutely <strong>useless</strong> and can be optimized away. It also turns out that you can do a lot of interesting path fiddling and layout optimizations to crush the file size down even more. There are generally two ways to go about it:</p>
@@ -48,8 +47,21 @@ ga('send', 'pageview');</script><link rel="stylesheet" type="text/css" href="/bl
 </ul>
 <p>You should also uncheck “Use named colors” and check “Inline attributes” to shave a few bytes off.</p>
 <p>That’s all I have for now. I wish you well in your SVG travels.</p>
-</div><div class="comments"><h2>Comments</h2><div id="disqus_thread"></div><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript><a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a></div></div><script type="text/javascript">(function() {
-	var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+</div><div class="share"><div class="share-button"><a href="https://twitter.com/share" data-text="SVG Optimization" class="twitter-share-button">Tweet</a></div><div class="share-button"><div data-href="http://willyg302.github.io/blog/posts/2014-09-29-svg-optimization" data-layout="button_count" class="fb-share-button"></div></div></div><div class="comments"><h2>Comments</h2><div id="disqus_thread"></div><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript><a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a></div></div><div id="fb-root"></div><script type="text/javascript">(function() {
+	var dsq = document.createElement('script');
+	dsq.type = 'text/javascript';
+	dsq.async = true;
 	dsq.src = '//willyg302.disqus.com/embed.js';
 	(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-})();</script><script type="text/javascript" src="/blog/main.js"></script></body></html>
+})();
+function share(id, src) {
+	var js, fjs = document.getElementsByTagName('script')[0];
+	if (!document.getElementById(id)) {
+		js = document.createElement('script');
+		js.id = id;
+		js.src = src;
+		fjs.parentNode.insertBefore(js, fjs);
+	}
+}
+share('twitter-wjs', '//platform.twitter.com/widgets.js');
+share('facebook-jssdk', '//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.0');</script><script type="text/javascript" src="/blog/main.js"></script></body></html>

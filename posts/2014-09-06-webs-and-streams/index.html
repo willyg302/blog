@@ -7,7 +7,6 @@ ga('send', 'pageview');</script><link rel="stylesheet" type="text/css" href="/bl
 <p><strong>Note</strong>: This post was adapted from an assignment I had to do for a Systems Design course at college. We were tasked with writing about what we thought were the world’s worst and best designs. Here are my picks.</p>
 </blockquote>
 <!-- more -->
-
 <h2 id="worst-the-internet">Worst: The Internet</h2>
 <p>The Internet was not designed, which at least in part explains why it is an absolute disaster of design. On the Internet I have seen both masterpieces and abominations, sometimes within clicks of each other. That covers the front-end design, but back-end implementations are no better. There are days when I feel like duct tape and a prayer are holding the digital world together.</p>
 <p>The thing about the Internet is that it is everywhere. It is both the dusty basement server and the spotless Google data center. Since its inception, it has grown — <em>evolved</em> — at a blistering rate, with contributions from dusty basement geeks and spotless Google engineers alike. As a person who already despises team projects, the Internet is a nightmare. Our team is hundreds of millions strong with no coordination and no standards to uphold. I praise the valiant few like the IETF and ECMA who try to make sense of this mess, but their formal processes are too slow for a beast that changes by the millisecond.</p>
@@ -25,8 +24,21 @@ ga('send', 'pageview');</script><link rel="stylesheet" type="text/css" href="/bl
 <p>This assignment is a refreshing conversation starter that everyone should attempt to answer for themselves. So go on…what do <em>you</em> believe are the world’s worst and best designs?</p>
 <p>For those who want to learn more about streams, I recommend the excellent <a href="https://github.com/substack/stream-handbook/blob/master/readme.markdown">Stream Handbook</a> (it is, however, heavily Node-biased). I am currently trying to wrap my head around them; as much as I believe in their potential, I find them as conceptually complex as coroutines.</p>
 <p>For those who want to see what’s possible with streams, check out <a href="http://nodered.org/">Node-RED</a>.</p>
-</div><div class="comments"><h2>Comments</h2><div id="disqus_thread"></div><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript><a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a></div></div><script type="text/javascript">(function() {
-	var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+</div><div class="share"><div class="share-button"><a href="https://twitter.com/share" data-text="Webs and Streams" class="twitter-share-button">Tweet</a></div><div class="share-button"><div data-href="http://willyg302.github.io/blog/posts/2014-09-06-webs-and-streams" data-layout="button_count" class="fb-share-button"></div></div></div><div class="comments"><h2>Comments</h2><div id="disqus_thread"></div><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript><a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a></div></div><div id="fb-root"></div><script type="text/javascript">(function() {
+	var dsq = document.createElement('script');
+	dsq.type = 'text/javascript';
+	dsq.async = true;
 	dsq.src = '//willyg302.disqus.com/embed.js';
 	(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-})();</script><script type="text/javascript" src="/blog/main.js"></script></body></html>
+})();
+function share(id, src) {
+	var js, fjs = document.getElementsByTagName('script')[0];
+	if (!document.getElementById(id)) {
+		js = document.createElement('script');
+		js.id = id;
+		js.src = src;
+		fjs.parentNode.insertBefore(js, fjs);
+	}
+}
+share('twitter-wjs', '//platform.twitter.com/widgets.js');
+share('facebook-jssdk', '//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.0');</script><script type="text/javascript" src="/blog/main.js"></script></body></html>

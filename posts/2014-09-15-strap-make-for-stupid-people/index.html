@@ -3,9 +3,8 @@
 	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
 })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 ga('create', 'UA-41109411-2', 'willyg302.github.io');
-ga('send', 'pageview');</script><link rel="stylesheet" type="text/css" href="/blog/main.css"></head><body><div class="sidebar-wrapper"><div class="sidebar"><object width="100%" type="image/svg+xml" data="/blog/img/willyg-blog-logo.svg"></object><div class="colophon"><p><input id="search" type="text" placeholder="Search" onkeydown="search(event);" class="form-control"></p><p>You are currently viewing the post &ldquo;strap: Make for Stupid People.&rdquo;</p></div><div class="nav"><a href="/blog">Blog Home</a><a href="/blog/feed.xml">RSS Feed</a><a href="/#">Site</a><a href="/#contact">Contact</a></div></div></div><div id="post"><div class="content"><h1>strap: Make for Stupid People<br><small>Sunday, September 14 2014</small></h1><div class="categories"><a style="background-color: hsl(188, 100%, 35%);" onclick="setCategory('Python')" class="label">Python</a><a style="background-color: hsl(-8, 100%, 35%);" onclick="setCategory('strap')" class="label">strap</a></div><p>I made this thing called <a href="https://github.com/willyg302/strap.py">strap</a>. It’s pretty kewl. This is a post about why it was made, how it was made, and what you can do with it.</p>
+ga('send', 'pageview');</script><link rel="stylesheet" type="text/css" href="/blog/main.css"></head><body><div class="sidebar-wrapper"><div class="sidebar"><object width="100%" type="image/svg+xml" data="/blog/img/willyg-blog-logo.svg"></object><div class="colophon"><p><input id="search" type="text" placeholder="Search" onkeydown="search(event);" class="form-control"></p><p>You are currently viewing the post &ldquo;strap: Make for Stupid People.&rdquo;</p></div><div class="nav"><a href="/blog">Blog Home</a><a href="/blog/feed.xml">RSS Feed</a><a href="/#">Site</a><a href="/#contact">Contact</a></div></div></div><div id="post"><div class="content"><h1>strap: Make for Stupid People<br><small>Monday, September 15 2014</small></h1><div class="categories"><a style="background-color: hsl(188, 100%, 35%);" onclick="setCategory('Python')" class="label">Python</a><a style="background-color: hsl(-8, 100%, 35%);" onclick="setCategory('strap')" class="label">strap</a></div><p>I made this thing called <a href="https://github.com/willyg302/strap.py">strap</a>. It’s pretty kewl. This is a post about why it was made, how it was made, and what you can do with it.</p>
 <!-- more -->
-
 <h2 id="why-make-is-hard">Why? Make is Hard</h2>
 <p>You’re probably thinking (and rightly so), “<em>Another</em> build tool? Really?!”</p>
 <p>Make is kewl, too. It’s the original build tool, the granddaddy of them all, and even after all this time it still deserves merit. Posts have been written about why it is “<a href="https://algorithms.rdio.com/post/make/">The Ultimate Frontend Build Tool</a>“. Sometimes people do things in Gulp or Grunt that could easily be accomplished by a line or two of Bash thrown into a Makefile. Sometimes people do things in Gulp or Grunt that they shouldn’t even be doing in Gulp or Grunt, like renaming files and deleting directories. (Okay, yes, there are Windows devs out there. I pity them.)</p>
@@ -100,8 +99,21 @@ Please visit http://nodejs.org/ for installation instructions.
 <p>As it turns out, this dynamic injection is the <em>only</em> way such a system would have worked. Don’t believe me? Try accessing the strap variable from the global scope. The reason why it breaks there is because the variable isn’t shielded, which is exactly what injection achieves. Moreover, if you try to import the strap library from within a <code>strapme.py</code> file, suddenly you’ve got a circular dependency — because of the way Python importing works such a task would be…less than intuitive. Definitely not something we want stupid people to tackle.</p>
 <h2 id="kewl-so-what-now-">Kewl. So What Now?</h2>
 <p><a href="https://github.com/willyg302/strap.py">Get strap</a>, of course!</p>
-</div><div class="comments"><h2>Comments</h2><div id="disqus_thread"></div><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript><a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a></div></div><script type="text/javascript">(function() {
-	var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+</div><div class="share"><div class="share-button"><a href="https://twitter.com/share" data-text="strap: Make for Stupid People" class="twitter-share-button">Tweet</a></div><div class="share-button"><div data-href="http://willyg302.github.io/blog/posts/2014-09-15-strap-make-for-stupid-people" data-layout="button_count" class="fb-share-button"></div></div></div><div class="comments"><h2>Comments</h2><div id="disqus_thread"></div><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript><a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a></div></div><div id="fb-root"></div><script type="text/javascript">(function() {
+	var dsq = document.createElement('script');
+	dsq.type = 'text/javascript';
+	dsq.async = true;
 	dsq.src = '//willyg302.disqus.com/embed.js';
 	(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-})();</script><script type="text/javascript" src="/blog/main.js"></script></body></html>
+})();
+function share(id, src) {
+	var js, fjs = document.getElementsByTagName('script')[0];
+	if (!document.getElementById(id)) {
+		js = document.createElement('script');
+		js.id = id;
+		js.src = src;
+		fjs.parentNode.insertBefore(js, fjs);
+	}
+}
+share('twitter-wjs', '//platform.twitter.com/widgets.js');
+share('facebook-jssdk', '//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.0');</script><script type="text/javascript" src="/blog/main.js"></script></body></html>

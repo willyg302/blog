@@ -5,7 +5,6 @@
 ga('create', 'UA-41109411-2', 'willyg302.github.io');
 ga('send', 'pageview');</script><link rel="stylesheet" type="text/css" href="/blog/main.css"></head><body><div class="sidebar-wrapper"><div class="sidebar"><object width="100%" type="image/svg+xml" data="/blog/img/willyg-blog-logo.svg"></object><div class="colophon"><p><input id="search" type="text" placeholder="Search" onkeydown="search(event);" class="form-control"></p><p>You are currently viewing the post &ldquo;AWS Lambda: Testing the Waters.&rdquo;</p></div><div class="nav"><a href="/blog">Blog Home</a><a href="/blog/feed.xml">RSS Feed</a><a href="/#">Site</a><a href="/#contact">Contact</a></div></div></div><div id="post"><div class="content"><h1>AWS Lambda: Testing the Waters<br><small>Monday, January 5 2015</small></h1><div class="categories"><a style="background-color: hsl(218, 100%, 35%);" onclick="setCategory('AWS Lambda')" class="label">AWS Lambda</a></div><p>In <a href="/blog/posts/2014-11-14-what-lambda-is">a previous post</a> I waxed poetic about the potential of AWS Lambda. Now it’s time to actually <em>use</em> it.</p>
 <!-- more -->
-
 <p>As this is a “testing the waters” post, we won’t be building anything particularly useful or production-ready. Instead, we will work towards implementing one of the very first ideas I had for a Lambda function: <strong>running GitHub Gists in the cloud</strong>. This strikes me as interesting for several reasons:</p>
 <ul>
 <li>Instant decoupled versioning. Currently Lambda’s versioning system is at best n+1 and at worst nonexistent, whereas Gists are backed by git and separated from the AWS infrastructure.</li>
@@ -355,8 +354,21 @@ nth Fibonacci: 55
 <p>We’ve done quite a bit, so since you’ve come this far let’s recap! Hopefully this post has shown you not only the basic AWS Lambda workflows, but some of the iterative processes involved in sculpting a Lambda function. Our product is by no means production-ready or complete, but with comparatively little code we have created a powerful system for executing Gists in the cloud that is immediately scalable and fault-tolerant. Future iterations could improve upon error handling and leverage promises instead of all our lazy callback hacks.</p>
 <p>However, we’ve just scratched the surface of what Lambda can do! In a future Lambda post I’ll be taking this idea one step further by seeing if I can create a Lambda function hosting system <em>using</em> Lambda (so meta, amirite?).</p>
 <p>If you have any other ideas for cool applications, I’d love to hear them!</p>
-</div><div class="comments"><h2>Comments</h2><div id="disqus_thread"></div><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript><a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a></div></div><script type="text/javascript">(function() {
-	var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+</div><div class="share"><div class="share-button"><a href="https://twitter.com/share" data-text="AWS Lambda: Testing the Waters" class="twitter-share-button">Tweet</a></div><div class="share-button"><div data-href="http://willyg302.github.io/blog/posts/2015-01-06-aws-lambda-testing-the-waters" data-layout="button_count" class="fb-share-button"></div></div></div><div class="comments"><h2>Comments</h2><div id="disqus_thread"></div><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript><a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a></div></div><div id="fb-root"></div><script type="text/javascript">(function() {
+	var dsq = document.createElement('script');
+	dsq.type = 'text/javascript';
+	dsq.async = true;
 	dsq.src = '//willyg302.disqus.com/embed.js';
 	(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-})();</script><script type="text/javascript" src="/blog/main.js"></script></body></html>
+})();
+function share(id, src) {
+	var js, fjs = document.getElementsByTagName('script')[0];
+	if (!document.getElementById(id)) {
+		js = document.createElement('script');
+		js.id = id;
+		js.src = src;
+		fjs.parentNode.insertBefore(js, fjs);
+	}
+}
+share('twitter-wjs', '//platform.twitter.com/widgets.js');
+share('facebook-jssdk', '//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.0');</script><script type="text/javascript" src="/blog/main.js"></script></body></html>
