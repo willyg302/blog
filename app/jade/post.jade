@@ -25,25 +25,28 @@ block pageContent
 				a.twitter-share-button(href='https://twitter.com/share', data-text=title) Tweet
 			.share-button
 				.fb-share-button(data-href=fullURI, data-layout='button_count')
-		.comments
-			h2 Comments
-			//- DISQUS
-			#disqus_thread
-			noscript
-				| Please enable JavaScript to view the 
-				a(href='http://disqus.com/?ref_noscript') comments powered by Disqus.
-			a.dsq-brlink(href='http://disqus.com')
-				| comments powered by 
-				span.logo-disqus Disqus
+		if comments
+			.comments
+				h2 Comments
+				//- DISQUS
+				#disqus_thread
+				noscript
+					| Please enable JavaScript to view the 
+					a(href='http://disqus.com/?ref_noscript') comments powered by Disqus.
+				a.dsq-brlink(href='http://disqus.com')
+					| comments powered by 
+					span.logo-disqus Disqus
 	#fb-root
+	if comments
+		script(type='text/javascript').
+			(function() {
+				var dsq = document.createElement('script');
+				dsq.type = 'text/javascript';
+				dsq.async = true;
+				dsq.src = '//willyg302.disqus.com/embed.js';
+				(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+			})();
 	script(type='text/javascript').
-		(function() {
-			var dsq = document.createElement('script');
-			dsq.type = 'text/javascript';
-			dsq.async = true;
-			dsq.src = '//willyg302.disqus.com/embed.js';
-			(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-		})();
 		function share(id, src) {
 			var js, fjs = document.getElementsByTagName('script')[0];
 			if (!document.getElementById(id)) {

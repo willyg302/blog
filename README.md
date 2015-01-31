@@ -12,6 +12,5 @@ Run `ok` to build the blog, then `ok run publish` to publish the changes to GitH
 
 ## Todo
 
-- [ ] Take the post `comments` metadata into account
-- [ ] Fully static blog (still with search functionality)
-- [x] RSS feed
+- [ ] Better search functionality (x-editable style)
+- [ ] Add `metalsmith-relative` for automatic relative paths in Jade
