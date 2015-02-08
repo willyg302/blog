@@ -1,0 +1,396 @@
+<!DOCTYPE html><html><head><title>HTML5 Games with Phaser, Parse, and CoffeeScript - WillyG Productions Blog</title><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="author" content="William Gaul"><link rel="icon" type="image/x-icon" href="data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAD///8A////AP///wD///8A////AP///wD///8ALzLc/y8y3P////8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8ALzLc/y8y3P8vMtz/LzLc/////wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wAvMtz/LzLc/////wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8Alpftgf///wD///8ALzLc/y8y3P////8A////AJaX7YH///8A////AP///wD///8A////AP///wD///8ALzLc/y8y3P////8A////AC8y3P8vMtz/////AP///wAvMtz/LzLc/////wD///8A////AP///wD///8ALzLc/y8y3P+Wl+2B////AP///wD///8A////AP///wD///8AlpftgS8y3P8vMtz/////AP///wD///8ALzLc/y8y3P8vMtz/////AP///wD///8A////AP///wD///8A////AP///wAvMtz/LzLc/y8y3P////8ALzLc/y8y3P8vMtz/LzLc/////wD///8ALzLc/////wD///8ALzLc/////wD///8ALzLc/y8y3P8vMtz/LzLc/y8y3P8vMtz/LzLc/y8y3P////8A////AC8y3P////8A////AC8y3P////8A////AC8y3P8vMtz/LzLc/y8y3P////8ALzLc/y8y3P////8A////AJaX7YEvMtz/////AP///wAvMtz/lpftgf///wD///8ALzLc/y8y3P////8A////AP///wAvMtz/////AP///wAvMtz/LzLc/////wD///8ALzLc/y8y3P////8A////AC8y3P////8A////AP///wD///8A////AP///wD///8ALzLc/y8y3P////8A////AC8y3P8vMtz/////AP///wD///8A////AP///wD///8A////AP///wD///8A////AC8y3P8vMtz/////AP///wAvMtz/LzLc/////wD///8A////AP///wD///8A////AP///wD///8A////AP///wAvMtz/LzLc/y8y3P8vMtz/LzLc/y8y3P////8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AC8y3P8vMtz/LzLc/y8y3P////8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8ALzLc/y8y3P////8A////AP///wD///8A////AP///wD///8A/n8AAPw/AAD+fwAA9m8AAOZnAADH4wAAj/EAAA2wAAANsAAAmZkAANmbAAD5nwAA+Z8AAPgfAAD8PwAA/n8AAA=="><script type="text/javascript">(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-41109411-2', 'willyg302.github.io');
+ga('send', 'pageview');</script><link rel="stylesheet" type="text/css" href="/blog/main.css"></head><body><div class="sidebar-wrapper"><div class="sidebar"><object width="100%" type="image/svg+xml" data="/blog/img/willyg-blog-logo.svg"></object><div class="colophon"><p><input id="search" type="text" placeholder="Search" onkeydown="search(event);" class="form-control"></p><p>You are currently viewing the post &ldquo;HTML5 Games with Phaser, Parse, and CoffeeScript.&rdquo;</p></div><div class="nav"><a href="/blog">Blog Home</a><a href="/blog/feed.xml">RSS Feed</a><a href="/#">Site</a><a href="/#contact">Contact</a></div></div></div><div id="post"><div class="content"><h1>HTML5 Games with Phaser, Parse, and CoffeeScript<br><small>Sunday, February 8 2015</small></h1><div class="categories"><a style="background-color: hsl(287, 100%, 35%);" onclick="setCategory('Gaming')" class="label">Gaming</a></div><p>A year and a half ago, I spent a week <a href="https://willyg302.wordpress.com/2013/09/08/making-an-html5-game-in-7-days/">making an HTML5 game</a> called <em>Dave Likes Pizza</em>, despite knowing next to nothing about web development. Not surprisingly, the final product was an abomination of web practices. My <em>coup de grâce</em> was a file of <a href="https://raw.githubusercontent.com/willyg302/Dave-Likes-Pizza/master/how-to-build.txt">build instructions</a> containing such gems as “use a JavaScript minifier on the contents of the <code>src/</code> directory” and “copy the following file structure to the remote host.” Even now these lines make me shudder.</p>
+<!-- more -->
+<p>Luckily, in the 18 months that followed the completion of <em>Dave Likes Pizza</em>, I’ve been doing nothing but web development and have adopted much better development practices. So I thought it was high time we paid Dave a return visit.</p>
+<p>In this post we’ll be looking at how I’d start writing <em>Dave Likes Pizza</em> if I were doing it today, using these fancy-schmancy new web technologies:</p>
+<ul>
+<li><strong><a href="http://phaser.io/">Phaser</a></strong>: the game framework</li>
+<li><strong><a href="https://parse.com/">Parse</a></strong>: the supercharged backend service</li>
+<li><strong><a href="http://coffeescript.org/">CoffeeScript</a></strong>: our language of choice</li>
+<li><strong><a href="http://nodejs.org/">Node</a>/<a href="http://gulpjs.com/">gulp</a>/<a href="http://browserify.org/">Browserify</a></strong>: the build system</li>
+</ul>
+<p>Please note that this is not by any means a definitive guide to making HTML5 games, because as with anything Internet-related there are <a href="http://www.jsbreakouts.org/">countless options</a> to choose from. In many cases you will just have to experiment and find a workflow that you feel comfortable with, but it is my hope that this post can at least point you in the right direction.</p>
+<p>So without further ado, let’s get started!</p>
+<h2 id="getting-parse">Getting Parse</h2>
+<p>A good first step would be to <a href="https://parse.com/#signup">create a Parse account</a>. Once you are logged in, create a new application and remember its <strong>Application ID</strong> and <strong>JavaScript Key</strong> for later.</p>
+<h2 id="setting-up">Setting Up</h2>
+<p>If you haven’t already, <a href="https://docs.npmjs.com/getting-started/installing-node">install Node and npm</a>. Then make a new directory and initialize it:</p>
+<pre><code class="lang-bash">$ mkdir mygame
+$ <span class="hljs-built_in">cd</span> mygame
+$ npm init
+</code></pre>
+<p>You can probably accept all the defaults npm gives you by pressing Enter a lot of times, but if you want to provide a description of your game or choose a different license, feel free to do so. The next step is to install a whole bunch of packages (don’t worry if you don’t understand what these are for, we’ll get to that in a bit):</p>
+<pre><code class="lang-bash">$ npm install --save-dev gulp gulp-coffeelint gulp-stylus gulp-uglify browserify browserify-shim coffeeify del http-server vinyl-buffer vinyl-source-stream
+</code></pre>
+<p>Next, open up <code>package.json</code> in your favorite text editor and edit <code>&quot;scripts&quot;</code> to the following:</p>
+<pre><code class="lang-json">"scripts": {
+  "build": "npm run test &amp;&amp; gulp",
+  "serve": "http-server dist",
+  "test": "gulp lint"
+},
+</code></pre>
+<p>This will allow you to build the game by calling <code>npm run build</code>, serve it at <code>http://localhost:8080/</code> by calling <code>npm run serve</code>, and test your code (currently only for linting errors) by calling <code>npm run test</code>. Easy, right?</p>
+<p>We’ll also need a bit of custom config at the bottom of <code>package.json</code>:</p>
+<pre><code class="lang-json">&quot;browserify&quot;: {
+  &quot;transform&quot;: [
+    &quot;browserify-shim&quot;
+  ]
+},
+&quot;browserify-shim&quot;: {
+  &quot;Parse&quot;: &quot;global:Parse&quot;,
+  &quot;Phaser&quot;: &quot;global:Phaser&quot;
+},
+&quot;coffeelintConfig&quot;: {
+  &quot;max_line_length&quot;: {
+    &quot;level&quot;: &quot;ignore&quot;
+  }
+}
+</code></pre>
+<p>We’ll get to the Browserify business in a later step. The other entry is for customizing how <a href="http://www.coffeelint.org/">CoffeeLint</a> will <a href="http://en.wikipedia.org/wiki/Lint_%28software%29">lint</a> our CoffeeScript code. Normally it will flag any line that is longer than 80 characters wide, but when working with Phaser it is pretty difficult to stick to this rule, so we ignore it.</p>
+<h2 id="the-gulpfile">The Gulpfile</h2>
+<p>Gulp is a nifty build system that is worth learning and using for any web project. It works around the idea of <em>tasks</em> defined in a file called <code>Gulpfile.js</code>. At the top of this file, we first need to import all the necessary plugins:</p>
+<pre><code class="lang-js"><span class="hljs-keyword">var</span> gulp       = <span class="hljs-built_in">require</span>(<span class="hljs-string">'gulp'</span>);
+<span class="hljs-keyword">var</span> coffeelint = <span class="hljs-built_in">require</span>(<span class="hljs-string">'gulp-coffeelint'</span>);
+<span class="hljs-keyword">var</span> stylus     = <span class="hljs-built_in">require</span>(<span class="hljs-string">'gulp-stylus'</span>);
+<span class="hljs-keyword">var</span> uglify     = <span class="hljs-built_in">require</span>(<span class="hljs-string">'gulp-uglify'</span>);
+
+<span class="hljs-keyword">var</span> browserify = <span class="hljs-built_in">require</span>(<span class="hljs-string">'browserify'</span>);
+<span class="hljs-keyword">var</span> coffeeify  = <span class="hljs-built_in">require</span>(<span class="hljs-string">'coffeeify'</span>);
+<span class="hljs-keyword">var</span> del        = <span class="hljs-built_in">require</span>(<span class="hljs-string">'del'</span>);
+<span class="hljs-keyword">var</span> buffer     = <span class="hljs-built_in">require</span>(<span class="hljs-string">'vinyl-buffer'</span>);
+<span class="hljs-keyword">var</span> vinyl      = <span class="hljs-built_in">require</span>(<span class="hljs-string">'vinyl-source-stream'</span>);
+</code></pre>
+<p>Then, a listing of paths our build system will operate with:</p>
+<pre><code class="lang-js"><span class="hljs-keyword">var</span> paths = {
+    assets: [
+        <span class="hljs-string">'./app/assets/**/*.*'</span>,
+        <span class="hljs-string">'./app/index.html'</span>
+    ],
+    app: <span class="hljs-string">'./app'</span>,
+    dist: <span class="hljs-string">'./dist'</span>,
+    css: <span class="hljs-string">'./app/css/main.styl'</span>,
+    js: <span class="hljs-string">'./app/js/app.coffee'</span>,
+    lint: <span class="hljs-string">'./app/js/*.coffee'</span>
+};
+</code></pre>
+<p>We’ll be fleshing out these paths in the next step, but for now let’s go over them!</p>
+<ul>
+<li><code>assets</code>: static assets that will just be copied over into the build</li>
+<li><code>app</code>: the directory where all of our game sources live in (this is an arbitrary name; you could just as well pick <code>src/</code> or <code>dev/</code> or something like that)</li>
+<li><code>dist</code>: the directory our built game will live in</li>
+<li><code>css</code>: our main <a href="http://learnboost.github.io/stylus/">Stylus</a> file, which will be compiled into CSS</li>
+<li><code>js</code>: our main CoffeeScript file, which will be browserified into JavaScript</li>
+<li><code>lint</code>: a glob of all CoffeeScript files, for linting</li>
+</ul>
+<p>The first task we’ll write deals with linting. Crucially, we want the build to fail if <em>anything</em> goes wrong, even if a warning is thrown:</p>
+<pre><code class="lang-js">gulp.task(<span class="hljs-string">'lint'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> </span>{
+    <span class="hljs-keyword">return</span> gulp.src(paths.lint)
+        .pipe(coffeelint())
+        .pipe(coffeelint.reporter())
+        .pipe(coffeelint.reporter(<span class="hljs-string">'failOnWarning'</span>));
+});
+</code></pre>
+<p>The remaining tasks handle the actual build step:</p>
+<pre><code class="lang-js">gulp.task(<span class="hljs-string">'clean'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(cb)</span> </span>{
+    del(paths.dist, cb);
+});
+
+gulp.task(<span class="hljs-string">'copy-assets'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> </span>{
+    <span class="hljs-keyword">return</span> gulp.src(paths.assets, {base: paths.app})
+        .pipe(gulp.dest(paths.dist));
+});
+
+gulp.task(<span class="hljs-string">'compile-css'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> </span>{
+    <span class="hljs-keyword">return</span> gulp.src(paths.css)
+        .pipe(stylus({
+            compress: <span class="hljs-literal">true</span>
+        }))
+        .pipe(gulp.dest(paths.dist));
+});
+
+gulp.task(<span class="hljs-string">'compile-js'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> </span>{
+    <span class="hljs-keyword">return</span> browserify(paths.js)
+        .transform(coffeeify)
+        .bundle()
+        .pipe(vinyl(<span class="hljs-string">'main.js'</span>))
+        .pipe(buffer())
+        .pipe(uglify())
+        .pipe(gulp.dest(paths.dist));
+});
+
+gulp.task(<span class="hljs-string">'default'</span>, [<span class="hljs-string">'clean'</span>], <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> </span>{
+    gulp.start(<span class="hljs-string">'copy-assets'</span>, <span class="hljs-string">'compile-css'</span>, <span class="hljs-string">'compile-js'</span>);
+});
+</code></pre>
+<p>So what happens when we run a build? The <code>default</code> task will be run, which has as its prerequisite the <code>clean</code> task. This will delete the <code>dist/</code> directory entirely. Then we start the remaining tasks in parallel, which handle copying all the assets over, compiling our CSS, and browserifying our JavaScript.</p>
+<p>It would be prudent at this point to revisit our previous Browserify config:</p>
+<pre><code class="lang-json">&quot;browserify&quot;: {
+  &quot;transform&quot;: [
+    &quot;browserify-shim&quot;
+  ]
+},
+&quot;browserify-shim&quot;: {
+  &quot;Parse&quot;: &quot;global:Parse&quot;,
+  &quot;Phaser&quot;: &quot;global:Phaser&quot;
+}
+</code></pre>
+<p>This declares <a href="http://en.wikipedia.org/wiki/Shim_%28computing%29">shims</a> for Parse and Phaser, so that we can <a href="https://github.com/thlorenz/browserify-shim#a-expose-global-variables-via-global">use a CDN</a> for them rather than including their sources in the game. Since both Parse and Phaser are huge libraries — several hundred kilobytes each — doing so saves a lot of time on the build step and reduces the game size drastically.</p>
+<h2 id="app-structure">App Structure</h2>
+<p>Thus far we’ve done a lot of config, so let’s switch gears and start building out our game. At the very least, our <code>app/</code> directory should have the following structure:</p>
+<pre><code>app/
+    assets/
+        img/
+        snd/
+        pack.json
+    css/
+        main.styl
+    js/
+        app.coffee
+    index.html
+</code></pre><p>The CSS is likely the easiest, as you won’t need much for your game (most of the layout is done using the game engine itself). Here’s an excerpt from my <code>main.styl</code> that sets the global font to <a href="http://www.google.com/fonts/specimen/Acme">Acme</a>, centers everything, and gives the main game stage a width:</p>
+<pre><code class="lang-styl">@import url(http://fonts.googleapis.com/css?family=Acme);
+
+body
+    text-align center
+    font-family &#39;Acme&#39;, sans-serif
+
+#game-stage
+    width 960px
+    margin 20px auto 0 auto
+</code></pre>
+<p>And now on to <code>index.html</code>:</p>
+<pre><code class="lang-html"><span class="hljs-doctype">&lt;!DOCTYPE html&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-title">html</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-title">head</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-title">title</span>&gt;</span>My Awesome Game<span class="hljs-tag">&lt;/<span class="hljs-title">title</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-title">meta</span> <span class="hljs-attribute">charset</span>=<span class="hljs-value">"utf-8"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-title">meta</span> <span class="hljs-attribute">name</span>=<span class="hljs-value">"viewport"</span> <span class="hljs-attribute">content</span>=<span class="hljs-value">"width=device-width, initial-scale=1"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-title">meta</span> <span class="hljs-attribute">name</span>=<span class="hljs-value">"author"</span> <span class="hljs-attribute">content</span>=<span class="hljs-value">"Joe Bobberts"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-title">link</span> <span class="hljs-attribute">rel</span>=<span class="hljs-value">"stylesheet"</span> <span class="hljs-attribute">type</span>=<span class="hljs-value">"text/css"</span> <span class="hljs-attribute">href</span>=<span class="hljs-value">"main.css"</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-title">head</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-title">body</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">id</span>=<span class="hljs-value">"game-stage"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-title">script</span> <span class="hljs-attribute">type</span>=<span class="hljs-value">"text/javascript"</span> <span class="hljs-attribute">src</span>=<span class="hljs-value">"http://www.parsecdn.com/js/parse-1.3.4.min.js"</span>&gt;</span><span class="javascript"></span><span class="hljs-tag">&lt;/<span class="hljs-title">script</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-title">script</span> <span class="hljs-attribute">type</span>=<span class="hljs-value">"text/javascript"</span> <span class="hljs-attribute">src</span>=<span class="hljs-value">"https://cdnjs.cloudflare.com/ajax/libs/phaser/2.2.2/phaser.min.js"</span>&gt;</span><span class="javascript"></span><span class="hljs-tag">&lt;/<span class="hljs-title">script</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-title">script</span> <span class="hljs-attribute">type</span>=<span class="hljs-value">"text/javascript"</span> <span class="hljs-attribute">src</span>=<span class="hljs-value">"main.js"</span>&gt;</span><span class="javascript"></span><span class="hljs-tag">&lt;/<span class="hljs-title">script</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-title">body</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-title">html</span>&gt;</span>
+</code></pre>
+<p>The markup is very minimal. We really only need a single div, here called <code>#game-stage</code>, at which to mount the game. Finally, we have <code>app.coffee</code>:</p>
+<pre><code class="lang-coffee">Phaser = <span class="hljs-built_in">require</span> <span class="hljs-string">'Phaser'</span>
+
+game = <span class="hljs-keyword">new</span> Phaser.Game <span class="hljs-number">960</span>, <span class="hljs-number">640</span>, Phaser.AUTO, <span class="hljs-string">'game-stage'</span>
+</code></pre>
+<p>Here we tell Phaser to create a new game with the given dimensions and mount it to our div. If you now call <code>npm run build</code> it should compile. Congratulations, you now have a working game that does absolutely nothing!</p>
+<h2 id="doing-something">Doing Something</h2>
+<p>For this next part we will need several assets just to demonstrate how a typical Phaser game is started:</p>
+<ul>
+<li>A <a href="https://raw.githubusercontent.com/willyg302/DaveLikesPizzaToo/master/app/assets/img/preload-bar.png">loading bar</a> to display while the game is loading</li>
+<li>A <a href="https://raw.githubusercontent.com/willyg302/DaveLikesPizzaToo/master/app/assets/img/phaser-logo.png">graphic</a> to display once the game is running</li>
+<li>Some <a href="http://incompetech.com/music/royalty-free/index.html?isrc=USUAN1100839">sweet music</a>!</li>
+</ul>
+<p>The music in particular will need to be available in both <code>.mp3</code> and <code>.ogg</code> formats to work on a variety of platforms. You can use a tool like <a href="http://lekka.cba.pl/software/ubuntu/linux_bash_avconv_mp32ogg_eng.htm">avconv</a> or one of many online sites for conversion. The <code>assets/</code> directory should now look like this:</p>
+<pre><code>assets/
+    img/
+        phaser-logo.png
+        preload-bar.png
+    snd/
+        funk_game_loop.ogg
+        funk_game_loop.mp3
+    pack.json
+</code></pre><p>Wait, what’s that <code>pack.json</code> doing there? This is a file describing all our assets for Phaser’s <a href="http://www.html5gamedevs.com/topic/6807-new-phaser-asset-pack-feature-please-test/">asset pack</a> system, which makes loading assets a breeze. Instead of listing a bunch of file paths in code, we can list them in this JSON file and load it with a single line of code instead. Here’s what the file looks like:</p>
+<pre><code class="lang-json">{
+    "<span class="hljs-attribute">preload</span>": <span class="hljs-value">[
+        {
+            "<span class="hljs-attribute">type</span>": <span class="hljs-value"><span class="hljs-string">"image"</span></span>,
+            "<span class="hljs-attribute">key</span>": <span class="hljs-value"><span class="hljs-string">"preloadBar"</span></span>,
+            "<span class="hljs-attribute">url</span>": <span class="hljs-value"><span class="hljs-string">"assets/img/preload-bar.png"</span>
+        </span>}
+    ]</span>,
+    "<span class="hljs-attribute">main</span>": <span class="hljs-value">[
+        {
+            "<span class="hljs-attribute">type</span>": <span class="hljs-value"><span class="hljs-string">"image"</span></span>,
+            "<span class="hljs-attribute">key</span>": <span class="hljs-value"><span class="hljs-string">"phaserLogo"</span></span>,
+            "<span class="hljs-attribute">url</span>": <span class="hljs-value"><span class="hljs-string">"assets/img/phaser-logo.png"</span>
+        </span>},
+        {
+            "<span class="hljs-attribute">type</span>": <span class="hljs-value"><span class="hljs-string">"audio"</span></span>,
+            "<span class="hljs-attribute">key</span>": <span class="hljs-value"><span class="hljs-string">"gameMusic"</span></span>,
+            "<span class="hljs-attribute">urls</span>": <span class="hljs-value">[<span class="hljs-string">"assets/snd/funk_game_loop.mp3"</span>, <span class="hljs-string">"assets/snd/funk_game_loop.ogg"</span>]
+        </span>}
+    ]
+</span>}
+</code></pre>
+<p>Notice that we have defined two packs, <code>preload</code> and <code>main</code>. This follows the typical process for starting a Phaser game:</p>
+<ol>
+<li><strong>Boot</strong>: Load any assets needed for the Preload state, i.e. <code>preload</code></li>
+<li><strong>Preload</strong>: Render a loading screen, then set up the game and load all of its assets, i.e. <code>main</code></li>
+<li><strong>Menu</strong>: Once loading is done, take players to the menu</li>
+<li><strong>Game</strong>: The main game state</li>
+</ol>
+<p>With that in mind, we need a few more files in our <code>js/</code> directory:</p>
+<pre><code>js/
+    app.coffee
+    config.coffee
+    boot.coffee
+    preload.coffee
+    menu.coffee
+    game.coffee
+</code></pre><p>You can, of course, have as many states as you want — maybe a pause menu state, or a settings screen state, or a tutorial state. The general rule, though, is that each state should be completely independent of the next. Use your best judgment to decide what that means. For example, if my menu implements sliding transitions to get between screens, then I likely don’t want each screen to be a separate state because the transitions link the states to each other.</p>
+<h2 id="writing-the-states">Writing the States</h2>
+<p>Before diving into writing our states, let’s revisit <code>app.coffee</code>:</p>
+<pre><code class="lang-coffee">Phaser = <span class="hljs-built_in">require</span> <span class="hljs-string">'Phaser'</span>
+
+config = <span class="hljs-built_in">require</span> <span class="hljs-string">'./config.coffee'</span>
+Boot = <span class="hljs-built_in">require</span> <span class="hljs-string">'./boot.coffee'</span>
+Preload = <span class="hljs-built_in">require</span> <span class="hljs-string">'./preload.coffee'</span>
+Menu = <span class="hljs-built_in">require</span> <span class="hljs-string">'./menu.coffee'</span>
+Game = <span class="hljs-built_in">require</span> <span class="hljs-string">'./game.coffee'</span>
+
+game = <span class="hljs-keyword">new</span> Phaser.Game config.width, config.height, Phaser.AUTO, <span class="hljs-string">'game-stage'</span>
+game.state.add <span class="hljs-string">'Boot'</span>, Boot
+game.state.add <span class="hljs-string">'Preload'</span>, Preload
+game.state.add <span class="hljs-string">'Menu'</span>, Menu
+game.state.add <span class="hljs-string">'Game'</span>, Game
+game.state.start <span class="hljs-string">'Boot'</span>
+</code></pre>
+<p>Here we import all our states, add them to the game, and tell our game to visit the Boot state first. You might also have noticed the new <code>config</code> object, which represents a useful way to store global data about our game:</p>
+<pre><code class="lang-coffee"><span class="hljs-built_in">module</span>.exports =
+  <span class="hljs-attribute">width</span>: <span class="hljs-number">960</span>
+  <span class="hljs-attribute">height</span>: <span class="hljs-number">640</span>
+  <span class="hljs-attribute">pack</span>: <span class="hljs-string">'assets/pack.json'</span>
+</code></pre>
+<p>As much as possible, you should try to consolidate any config into this file to avoid having magic numbers strewn throughout your code.</p>
+<h3 id="boot">Boot</h3>
+<pre><code class="lang-coffee">Phaser = <span class="hljs-built_in">require</span> <span class="hljs-string">'Phaser'</span>
+
+config = <span class="hljs-built_in">require</span> <span class="hljs-string">'./config.coffee'</span>
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Boot</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Phaser</span>.<span class="hljs-title">State</span></span>
+  <span class="hljs-attribute">constructor</span>: <span class="hljs-function">-&gt;</span> <span class="hljs-keyword">super</span>
+
+  <span class="hljs-attribute">preload</span>: <span class="hljs-function">-&gt;</span>
+    <span class="hljs-property">@load</span>.pack <span class="hljs-string">'preload'</span>, config.pack
+
+  <span class="hljs-attribute">create</span>: <span class="hljs-function">-&gt;</span>
+    <span class="hljs-property">@state</span>.start <span class="hljs-string">'Preload'</span>
+
+<span class="hljs-built_in">module</span>.exports = Boot
+</code></pre>
+<p>At some point you may have been wondering, “Why use CoffeeScript instead of vanilla JavaScript or TypeScript (which Phaser also supports)?” There is no real answer to this; you could just as well use JavaScript if you feel like it. But one of the reasons I like to use CoffeeScript — apart from its readability and “unfanciness” — is that it provides <a href="http://coffeescript.org/#classes">classes</a>. Yes, so does TypeScript and <a href="http://javascriptplayground.com/blog/2014/07/introduction-to-es6-classes-tutorial/">ES6</a>, but I digress.</p>
+<p>Game development is notorious for its penchant for object-oriented programming, and Phaser is no exception. One thing lacking from the JavaScript of today, however, is <em>classes</em>. So whereas we would have to be doing a lot of <code>prototype</code> magic in plain JavaScript, above we can simply extend <code>Phaser.State</code> and get on with it. In the Boot state, loading our loading assets (oh the irony) is but the work of a simple <code>@load.pack &#39;preload&#39;, config.pack</code>. We then tell our game to transition to the Preload state.</p>
+<h3 id="preload">Preload</h3>
+<pre><code class="lang-coffee">Parse = <span class="hljs-built_in">require</span> <span class="hljs-string">'Parse'</span>
+Phaser = <span class="hljs-built_in">require</span> <span class="hljs-string">'Phaser'</span>
+
+config = <span class="hljs-built_in">require</span> <span class="hljs-string">'./config.coffee'</span>
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Preload</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Phaser</span>.<span class="hljs-title">State</span></span>
+  <span class="hljs-attribute">constructor</span>: <span class="hljs-function">-&gt;</span> <span class="hljs-keyword">super</span>
+
+  <span class="hljs-attribute">preload</span>: <span class="hljs-function">-&gt;</span>
+    <span class="hljs-comment"># Show loading screen</span>
+    <span class="hljs-property">@load</span>.setPreloadSprite <span class="hljs-property">@add</span>.sprite <span class="hljs-property">@game</span>.world.centerX - <span class="hljs-number">160</span>, <span class="hljs-property">@game</span>.world.centerY - <span class="hljs-number">16</span>, <span class="hljs-string">'preloadBar'</span>
+
+    <span class="hljs-comment"># Initialize Parse</span>
+    Parse.initialize <span class="hljs-string">'[Application ID]'</span>, <span class="hljs-string">'[JavaScript Key]'</span>
+    Parse.Analytics.track <span class="hljs-string">'load'</span>, {
+      <span class="hljs-attribute">language</span>: <span class="hljs-built_in">window</span>.navigator.language,
+      <span class="hljs-attribute">platform</span>: <span class="hljs-built_in">window</span>.navigator.platform
+    }
+
+    <span class="hljs-comment"># Set up game defaults</span>
+    <span class="hljs-property">@stage</span>.backgroundColor = <span class="hljs-string">'black'</span>
+
+    <span class="hljs-comment"># Load game assets</span>
+    <span class="hljs-property">@load</span>.pack <span class="hljs-string">'main'</span>, config.pack
+
+  <span class="hljs-attribute">create</span>: <span class="hljs-function">-&gt;</span>
+    <span class="hljs-property">@state</span>.start <span class="hljs-string">'Menu'</span>
+
+<span class="hljs-built_in">module</span>.exports = Preload
+</code></pre>
+<p>There’s a lot more going on here. Our first task is to display the loading bar in the center of the screen. Then, we can get around to initializing our game and loading the rest of its assets. Replace the parameters of <code>Parse.initialize</code> with your own <strong>Application ID</strong> and <strong>JavaScript Key</strong> from earlier. Right after Parse is initialized, we demonstrate its usage by sending a <code>load</code> event to <code>Parse.Analytics.track</code>, along with information about the player’s language and platform (e.g. “en-us” and “Linux x86_64”). This information will be available in the Analytics tab of your Parse application’s dashboard, so that you can not only see how many times your game has been loaded, but view a detailed breakdown of which platforms and languages it is being played in.</p>
+<h3 id="menu">Menu</h3>
+<pre><code class="lang-coffee">Phaser = <span class="hljs-built_in">require</span> <span class="hljs-string">'Phaser'</span>
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Menu</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Phaser</span>.<span class="hljs-title">State</span></span>
+  <span class="hljs-attribute">constructor</span>: <span class="hljs-function">-&gt;</span> <span class="hljs-keyword">super</span>
+
+  <span class="hljs-attribute">create</span>: <span class="hljs-function">-&gt;</span>
+    logo = <span class="hljs-property">@add</span>.sprite <span class="hljs-property">@game</span>.world.centerX, <span class="hljs-property">@game</span>.world.centerY, <span class="hljs-string">'phaserLogo'</span>
+    logo.anchor.setTo <span class="hljs-number">0.5</span>, <span class="hljs-number">0.5</span>
+
+    <span class="hljs-property">@song</span> = <span class="hljs-property">@add</span>.audio <span class="hljs-string">'gameMusic'</span>
+    <span class="hljs-property">@song</span>.play <span class="hljs-string">''</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-literal">true</span>  <span class="hljs-comment"># Loop</span>
+
+  <span class="hljs-attribute">update</span>: <span class="hljs-function">-&gt;</span>
+    <span class="hljs-keyword">if</span> <span class="hljs-property">@input</span>.activePointer.justPressed()
+      <span class="hljs-property">@song</span>.stop()
+      <span class="hljs-property">@state</span>.start <span class="hljs-string">'Game'</span>
+
+<span class="hljs-built_in">module</span>.exports = Menu
+</code></pre>
+<p>In what can only be called a menu in the loosest of terms, we display the fancy Phaser logo in the middle of the screen and start our funky music on a loop. In the <code>update</code> method, we register a handler that transitions to the Game state if the mouse is clicked.</p>
+<h3 id="game">Game</h3>
+<pre><code class="lang-coffee">Phaser = <span class="hljs-built_in">require</span> <span class="hljs-string">'Phaser'</span>
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Game</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Phaser</span>.<span class="hljs-title">State</span></span>
+  <span class="hljs-attribute">constructor</span>: <span class="hljs-function">-&gt;</span> <span class="hljs-keyword">super</span>
+
+  <span class="hljs-attribute">update</span>: <span class="hljs-function">-&gt;</span>
+    <span class="hljs-keyword">if</span> <span class="hljs-property">@input</span>.activePointer.justPressed()
+      <span class="hljs-property">@state</span>.start <span class="hljs-string">'Menu'</span>
+
+<span class="hljs-built_in">module</span>.exports = Game
+</code></pre>
+<p>For lack of something better to do, if the user clicks the mouse in the game state we go back to the menu.</p>
+<p>At this point you have all the scaffolding needed to start working on your game. If you make more assets, just add them to <code>pack.json</code> in the appropriate place. Put any menu code into <code>menu.coffee</code> and any game code into <code>game.coffee</code>, and add new states as you see fit. Although this post will not cover the actual making of a game in Phaser, there are <a href="http://www.lessmilk.com/phaser-tutorial/">ample tutorials</a> out there to help you with just that. Similarly, you can do all sorts of awesome things with Parse like implement user accounts, store leaderboards, make push notifications, and so on. With Parse, the best place to start would be the <a href="https://parse.com/docs/js_guide">official docs</a>.</p>
+<p>Happy gaming!</p>
+<h2 id="publishing-your-game">Publishing Your Game</h2>
+<p>…you didn’t think I’d let you off that easy, did you? There’s one last thing to cover, and that’s how to publish your game. You’ve got your shiny finished product burning a hole in your <code>dist/</code> directory, so how do you display it proudly to the world?</p>
+<p>Assuming your game directory is actually a git repo and you’re storing your code on GitHub, the answer is quite simple. For this to work, you’ll need one final package:</p>
+<pre><code class="lang-bash">$ npm install --save-dev gulp-gh-pages
+</code></pre>
+<p>And now in your <code>Gulpfile.js</code>:</p>
+<pre><code class="lang-js"><span class="hljs-keyword">var</span> deploy = <span class="hljs-built_in">require</span>(<span class="hljs-string">'gulp-gh-pages'</span>);
+
+<span class="hljs-keyword">var</span> paths = {
+    <span class="hljs-comment">// Other paths</span>
+    deploy: <span class="hljs-string">'./dist/**/*'</span>
+};
+
+gulp.task(<span class="hljs-string">'deploy'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> </span>{
+    <span class="hljs-keyword">return</span> gulp.src(paths.deploy)
+        .pipe(deploy());
+});
+</code></pre>
+<p>And finally, in your <code>package.json</code>:</p>
+<pre><code class="lang-json">&quot;scripts&quot;: {
+  // Other scripts
+  &quot;deploy&quot;: &quot;gulp deploy&quot;
+}
+</code></pre>
+<p>When you call <code>npm run deploy</code>, your <code>dist/</code> directory will be deployed to the <code>gh-pages</code> branch of your git repository, which just happens to have <a href="https://help.github.com/articles/user-organization-and-project-pages/#project-pages">its own website</a>. Anytime you rebuild your game, you can run this script again to redeploy it.</p>
+<p>Okay, <em>now</em> happy gaming. For real this time.</p>
+</div><div class="share"><div class="share-button"><a href="https://twitter.com/share" data-text="HTML5 Games with Phaser, Parse, and CoffeeScript" class="twitter-share-button">Tweet</a></div><div class="share-button"><div data-href="http://willyg302.github.io/blog/posts/2015-02-08-html5-games-with-phaser-parse-and-coffeescript" data-layout="button_count" class="fb-share-button"></div></div></div><div class="comments"><h2>Comments</h2><div id="disqus_thread"></div><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript><a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a></div></div><div id="fb-root"></div><script type="text/javascript">(function() {
+	var dsq = document.createElement('script');
+	dsq.type = 'text/javascript';
+	dsq.async = true;
+	dsq.src = '//willyg302.disqus.com/embed.js';
+	(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();</script><script type="text/javascript">function share(id, src) {
+	var js, fjs = document.getElementsByTagName('script')[0];
+	if (!document.getElementById(id)) {
+		js = document.createElement('script');
+		js.id = id;
+		js.src = src;
+		fjs.parentNode.insertBefore(js, fjs);
+	}
+}
+share('twitter-wjs', '//platform.twitter.com/widgets.js');
+share('facebook-jssdk', '//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.0');</script><script type="text/javascript" src="/blog/main.js"></script></body></html>
