@@ -1,0 +1,25 @@
+a[class^="nform-"] {
+	cursor: pointer;
+}
+
+div[class^="nform-"] {
+	input, select {
+		.form-control;
+		display: inline-block;
+		width: 175px;
+	}
+
+	button {
+		.btn;
+		margin-left: 8px;
+		vertical-align: top;
+
+		&:first-of-type {
+			.btn-primary;
+		}
+
+		&:last-of-type {
+			.btn-default;
+		}
+	}
+}

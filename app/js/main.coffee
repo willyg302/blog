@@ -1,12 +1,75 @@
 Isotope = require 'isotope-layout'
 imagesLoaded = require 'imagesloaded'
 qs = require 'query-string'
+nform = require './nform/nform.coffee'
 
 container = document.getElementById 'isotope'
-window.filters = {}
 
 
-String::startsWith ?= (s) -> @[...s.length] is s
+class NFormField
+	constructor: ->
+		categories = []
+		for post in document.querySelectorAll '#isotope > div'
+			do (post) ->
+				categories = categories.concat post.dataset.categories.split ', '
+		opts = ['all'].concat categories.sort().filter((el, i, a) -> i is a.indexOf(el))
+
+		@cat = nform.select 'nform-cat', {
+			options: opts,
+			onchange: (v) =>
+				@_applyFormToFilters()
+				@visit()
+		}
+		@search = nform.text 'nform-search', {
+			default: 'anything',
+			onchange: (v) =>
+				@_applyFormToFilters()
+				@visit()
+		}
+		@begin = nform.date 'nform-date-begin', {
+			default: 'the Big Bang',
+			onchange: (v) =>
+				@_applyFormToFilters()
+				@visit()
+		}
+		@end = nform.date 'nform-date-end', {
+			default: 'tomorrow',
+			onchange: (v) =>
+				@_applyFormToFilters()
+				@visit()
+		}
+		@filters = qs.parse location.search
+		@_applyFiltersToForm()
+
+	_applyFiltersToForm: ->
+		if @filters.cat?
+			@cat.setValue @filters.cat
+		if @filters.q?
+			@search.setValue @filters.q
+		if @filters.a?
+			@begin.setValue @filters.a
+		if @filters.b?
+			@end.setValue @filters.b
+
+	_applyFormToFilters: ->
+		@filters = {}
+		if @cat.value isnt 'all'
+			@filters.cat = @cat.value
+		if @search.value isnt ''
+			@filters.q = @search.value
+		if @begin.value isnt ''
+			@filters.a = @begin.value
+		if @end.value isnt ''
+			@filters.b = @end.value
+
+	triggerFilter: ->
+		filter @filters
+
+	visit: ->
+		window.location.href = "/blog?#{qs.stringify @filters}"
+
+
+form = new NFormField()
 
 
 if container?
@@ -19,24 +82,10 @@ if container?
 				columnWidth: 72  # Magic number: 64 + 2*4 (64 = width of smallest square, 4 = smallest margin)
 			}
 		}
-		window.filters = qs.parse location.search
-		filter window.filters
+		form.triggerFilter()
 
-getViewingString = (f) ->
-	q = if f.q? then "posts about <strong>#{ f.q }</strong>" else 'all posts'
-	c = if f.cat? then " tagged <strong>#{ f.cat }</strong>" else ''
-	hasAfter = f.a? and not isNaN Date.parse f.a
-	hasBefore = f.b? and not isNaN Date.parse f.b
-	d = ''
-	if hasAfter and hasBefore
-		d = " written between <strong>#{ f.a }</strong> and <strong>#{ f.b }</strong>"
-	else if hasAfter
-		d = " written after <strong>#{ f.a }</strong>"
-	else if hasBefore
-		d = " written before <strong>#{ f.b }</strong>"
-	return q + c + d
 
-# `window.filters` has the following properties:
+# `f` has the following properties:
 #   - `cat`: Only display posts in this category
 #   - `q`: A direct query string to search for in posts' more matter
 #   - `a`: Only display posts written after this date
@@ -44,7 +93,7 @@ getViewingString = (f) ->
 filter = (f) ->
 	window.iso.arrange {
 		filter: (item) ->
-			if f.cat?
+			if f.cat? and f.cat isnt 'all'
 				if item.dataset.categories.indexOf(f.cat) is -1
 					return false
 			if f.q?
@@ -59,44 +108,8 @@ filter = (f) ->
 					return false
 			return true
 	}
-	document.getElementById('viewing').innerHTML = getViewingString f
-
-visit = ->
-	window.location.href = "/blog?#{qs.stringify window.filters}"
 
 window.setCategory = (category) ->
-	window.filters.cat = category
-	visit()
+	form.filters.cat = category
+	form.visit()
 	return false
-
-# Search features something similar to GitHub's
-# [search syntax](https://help.github.com/articles/search-syntax/).
-# Each token may begin with one of several identifiers:
-#   - `tag:`
-#   - `before:`
-#   - `after:`
-# Otherwise, the token is interpreted as a literal.
-window.search = (e) ->
-	if e.keyCode is 13
-		window.filters = {}
-		literals = []
-		for token in document.getElementById('search').value.split(' ')
-			if token
-				do (token) ->
-					if token.startsWith 'tag:'
-						window.filters.cat = token.slice 4
-					else if token.startsWith 'before:'
-						date = token.slice 7
-						if not isNaN Date.parse date
-							window.filters.b = date
-					else if token.startsWith 'after:'
-						date = token.slice 6
-						if not isNaN Date.parse date
-							window.filters.a = date
-					else
-						literals.push token
-		query = literals.join(' ').trim()
-		if query isnt ''
-			window.filters.q = query
-		visit()
-		return false
