@@ -1,7 +1,7 @@
 ---
 title: "Python on AWS Lambda"
 date: 2015-03-29T23:01:23.117283
-tags: "AWS Lambda"
+tags: "AWS Lambda, Python"
 template: post.jade
 comments: true
 ---

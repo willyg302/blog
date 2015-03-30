@@ -1,7 +1,7 @@
 ---
 title: "strap: Make for Stupid People"
 date: 2014-09-15T07:31:54.459391
-tags: Python, strap
+tags: "Python, strap"
 template: post.jade
 comments: true
 ---
