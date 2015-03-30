@@ -1,0 +1,140 @@
+<!DOCTYPE html><html><head><title>Python on AWS Lambda - WillyG Productions Blog</title><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="author" content="William Gaul"><link rel="icon" type="image/x-icon" href="data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAD///8A////AP///wD///8A////AP///wD///8ALzLc/y8y3P////8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8ALzLc/y8y3P8vMtz/LzLc/////wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wAvMtz/LzLc/////wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8Alpftgf///wD///8ALzLc/y8y3P////8A////AJaX7YH///8A////AP///wD///8A////AP///wD///8ALzLc/y8y3P////8A////AC8y3P8vMtz/////AP///wAvMtz/LzLc/////wD///8A////AP///wD///8ALzLc/y8y3P+Wl+2B////AP///wD///8A////AP///wD///8AlpftgS8y3P8vMtz/////AP///wD///8ALzLc/y8y3P8vMtz/////AP///wD///8A////AP///wD///8A////AP///wAvMtz/LzLc/y8y3P////8ALzLc/y8y3P8vMtz/LzLc/////wD///8ALzLc/////wD///8ALzLc/////wD///8ALzLc/y8y3P8vMtz/LzLc/y8y3P8vMtz/LzLc/y8y3P////8A////AC8y3P////8A////AC8y3P////8A////AC8y3P8vMtz/LzLc/y8y3P////8ALzLc/y8y3P////8A////AJaX7YEvMtz/////AP///wAvMtz/lpftgf///wD///8ALzLc/y8y3P////8A////AP///wAvMtz/////AP///wAvMtz/LzLc/////wD///8ALzLc/y8y3P////8A////AC8y3P////8A////AP///wD///8A////AP///wD///8ALzLc/y8y3P////8A////AC8y3P8vMtz/////AP///wD///8A////AP///wD///8A////AP///wD///8A////AC8y3P8vMtz/////AP///wAvMtz/LzLc/////wD///8A////AP///wD///8A////AP///wD///8A////AP///wAvMtz/LzLc/y8y3P8vMtz/LzLc/y8y3P////8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AC8y3P8vMtz/LzLc/y8y3P////8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8ALzLc/y8y3P////8A////AP///wD///8A////AP///wD///8A/n8AAPw/AAD+fwAA9m8AAOZnAADH4wAAj/EAAA2wAAANsAAAmZkAANmbAAD5nwAA+Z8AAPgfAAD8PwAA/n8AAA=="><script type="text/javascript">(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-41109411-2', 'willyg302.github.io');
+ga('send', 'pageview');</script><link rel="stylesheet" type="text/css" href="/blog/main.css"></head><body><div class="sidebar-wrapper"><div class="sidebar"><object width="100%" type="image/svg+xml" data="/blog/img/willyg-blog-logo.svg"></object><div class="colophon"><p>You are currently viewing the post &ldquo;Python on AWS Lambda.&rdquo;</p></div><div class="nav"><a href="/blog">Blog Home</a><a href="/blog/feed.xml">RSS Feed</a><a href="/#">Site</a><a href="/#contact">Contact</a></div></div></div><div id="post"><div class="content"><h1>Python on AWS Lambda<br><small>Sunday, March 29 2015</small></h1><div class="categories"><a style="background-color: hsl(218, 100%, 35%);" onclick="setCategory('AWS Lambda')" class="label">AWS Lambda</a></div><p>Want to use Python on <a href="http://aws.amazon.com/lambda/">AWS Lambda</a>? Lambda currently only supports JavaScript via Node, but that shouldn’t stop you from trying.</p>
+<!-- more -->
+<p>If you’ve had any experience with the AWS infrastructure, it might occur to you that Lambda’s runtime environment will come with Python built-in. Try to do anything with it, though, and you’ll quickly run headfirst into Lambda’s sandbox (for example, <code>python --version</code> returns an empty string). We can get around this limitation with some crafty Python-ness:</p>
+<pre><code class="lang-js"><span class="hljs-keyword">var</span> exec = <span class="hljs-built_in">require</span>(<span class="hljs-string">'child_process'</span>).exec;
+
+exports.handler = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(event, context)</span> </span>{
+    exec(<span class="hljs-string">'python -c "import sys; print sys.version_info"'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(error, stdout)</span> </span>{
+        context.done(error, stdout);
+    });
+};
+</code></pre>
+<p>Run this command via the console and you’ll get:</p>
+<pre><code>Message
+-------
+(2, 6, 9, &#39;final&#39;, 0)
+</code></pre><p>Okay, so it looks like Lambda comes with Python 2.6.9. Not the most up-to-date version in the world…and unless we enjoy running circles around the sandbox limitations, writing “valid” code will quickly become a drag.</p>
+<h2 id="virtualenv-to-the-rescue-">virtualenv to the Rescue!</h2>
+<p>Thankfully, Python’s got us covered for this scenario via <a href="https://virtualenv.pypa.io/en/latest/">virtualenv</a>, a tool that creates “isolated Python environments.” You can easily grab virtualenv with <a href="https://pip.pypa.io/en/latest/">pip</a> and have your very own portable Python in seconds:</p>
+<pre><code class="lang-bash">$ pip install virtualenv
+$ mkdir lambda-python
+$ <span class="hljs-built_in">cd</span> lambda-python
+$ virtualenv env
+</code></pre>
+<p>What this will do is create a directory called <code>lambda-python/env/</code> that has a completely bootstrapped Python environment inside of it. If you then run <code>env/bin/python</code>, you’ll see the familiar REPL you’ve come to know and love. At this point we could write any old python “hello world” code, dump it in a file, and <code>exec()</code> out to it from Node and be done, but that’s kind of boring. What I’d like to do is extract the hello world from this HTML file:</p>
+<pre><code class="lang-html"><span class="hljs-comment">&lt;!-- Save in a file called index.html --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-title">html</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-title">head</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-title">head</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-title">body</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-title">span</span> <span class="hljs-attribute">id</span>=<span class="hljs-value">"python"</span>&gt;</span>Hello world from Python!<span class="hljs-tag">&lt;/<span class="hljs-title">span</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-title">body</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-title">html</span>&gt;</span>
+</code></pre>
+<p>To accomplish this we’ll need the help of a non-standard Python library, namely <a href="http://www.crummy.com/software/BeautifulSoup/">Beautiful Soup</a>. Go ahead and install it now with <code>env/bin/pip install beautifulsoup4</code> — notice we’re using our <code>env/</code> version of pip, meaning it will get installed into our local environment. Nifty! We can now write some Python to extract the contents of the HTML element:</p>
+<pre><code class="lang-python"><span class="hljs-comment"># Save in a file called test.py</span>
+<span class="hljs-keyword">from</span> bs4 <span class="hljs-keyword">import</span> BeautifulSoup
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>:</span>
+    <span class="hljs-keyword">with</span> open(<span class="hljs-string">'index.html'</span>, <span class="hljs-string">'r'</span>) <span class="hljs-keyword">as</span> f:
+        soup = BeautifulSoup(f.read())
+        print(soup.find(id=<span class="hljs-string">'python'</span>).text)
+
+<span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">'__main__'</span>:
+    main()
+</code></pre>
+<p>Alright, now to call this Python code from Node:</p>
+<pre><code class="lang-js"><span class="hljs-comment">// Save in a file called index.js</span>
+<span class="hljs-keyword">var</span> exec = <span class="hljs-built_in">require</span>(<span class="hljs-string">'child_process'</span>).exec;
+
+exports.handler = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(event, context)</span> </span>{
+    child = exec(<span class="hljs-string">'env/bin/python test.py'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(error)</span> </span>{
+        context.done(error);
+    });
+
+    child.stdout.on(<span class="hljs-string">'data'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(data)</span> </span>{
+        <span class="hljs-built_in">console</span>.log(data);
+    });
+
+    child.stderr.on(<span class="hljs-string">'data'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(data)</span> </span>{
+        <span class="hljs-built_in">console</span>.error(data);
+    });
+};
+</code></pre>
+<p>The principle is the same as the previous example, but we’re doing a bit more heavy lifting here to handle asynchronous output from the child process’ streams. Otherwise, we’d get all the output only when the process has terminated, which isn’t an ideal experience. Note that this setup provides no message upon successful completion and instead redirects all Python output to <code>console.log()</code> (which itself is redirected to CloudWatch). You may wish to consider an alternative approach, such as writing output to a Kinesis stream, which can then be handled by any number of other AWS services.</p>
+<p>At this point you could zip up the <code>lambda-python/</code> directory and deploy it, but we can make things a tad bit easier.</p>
+<h2 id="the-shameless-plug">The Shameless Plug</h2>
+<p>Make one final file called <code>.lambda.yml</code> with the following contents:</p>
+<pre><code class="lang-yaml">config:
+  FunctionName: lambda-python
+  Handler: index.handler
+  Mode: event
+  Runtime: nodejs
+  Description: Python hello world from Lambda
+</code></pre>
+<p>Now, assuming you have your AWS credentials and Lambda execution role configured correctly in the <code>~/.aws/</code> directory, you can use <a href="https://github.com/willyg302/lfm">lfm</a> to deploy your brand-spanking-new Lambda function in a measly 10 characters:</p>
+<pre><code class="lang-bash">$ lfm deploy
+</code></pre>
+<p>This might take a while because we’re essentially deploying an entire programming language — on my machine it’s 17 MB total. Once your function is deployed, hop on over to the console and invoke it:</p>
+<pre><code>Logs
+----
+START RequestId: f2fe1573-d66b-11e4-b299-e33b360b7f5a
+2015-03-29T23:33:08.910Z    f2fe1573-d66b-11e4-b299-e33b360b7f5a    Hello world from Python!
+
+END RequestId: f2fe1573-d66b-11e4-b299-e33b360b7f5a
+REPORT RequestId: f2fe1573-d66b-11e4-b299-e33b360b7f5a    Duration: 1779.45 ms    Billed Duration: 1800 ms     Memory Size: 128 MB    Max Memory Used: 15 MB    
+
+Message
+-------
+undefined
+</code></pre><p>Sweeeeet! A quick recap in case you’ve forgotten, we just parsed an HTML document with Python executed by Node invoked by AWS Lambda. Not the most efficient of cloud solutions, but what can I say?</p>
+<p>Hopefully you’ve seen that while Node is the only thing supported by Lambda right now, that’s really all you need to get crazy in the cloud <em>provided</em> you think outside of the box. For another example of using other languages within Lambda, see <a href="http://blog.0x82.com/2014/11/24/aws-lambda-functions-in-go/">this blog post</a> about embedding a Go runtime in a Lambda function written just days after Lambda was launched.</p>
+<h2 id="bonus-round">Bonus Round</h2>
+<p>Okay, so we’re able to run Python code in the cloud now. But something is still bothering me.</p>
+<p>Suppose for a moment that I have a friend named Bob (I actually do have a friend named Bob, but I digress). After writing my awesome new Python cloud function to print hello world via an unnecessary number of abstractions, I want to share the awesomeness with him. So what do I tell him to do? “Hey Bob, yeah, just follow the steps in this blog post and deploy the function and you’re good to go.” Nope, Bob’s a busy man. He’s got a job and junk. Okay, round two: “Hey Bob, I’m emailing you a zip of my cloud function. Deploy it when you’ve got the time!” Uh huh, the ‘90’s called and they want their deployment process back.</p>
+<p>Nope, what we’ve got to do is make it so that Bob goes from zero to hero with minimal effort. To do so, we’re going to need to write a Makefile:</p>
+<pre><code class="lang-make">VERSION = 12.0.5
+VIRTUALENV = env
+PYTHON = $(which python)
+
+all:
+    wget https://pypi.python.org/packages/source/v/virtualenv/virtualenv-$(VERSION).tar.gz
+    tar xzf virtualenv-$(VERSION).tar.gz
+    $(PYTHON) virtualenv-$(VERSION)/virtualenv.py $(VIRTUALENV)
+    rm -rf virtualenv-$(VERSION)
+    rm virtualenv-$(VERSION).tar.gz
+    $(VIRTUALENV)/bin/pip install beautifulsoup4
+</code></pre>
+<p>This vomit of make-y goodness bootstraps virtualenv locally <em>without</em> using <code>sudo</code>. The only requirement is that the user has Python installed, which is a pretty reasonable assumption to make.</p>
+<p>Finally, we can tweak our <code>.lambda.yml</code> file to add a single line, <code>install: make</code>:</p>
+<pre><code class="lang-yaml">config:
+  FunctionName: lambda-python
+  Handler: index.handler
+  Mode: event
+  Runtime: nodejs
+  Description: Python hello world from Lambda
+install: make
+</code></pre>
+<p>I’ve uploaded the entire contents of <code>lambda-python/</code> as <a href="https://gist.github.com/willyg302/c09048aeff3ae48ddcf2">a Gist</a> for your perusal. Incidentally, this means we can also give Bob the solution he’s been looking for. “Yeah Bob, just go ahead and <code>lfm deploy gist:willyg302/c09048aeff3ae48ddcf2</code> when you feel like it. And enjoy.”</p>
+</div><div class="share"><div class="share-button"><a href="https://twitter.com/share" data-text="Python on AWS Lambda" class="twitter-share-button">Tweet</a></div><div class="share-button"><div data-href="http://willyg302.github.io/blog/posts/2015-03-29-python-on-aws-lambda" data-layout="button_count" class="fb-share-button"></div></div></div><div class="comments"><h2>Comments</h2><div id="disqus_thread"></div><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript><a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a></div></div><div id="fb-root"></div><script type="text/javascript">(function() {
+	var dsq = document.createElement('script');
+	dsq.type = 'text/javascript';
+	dsq.async = true;
+	dsq.src = '//willyg302.disqus.com/embed.js';
+	(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();</script><script type="text/javascript">function share(id, src) {
+	var js, fjs = document.getElementsByTagName('script')[0];
+	if (!document.getElementById(id)) {
+		js = document.createElement('script');
+		js.id = id;
+		js.src = src;
+		fjs.parentNode.insertBefore(js, fjs);
+	}
+}
+share('twitter-wjs', '//platform.twitter.com/widgets.js');
+share('facebook-jssdk', '//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.0');</script><script type="text/javascript" src="/blog/main.js"></script></body></html>
