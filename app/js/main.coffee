@@ -8,12 +8,16 @@ container = document.getElementById 'isotope'
 
 class NFormField
 	constructor: ->
+		@filters = qs.parse location.search
+		if container?
+			@_initializeForm()
+
+	_initializeForm: ->
 		categories = []
 		for post in document.querySelectorAll '#isotope > div'
 			do (post) ->
 				categories = categories.concat post.dataset.categories.split ', '
 		opts = ['all'].concat categories.sort().filter((el, i, a) -> i is a.indexOf(el))
-
 		@cat = nform.select 'nform-cat', {
 			options: opts,
 			onchange: (v) =>
@@ -38,7 +42,6 @@ class NFormField
 				@_applyFormToFilters()
 				@visit()
 		}
-		@filters = qs.parse location.search
 		@_applyFiltersToForm()
 
 	_applyFiltersToForm: ->
@@ -69,8 +72,10 @@ class NFormField
 		window.location.href = "/blog?#{qs.stringify @filters}"
 
 
+form = new NFormField()
+
+
 if container?
-	form = new NFormField()
 	# Initialize Isotope AFTER images have been loaded
 	imagesLoaded container, () =>
 		window.iso = new Isotope container, {
