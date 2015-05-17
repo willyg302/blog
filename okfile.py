@@ -23,4 +23,5 @@ def install():
 	ok.npm('install').bower('install')
 
 def default():
+	'''Build blog'''
 	ok.node('gulp', module=True).node('gulp clean', module=True)
