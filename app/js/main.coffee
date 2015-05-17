@@ -69,10 +69,8 @@ class NFormField
 		window.location.href = "/blog?#{qs.stringify @filters}"
 
 
-form = new NFormField()
-
-
 if container?
+	form = new NFormField()
 	# Initialize Isotope AFTER images have been loaded
 	imagesLoaded container, () =>
 		window.iso = new Isotope container, {
